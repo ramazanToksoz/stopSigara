@@ -36,3 +36,6 @@ const Onboarding2 = ({ navigation }) => {
 
 export default Onboarding2;
 
+
+
+

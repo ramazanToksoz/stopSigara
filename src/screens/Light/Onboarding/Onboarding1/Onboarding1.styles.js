@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { Colors } from '../../../../constants/Colors';
 
 export const styles = StyleSheet.create({
@@ -7,40 +8,43 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: scale(20),
   },
   title: {
-    fontSize: 28,
+    fontSize: moderateScale(28),
     fontWeight: 'bold',
     color: Colors.primary,
-    marginBottom: 20,
+    marginBottom: verticalScale(20),
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: moderateScale(16),
     color: Colors.textSecondary,
     textAlign: 'center',
-    marginBottom: 40,
-    lineHeight: 24,
+    marginBottom: verticalScale(40),
+    lineHeight: moderateScale(24),
   },
   button: {
     backgroundColor: Colors.primary,
-    paddingHorizontal: 40,
-    paddingVertical: 15,
-    borderRadius: 25,
+    paddingHorizontal: scale(40),
+    paddingVertical: verticalScale(15),
+    borderRadius: moderateScale(25),
     elevation: 3,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: verticalScale(2),
     },
     shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowRadius: moderateScale(3.84),
   },
   buttonText: {
     color: Colors.background,
-    fontSize: 16,
+    fontSize: moderateScale(16),
     fontWeight: '600',
   },
 });
+
+
+
 

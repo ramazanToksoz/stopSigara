@@ -1,0 +1,639 @@
+================================================================================
+                    COMPONENT KULLANIM KILAVUZU
+================================================================================
+
+Bu dosya, projede kullanılan Button ve TopNavigation componentlerinin 
+detaylı kullanım kılavuzudur.
+
+================================================================================
+1. BUTTON COMPONENT
+================================================================================
+
+📍 Konum: src/components/Button/Button.js
+📍 Import: import Button from '../../../../components/Button';
+
+--------------------------------------------------------------------------------
+1.1 TEMEL KULLANIM
+--------------------------------------------------------------------------------
+
+<Button 
+  text="Devam Et"
+  onPress={handleNext}
+/>
+
+--------------------------------------------------------------------------------
+1.2 PARAMETRELER (Props)
+--------------------------------------------------------------------------------
+
+┌─────────────────┬──────────────────────┬─────────────┬───────────────────┐
+│ Parametre       │ Tip                  │ Varsayılan  │ Açıklama          │
+├─────────────────┼──────────────────────┼─────────────┼───────────────────┤
+│ text            │ string               │ -           │ Buton metni       │
+│ type            │ 'primary'/'neutral'  │ 'primary'   │ Buton tipi        │
+│ buttonStyle     │ 'default'/'outline'/ │ 'default'   │ Buton stili       │
+│                 │ 'text'/'soft'        │             │                   │
+│ size            │ 'default'/'sm'/'xs'  │ 'default'   │ Buton boyutu      │
+│ mode            │ 'light'/'dark'       │ 'light'     │ Tema modu         │
+│ disabled        │ boolean              │ false       │ Pasif durumu      │
+│ onPress         │ function             │ -           │ Tıklama fonksiyonu│
+│ hideArrow       │ boolean              │ false       │ Arrow'u gizle     │
+└─────────────────┴──────────────────────┴─────────────┴───────────────────┘
+
+--------------------------------------------------------------------------------
+1.3 TİPLER (type)
+--------------------------------------------------------------------------------
+
+1. PRIMARY (Yeşil - Ana Butonlar)
+   - Kullanım: Ana aksiyonlar için (Devam Et, Kaydet, Gönder)
+   - Renk: #58B658 (Yeşil)
+   
+   Örnek:
+   <Button 
+     text="Devam Et"
+     type="primary"
+     onPress={handleNext}
+   />
+
+2. NEUTRAL (Gri - İkincil Butonlar)
+   - Kullanım: İkincil aksiyonlar için (Geri, İptal)
+   - Renk: #3C3E44 (Koyu Gri)
+   
+   Örnek:
+   <Button 
+     text="Geri"
+     type="neutral"
+     onPress={handleBack}
+   />
+
+--------------------------------------------------------------------------------
+1.4 STİLLER (buttonStyle)
+--------------------------------------------------------------------------------
+
+1. DEFAULT (Dolu - Filled)
+   - Arkaplan rengi dolu
+   - Gölge efekti var
+   - Ana butonlar için
+   
+   Örnek:
+   <Button 
+     text="Devam Et"
+     buttonStyle="default"
+     type="primary"
+   />
+
+2. OUTLINE (Çerçeveli)
+   - Sadece kenarlık
+   - Arkaplan şeffaf
+   - İkincil aksiyonlar için
+   
+   Örnek:
+   <Button 
+     text="Geri"
+     buttonStyle="outline"
+     type="neutral"
+   />
+
+3. SOFT (Yumuşak)
+   - Açık renkli arkaplan
+   - Gölge yok
+   - Hafif vurgular için
+   
+   Örnek:
+   <Button 
+     text="Daha Sonra"
+     buttonStyle="soft"
+     type="neutral"
+   />
+
+4. TEXT (Sadece Metin)
+   - Arkaplan yok
+   - Sadece metin
+   - Linkler için
+   
+   Örnek:
+   <Button 
+     text="Giriş Yapın"
+     buttonStyle="text"
+     type="primary"
+   />
+
+--------------------------------------------------------------------------------
+1.5 BOYUTLAR (size)
+--------------------------------------------------------------------------------
+
+1. DEFAULT (Varsayılan)
+   - Yükseklik: 48px
+   - Genişlik: 100% (Tam genişlik)
+   - Font: 18px
+   - Ana aksiyon butonları için
+   
+   Örnek:
+   <Button 
+     text="Devam Et"
+     size="default"
+   />
+
+2. SM (Küçük)
+   - Yükseklik: 40px
+   - Genişlik: İçeriğe göre (Auto)
+   - Font: 14px
+   - İkincil butonlar için
+   
+   Örnek:
+   <Button 
+     text="Kaydet"
+     size="sm"
+   />
+
+3. XS (Çok Küçük)
+   - Yükseklik: 32px
+   - Genişlik: İçeriğe göre (Auto)
+   - Font: 14px
+   - Küçük aksiyonlar için (Skip, Cancel, Link-gibi)
+   
+   Örnek:
+   <Button 
+     text="Skip"
+     size="xs"
+   />
+
+--------------------------------------------------------------------------------
+1.6 ÖRNEK KULLANIM SENARYOLARı
+--------------------------------------------------------------------------------
+
+SENARYO 1: Ana Aksiyon Butonu
+┌────────────────────────────────────────────────────────────────────┐
+│ <Button                                                            │
+│   text="Devam Et"                                                  │
+│   type="primary"                                                   │
+│   buttonStyle="default"                                            │
+│   size="default"                                                   │
+│   mode="light"                                                     │
+│   onPress={handleNext}                                             │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+Sonuç: Yeşil, dolu, büyük buton (Ana aksiyon için)
+
+
+SENARYO 2: Geri Butonu
+┌────────────────────────────────────────────────────────────────────┐
+│ <Button                                                            │
+│   text="Geri"                                                      │
+│   type="neutral"                                                   │
+│   buttonStyle="outline"                                            │
+│   size="sm"                                                        │
+│   onPress={handleBack}                                             │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+Sonuç: Gri kenarlık, küçük buton (Geri dönüş için)
+
+
+SENARYO 3: Link Stili Buton
+┌────────────────────────────────────────────────────────────────────┐
+│ <Button                                                            │
+│   text="Giriş Yapın"                                               │
+│   type="primary"                                                   │
+│   buttonStyle="text"                                               │
+│   size="xs"                                                        │
+│   onPress={handleSignIn}                                           │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+Sonuç: Sadece yeşil metin (Link gibi)
+
+
+SENARYO 4: Pasif Buton
+┌────────────────────────────────────────────────────────────────────┐
+│ <Button                                                            │
+│   text="Devam Et"                                                  │
+│   type="primary"                                                   │
+│   buttonStyle="default"                                            │
+│   disabled={true}                                                  │
+│   onPress={handleNext}                                             │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+Sonuç: Gri, pasif, tıklanamaz buton
+
+
+SENARYO 5: Arrow İkonlu Buton (Varsayılan)
+┌────────────────────────────────────────────────────────────────────┐
+│ <Button                                                            │
+│   text="Devam Et"                                                  │
+│   type="primary"                                                   │
+│   buttonStyle="default"                                            │
+│   onPress={handleNext}                                             │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+Sonuç: Sağda otomatik arrow-right ikonu olan buton
+
+NOT: Arrow ikonu varsayılan olarak 'default' ve 'soft' butonlarda gösterilir.
+     'outline' ve 'text' butonlarda gösterilmez.
+     Arrow'u gizlemek için: hideArrow={true}
+
+
+SENARYO 6: Arrow'suz Buton
+┌────────────────────────────────────────────────────────────────────┐
+│ <Button                                                            │
+│   text="Kaydet"                                                    │
+│   type="primary"                                                   │
+│   buttonStyle="default"                                            │
+│   hideArrow={true}                                                 │
+│   onPress={handleSave}                                             │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+Sonuç: Arrow ikonu olmayan buton
+
+SENARYO 7: Dark Mode
+┌────────────────────────────────────────────────────────────────────┐
+│ <Button                                                            │
+│   text="Devam Et"                                                  │
+│   type="primary"                                                   │
+│   mode="dark"                                                      │
+│   onPress={handleNext}                                             │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+Sonuç: Dark tema için optimize edilmiş buton
+
+
+================================================================================
+2. TOPNAVIGATION COMPONENT
+================================================================================
+
+📍 Konum: src/components/TopNavigation/TopNavigation.js
+📍 Import: import TopNavigation from '../../../../components/TopNavigation';
+
+--------------------------------------------------------------------------------
+2.1 TEMEL KULLANIM
+--------------------------------------------------------------------------------
+
+<TopNavigation
+  showLeadingItem={true}
+  showTrailingItem={true}
+  trailingText="Skip"
+  onLeadingPress={handleBack}
+  onTrailingPress={handleSkip}
+/>
+
+--------------------------------------------------------------------------------
+2.2 PARAMETRELER (Props)
+--------------------------------------------------------------------------------
+
+┌──────────────────┬──────────────────────┬─────────────┬──────────────────┐
+│ Parametre        │ Tip                  │ Varsayılan  │ Açıklama         │
+├──────────────────┼──────────────────────┼─────────────┼──────────────────┤
+│ showLeadingItem  │ boolean              │ true        │ Sol buton göster │
+│ showCenterItem   │ boolean              │ false       │ Başlık göster    │
+│ showTrailingItem │ boolean              │ true        │ Sağ buton göster │
+│ title            │ string               │ ''          │ Başlık metni     │
+│ leadingIcon      │ string               │ 'back'      │ Sol ikon tipi    │
+│ trailingType     │ 'button'             │ 'button'    │ Sağ eleman tipi  │
+│ trailingText     │ string               │ 'Geç'       │ Sağ buton metni  │
+│ buttonType       │ 'neutral'/'primary'/ │ 'neutral'   │ Buton rengi      │
+│                  │ 'secondary'          │             │                  │
+│ buttonStyle      │ 'text'/'filled'/     │ 'text'      │ Buton stili      │
+│                  │ 'outlined'           │             │                  │
+│ buttonSize       │ 'xs'/'sm'/'md'/'lg'  │ 'xs'        │ Buton boyutu     │
+│ hasIconLeft      │ boolean              │ false       │ Sol ikon var mı  │
+│ hasIconRight     │ boolean              │ false       │ Sağ ikon var mı  │
+│ darkMode         │ boolean              │ false       │ Dark mode        │
+│ onLeadingPress   │ function             │ -           │ Sol buton tıklama│
+│ onTrailingPress  │ function             │ -           │ Sağ buton tıklama│
+└──────────────────┴──────────────────────┴─────────────┴──────────────────┘
+
+--------------------------------------------------------------------------------
+2.3 KONFIGÜRASYONLAR
+--------------------------------------------------------------------------------
+
+1. SADECE SOL BUTON (Geri)
+┌────────────────────────────────────────────────────────────────────┐
+│ <TopNavigation                                                     │
+│   showLeadingItem={true}                                           │
+│   showCenterItem={false}                                           │
+│   showTrailingItem={false}                                         │
+│   onLeadingPress={handleBack}                                      │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+
+2. SADECE SAĞ BUTON (Skip)
+┌────────────────────────────────────────────────────────────────────┐
+│ <TopNavigation                                                     │
+│   showLeadingItem={false}                                          │
+│   showCenterItem={false}                                           │
+│   showTrailingItem={true}                                          │
+│   trailingText="Skip"                                              │
+│   onTrailingPress={handleSkip}                                     │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+
+3. BAŞLIK İLE KULLANIM
+┌────────────────────────────────────────────────────────────────────┐
+│ <TopNavigation                                                     │
+│   showLeadingItem={true}                                           │
+│   showCenterItem={true}                                            │
+│   showTrailingItem={false}                                         │
+│   title="Profil"                                                   │
+│   onLeadingPress={handleBack}                                      │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+
+4. GERİ + SKIP (Onboarding için)
+┌────────────────────────────────────────────────────────────────────┐
+│ <TopNavigation                                                     │
+│   showLeadingItem={true}                                           │
+│   showCenterItem={false}                                           │
+│   showTrailingItem={true}                                          │
+│   trailingType="button"                                            │
+│   trailingText="Skip"                                              │
+│   buttonType="neutral"                                             │
+│   buttonStyle="text"                                               │
+│   buttonSize="xs"                                                  │
+│   onLeadingPress={handleBack}                                      │
+│   onTrailingPress={handleSkip}                                     │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+
+5. SADECE BAŞLIK (Ana Sayfa)
+┌────────────────────────────────────────────────────────────────────┐
+│ <TopNavigation                                                     │
+│   showLeadingItem={false}                                          │
+│   showCenterItem={true}                                            │
+│   showTrailingItem={false}                                         │
+│   title="Ana Sayfa"                                                │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+2.4 BUTON STİLLERİ
+--------------------------------------------------------------------------------
+
+1. TEXT (Sadece Metin)
+   - Arkaplan yok
+   - En yaygın kullanım
+   
+   Örnek:
+   <TopNavigation
+     trailingText="Skip"
+     buttonStyle="text"
+     buttonType="neutral"
+   />
+
+2. FILLED (Dolu)
+   - Arkaplan rengi var
+   - Vurgulu aksiyonlar için
+   
+   Örnek:
+   <TopNavigation
+     trailingText="Kaydet"
+     buttonStyle="filled"
+     buttonType="primary"
+   />
+
+3. OUTLINED (Çerçeveli)
+   - Sadece kenarlık
+   - Orta seviye vurgu
+   
+   Örnek:
+   <TopNavigation
+     trailingText="İptal"
+     buttonStyle="outlined"
+     buttonType="neutral"
+   />
+
+--------------------------------------------------------------------------------
+2.5 ÖRNEK KULLANIM SENARYOLARı
+--------------------------------------------------------------------------------
+
+SENARYO 1: Welcome Screen (İlk Ekran)
+┌────────────────────────────────────────────────────────────────────┐
+│ <TopNavigation                                                     │
+│   showLeadingItem={false}                                          │
+│   showCenterItem={false}                                           │
+│   showTrailingItem={true}                                          │
+│   trailingType="button"                                            │
+│   trailingText="Skip"                                              │
+│   buttonType="neutral"                                             │
+│   buttonStyle="text"                                               │
+│   buttonSize="xs"                                                  │
+│   onTrailingPress={handleSkip}                                     │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+Kullanım: İlk açılış ekranlarında sağ üstte "Skip" butonu
+
+
+SENARYO 2: Onboarding Ortası (Geri + Skip)
+┌────────────────────────────────────────────────────────────────────┐
+│ <TopNavigation                                                     │
+│   showLeadingItem={true}                                           │
+│   showCenterItem={false}                                           │
+│   showTrailingItem={true}                                          │
+│   trailingType="button"                                            │
+│   trailingText="Skip"                                              │
+│   buttonType="neutral"                                             │
+│   buttonStyle="text"                                               │
+│   buttonSize="xs"                                                  │
+│   onLeadingPress={handleBack}                                      │
+│   onTrailingPress={handleSkip}                                     │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+Kullanım: Onboarding ekranlarında hem geri hem skip
+
+
+SENARYO 3: İçerik Sayfası (Sadece Başlık + Geri)
+┌────────────────────────────────────────────────────────────────────┐
+│ <TopNavigation                                                     │
+│   showLeadingItem={true}                                           │
+│   showCenterItem={true}                                            │
+│   showTrailingItem={false}                                         │
+│   title="Ayarlar"                                                  │
+│   onLeadingPress={handleBack}                                      │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+Kullanım: Ayarlar, profil gibi içerik sayfalarında
+
+
+SENARYO 4: Form Sayfası (Geri + Kaydet)
+┌────────────────────────────────────────────────────────────────────┐
+│ <TopNavigation                                                     │
+│   showLeadingItem={true}                                           │
+│   showCenterItem={true}                                            │
+│   showTrailingItem={true}                                          │
+│   title="Profili Düzenle"                                          │
+│   trailingType="button"                                            │
+│   trailingText="Kaydet"                                            │
+│   buttonType="primary"                                             │
+│   buttonStyle="text"                                               │
+│   buttonSize="sm"                                                  │
+│   onLeadingPress={handleBack}                                      │
+│   onTrailingPress={handleSave}                                     │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+Kullanım: Form düzenleme sayfalarında
+
+
+SENARYO 5: Ana Sayfa (Sadece Başlık)
+┌────────────────────────────────────────────────────────────────────┐
+│ <TopNavigation                                                     │
+│   showLeadingItem={false}                                          │
+│   showCenterItem={true}                                            │
+│   showTrailingItem={false}                                         │
+│   title="stopSigara"                                               │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+Kullanım: Ana sayfa navigasyonu
+
+
+================================================================================
+3. RESPONSIVE TASARIM
+================================================================================
+
+Tüm componentler react-native-size-matters kütüphanesi ile responsive olarak
+tasarlanmıştır:
+
+- scale() → Genişlik için
+- verticalScale() → Yükseklik için
+- moderateScale() → Font boyutları için
+
+Bu sayede farklı ekran boyutlarında (iPhone SE, iPhone 14, iPad, vs.) otomatik
+olarak uyumlu görünür.
+
+
+================================================================================
+4. BEST PRACTICES (İyi Uygulamalar)
+================================================================================
+
+✅ YAPILMASI GEREKENLER:
+
+1. Ana aksiyonlar için her zaman 'primary' type kullanın
+2. İkincil aksiyonlar için 'neutral' type kullanın
+3. Ekran genişliğindeki butonlar için 'default' size kullanın
+4. Navigation butonları için 'xs' veya 'sm' size kullanın
+5. disabled prop'u form validasyonu için kullanın
+6. onPress fonksiyonunu her zaman tanımlayın
+
+❌ YAPILMAMASI GEREKENLER:
+
+1. Bir ekranda birden fazla 'primary' 'default' buton kullanmayın
+2. Çok küçük (xs) butonları ana aksiyon için kullanmayın
+3. 'text' style butonları kritik aksiyonlar için kullanmayın
+4. Dark mode'u light ekranlarda karıştırmayın
+
+
+================================================================================
+5. ÖRNEK KULLANIM (Tam Ekran)
+================================================================================
+
+import React from 'react';
+import { View, Text } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import TopNavigation from '../components/TopNavigation';
+import Button from '../components/Button';
+
+const ExampleScreen = ({ navigation }) => {
+  const handleBack = () => {
+    navigation.goBack();
+  };
+
+  const handleSkip = () => {
+    navigation.navigate('Home');
+  };
+
+  const handleNext = () => {
+    navigation.navigate('NextScreen');
+  };
+
+  return (
+    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      
+      {/* Top Navigation */}
+      <TopNavigation
+        showLeadingItem={true}
+        showCenterItem={false}
+        showTrailingItem={true}
+        trailingType="button"
+        trailingText="Skip"
+        buttonType="neutral"
+        buttonStyle="text"
+        buttonSize="xs"
+        onLeadingPress={handleBack}
+        onTrailingPress={handleSkip}
+      />
+      
+      {/* Content */}
+      <View style={{ flex: 1, padding: 20 }}>
+        <Text>İçerik buraya gelecek...</Text>
+      </View>
+      
+      {/* Bottom Buttons */}
+      <View style={{ padding: 20, gap: 16 }}>
+        <Button 
+          text="Devam Et"
+          type="primary"
+          buttonStyle="default"
+          size="default"
+          onPress={handleNext}
+        />
+        
+        <Button 
+          text="Geri"
+          type="neutral"
+          buttonStyle="outline"
+          size="sm"
+          onPress={handleBack}
+        />
+      </View>
+    </View>
+  );
+};
+
+export default ExampleScreen;
+
+
+================================================================================
+6. SORUN GİDERME
+================================================================================
+
+SORUN 1: Buton tıklanmıyor
+Çözüm: onPress prop'unun tanımlı olduğundan emin olun
+       disabled={true} olmadığından emin olun
+
+SORUN 2: Buton görünmüyor
+Çözüm: text prop'unun dolu olduğundan emin olun
+       backgroundColor ve color değerlerinin çakışmadığından emin olun
+
+SORUN 3: TopNavigation yanlış hizalı
+Çözüm: showLeadingItem, showCenterItem, showTrailingItem değerlerini kontrol edin
+       Her üç alan için de true/false kombinasyonunu doğru ayarlayın
+
+SORUN 4: Responsive çalışmıyor
+Çözüm: react-native-size-matters kütüphanesinin yüklü olduğundan emin olun
+       npm install react-native-size-matters
+
+
+================================================================================
+7. EK KAYNAKLAR
+================================================================================
+
+📁 Dosya Konumları:
+- Button Component: src/components/Button/Button.js
+- Button Styles: src/components/Button/Button.styles.js
+- TopNavigation Component: src/components/TopNavigation/TopNavigation.js
+- TopNavigation Styles: src/components/TopNavigation/TopNavigation.styles.js
+
+📚 Kullanılan Kütüphaneler:
+- react-native: Temel componentler
+- react-native-size-matters: Responsive tasarım
+
+📧 Sorularınız için projedeki diğer ekran örneklerine bakabilirsiniz:
+- src/screens/Light/Welcome/Welcome1/Welcome1.js
+- src/screens/Light/Onboarding/Onboarding1/Onboarding1.js
+
+
+================================================================================
+Son Güncelleme: Ekim 2025
+Versiyon: 1.0
+================================================================================
+

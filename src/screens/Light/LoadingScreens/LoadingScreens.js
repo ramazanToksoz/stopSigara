@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Image, StatusBar, Text } from 'react-native';
 import { styles } from './LoadingScreens.styles';
 import Loading from '../../../components/Loading';
 
-const LoadingScreens = () => {
+const LoadingScreens = ({ navigation }) => {
+  useEffect(() => {
+    // 2 saniye sonra Welcome1'e git
+    const timer = setTimeout(() => {
+      navigation.replace('Welcome1');
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
