@@ -1,0 +1,321 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    SLIDER COMPONENT - KULLANIM KILAVUZU                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📍 DOSYA KONUMU:
+   src/components/Slider/
+
+📦 COMPONENT YAPISI:
+   ├── Slider.js              (Ana component)
+   ├── Slider.styles.js       (Styles)
+   └── index.js               (Export)
+
+════════════════════════════════════════════════════════════════════════════════
+📋 COMPONENT ÖZELLİKLERİ
+════════════════════════════════════════════════════════════════════════════════
+
+✅ Gradient renkli track (Yeşil → Sarı → Kırmızı)
+✅ Sürüklenebilir thumb (pause icon ile)
+✅ Min/Max değer gösterimi
+✅ Step desteği
+✅ Özelleştirilebilir renkler
+✅ Responsive design
+✅ Shadow efekti
+✅ Callback desteği
+
+════════════════════════════════════════════════════════════════════════════════
+🎯 TEMEL KULLANIM
+════════════════════════════════════════════════════════════════════════════════
+
+import Slider from '../../components/Slider'
+
+const MyScreen = () => {
+  const [cigaretteCount, setCigaretteCount] = useState(20)
+
+  return (
+    <Slider
+      minValue={0}
+      maxValue={40}
+      initialValue={20}
+      onValueChange={(value) => setCigaretteCount(value)}
+    />
+  )
+}
+
+════════════════════════════════════════════════════════════════════════════════
+⚙️ PROPS
+════════════════════════════════════════════════════════════════════════════════
+
+┌────────────────┬──────────┬─────────────────┬────────────────────────────────┐
+│ Prop           │ Type     │ Default         │ Açıklama                       │
+├────────────────┼──────────┼─────────────────┼────────────────────────────────┤
+│ minValue       │ number   │ 0               │ Minimum değer                  │
+│ maxValue       │ number   │ 40              │ Maximum değer                  │
+│ initialValue   │ number   │ 20              │ Başlangıç değeri               │
+│ step           │ number   │ 1               │ Değer artış miktarı            │
+│ onValueChange  │ function │ -               │ Değer değiştiğinde callback    │
+│ showTicks      │ boolean  │ true            │ Alt etiketleri göster          │
+│ trackGradient  │ array    │ ['#9BEC45',...]│ Track gradient renkleri        │
+│ containerStyle │ object   │ -               │ Ana container stil             │
+│ trackStyle     │ object   │ -               │ Track stil                     │
+│ thumbStyle     │ object   │ -               │ Thumb stil                     │
+│ tickStyle      │ object   │ -               │ Tick container stil            │
+│ darkMode       │ boolean  │ false           │ Dark mode desteği (gelecek)    │
+└────────────────┴──────────┴─────────────────┴────────────────────────────────┘
+
+════════════════════════════════════════════════════════════════════════════════
+💡 KULLANIM ÖRNEKLERİ
+════════════════════════════════════════════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════════════════════
+ÖRNEK 1: Temel Kullanım (Günlük Sigara Sayısı)
+═══════════════════════════════════════════════════════════════════════════════
+
+import React, { useState } from 'react'
+import { View, Text } from 'react-native'
+import Slider from '../../components/Slider'
+
+const SmokeSum = () => {
+  const [dailyCigarettes, setDailyCigarettes] = useState(20)
+
+  return (
+    <View>
+      <Text>Günde kaç sigara içiyorsunuz?</Text>
+      <Text>{dailyCigarettes} adet</Text>
+      
+      <Slider
+        minValue={0}
+        maxValue={40}
+        initialValue={20}
+        step={1}
+        onValueChange={setDailyCigarettes}
+      />
+    </View>
+  )
+}
+
+═══════════════════════════════════════════════════════════════════════════════
+ÖRNEK 2: Özelleştirilmiş Slider
+═══════════════════════════════════════════════════════════════════════════════
+
+<Slider
+  minValue={0}
+  maxValue={50}
+  initialValue={25}
+  step={5}
+  onValueChange={(value) => console.log('Yeni değer:', value)}
+  containerStyle={{ marginVertical: 20 }}
+  showTicks={true}
+/>
+
+═══════════════════════════════════════════════════════════════════════════════
+ÖRNEK 3: Farklı Gradient Renkleri
+═══════════════════════════════════════════════════════════════════════════════
+
+<Slider
+  minValue={0}
+  maxValue={40}
+  initialValue={15}
+  trackGradient={['#00FF00', '#FFFF00', '#FF0000']}
+  onValueChange={(value) => console.log(value)}
+/>
+
+═══════════════════════════════════════════════════════════════════════════════
+ÖRNEK 4: Tam Örnek (SmokeSum Ekranında)
+═══════════════════════════════════════════════════════════════════════════════
+
+import React, { useState } from 'react'
+import { View, Text, ScrollView } from 'react-native'
+import { styles } from './SmokeSum.styles'
+import Slider from '../../../../../components/Slider'
+import Button from '../../../../../components/Button'
+
+const SmokeSum = ({ navigation }) => {
+  const [cigaretteCount, setCigaretteCount] = useState(20)
+
+  const handleNext = () => {
+    console.log('Günlük sigara:', cigaretteCount)
+    navigation.navigate('Target', { dailyCigarettes: cigaretteCount })
+  }
+
+  return (
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.title}>Günlük Sigara Miktarı</Text>
+        
+        <View style={styles.sliderContainer}>
+          <Text style={styles.question}>
+            Günde ortalama kaç sigara içiyorsunuz?
+          </Text>
+          
+          <View style={styles.valueContainer}>
+            <Text style={styles.valueText}>{cigaretteCount}</Text>
+            <Text style={styles.valueLabel}>adet/gün</Text>
+          </View>
+          
+          <Slider
+            minValue={0}
+            maxValue={40}
+            initialValue={20}
+            step={1}
+            onValueChange={setCigaretteCount}
+          />
+        </View>
+      </ScrollView>
+      
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Devam Et"
+          onPress={handleNext}
+        />
+      </View>
+    </View>
+  )
+}
+
+export default SmokeSum
+
+// SmokeSum.styles.js'e eklenecekler:
+sliderContainer: {
+  marginTop: verticalScale(30),
+  paddingHorizontal: scale(16),
+},
+question: {
+  fontSize: moderateScale(16),
+  fontFamily: 'DMSans-Medium',
+  color: Colors.gray[60],
+  textAlign: 'center',
+  marginBottom: verticalScale(20),
+},
+valueContainer: {
+  alignItems: 'center',
+  marginBottom: verticalScale(30),
+},
+valueText: {
+  fontSize: moderateScale(48),
+  fontFamily: 'DMSans-Bold',
+  color: Colors.gray[80],
+},
+valueLabel: {
+  fontSize: moderateScale(16),
+  fontFamily: 'DMSans-Regular',
+  color: Colors.gray[40],
+  marginTop: verticalScale(4),
+},
+
+════════════════════════════════════════════════════════════════════════════════
+🎨 GÖRSEL YAPISI
+════════════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│  0 ═══════════●═════════════════════════════════════════ 40+│
+│     [Yeşil → Sarı → Kırmızı Gradient]                      │
+│              ▲                                              │
+│              │                                              │
+│           Thumb (Pause Icon)                                │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+Track: Gradient (Yeşil → Sarı → Kırmızı)
+Thumb: Beyaz arka plan + gri border + shadow + pause icon
+Ticks: "0" ve "40+" etiketleri
+
+════════════════════════════════════════════════════════════════════════════════
+🔧 TEKNİK DETAYLAR
+════════════════════════════════════════════════════════════════════════════════
+
+GRADIENT TRACK:
+  • react-native-linear-gradient kullanılıyor
+  • Renkler: #9BEC45 (yeşil) → #F5C343 (sarı) → #FA556D (kırmızı)
+  • Border radius: 9999px (tam yuvarlak)
+  • Height: 24px
+
+THUMB:
+  • Width/Height: 40px
+  • Background: Beyaz (#FFFFFF)
+  • Border: 4px solid #E9EAEC
+  • Shadow: Around shadow effect
+  • Icon: Pause bars (rotated 90deg)
+
+INTERACTION:
+  • PanResponder ile sürükleme
+  • Step desteği
+  • Min/Max sınırlaması
+  • Smooth animation
+
+════════════════════════════════════════════════════════════════════════════════
+⚠️ ÖNEMLİ NOTLAR
+════════════════════════════════════════════════════════════════════════════════
+
+1. GRADIENT LIBRARY:
+   • expo-linear-gradient yüklü olmalı (Expo projesi için)
+   • npm install expo-linear-gradient
+
+2. LAYOUT:
+   • Component'in layout'u hesaplanana kadar thumb görünmez
+   • onLayout ile width hesaplanıyor
+
+3. VALUE CHANGES:
+   • onValueChange her değer değişiminde çağrılır
+   • Step değerine göre yuvarlanır
+
+4. RESPONSIVE:
+   • react-native-size-matters kullanılıyor
+   • Farklı ekran boyutlarına uyumlu
+
+5. CUSTOM STYLING:
+   • containerStyle, trackStyle, thumbStyle ile özelleştirilebilir
+   • Gradient renkleri trackGradient prop'u ile değiştirilebilir
+
+════════════════════════════════════════════════════════════════════════════════
+🎯 KULLANIM SENARYOLARI
+════════════════════════════════════════════════════════════════════════════════
+
+1. GÜNLÜK SİGARA MİKTARI:
+   • Min: 0, Max: 40+
+   • Step: 1
+   • Kullanıcı günlük sigara sayısını seçer
+
+2. HEDEF BELİRLEME:
+   • Başlangıç değeri: Mevcut sigara sayısı
+   • Hedef: Daha düşük bir değer
+   • Kullanıcı azaltma hedefini seçer
+
+3. SÜRE BELİRLEME:
+   • Min: 1, Max: 12 (ay)
+   • Step: 1
+   • Kullanıcı hedef süresini seçer
+
+════════════════════════════════════════════════════════════════════════════════
+🐛 SORUN GİDERME
+════════════════════════════════════════════════════════════════════════════════
+
+SORUN: Thumb görünmüyor
+ÇÖZÜM: onLayout tetiklenene kadar thumb render edilmez. Container'ın width'i 0'dan
+       farklı olmalı.
+
+SORUN: Gradient görünmüyor
+ÇÖZÜM: expo-linear-gradient yüklü olmalı.
+       npm install expo-linear-gradient
+
+SORUN: Sürükleme çalışmıyor
+ÇÖZÜM: Parent component'te scroll varsa, scrollEnabled={false} yapın veya
+       thumb'a onStartShouldSetPanResponder={true} ekleyin.
+
+SORUN: Değer yanlış hesaplanıyor
+ÇÖZÜM: step, minValue, maxValue değerlerini kontrol edin.
+
+════════════════════════════════════════════════════════════════════════════════
+📦 BAĞIMLILIKLAR
+════════════════════════════════════════════════════════════════════════════════
+
+• react-native
+• react-native-size-matters
+• expo-linear-gradient ⭐ (Expo projesi için)
+
+════════════════════════════════════════════════════════════════════════════════
+
+Son Güncelleme: 2025-10-07
+Component Version: 1.0.0
+

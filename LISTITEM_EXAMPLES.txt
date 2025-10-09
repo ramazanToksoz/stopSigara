@@ -1,0 +1,263 @@
+================================================================================
+                    LISTITEM - YENİ ÖZELLİKLER KULLANIM ÖRNEKLERİ
+================================================================================
+
+📍 Güncellenmiş Parametreler:
+- type: 'default' | 'checkbox'
+- hasLeadingItem: boolean
+- hasSupportingText: boolean
+- hasTrailingItem: boolean
+- trailingType: 'more' | 'icon' | 'checkbox' | 'none'
+- checkboxState: 'checked' | 'unchecked'
+- onCheckboxChange: function
+
+================================================================================
+1. DEFAULT TYPE (Varsayılan)
+================================================================================
+
+// Tam özellikli
+<ListItem 
+  type="default"
+  hasLeadingItem={true}
+  leadingType="image"
+  leadingImage={require('../assets/profile.png')}
+  titleText="After meals"
+  hasSupportingText={true}
+  supportingText="Yemeklerden sonra"
+  hasTrailingItem={true}
+  trailingType="more"
+  onPress={handlePress}
+  onTrailingPress={handleMenuPress}
+/>
+
+// Supporting text olmadan
+<ListItem 
+  type="default"
+  titleText="After meals"
+  hasSupportingText={false}
+  hasTrailingItem={true}
+  trailingType="more"
+/>
+
+// Leading item olmadan
+<ListItem 
+  type="default"
+  hasLeadingItem={false}
+  titleText="After meals"
+  supportingText="Yemeklerden sonra"
+/>
+
+// Trailing item olmadan
+<ListItem 
+  type="default"
+  titleText="After meals"
+  supportingText="Yemeklerden sonra"
+  hasTrailingItem={false}
+/>
+
+================================================================================
+2. CHECKBOX TYPE
+================================================================================
+
+// Checkbox tipi - Checked
+<ListItem 
+  type="checkbox"
+  titleText="After meals"
+  hasSupportingText={true}
+  supportingText="Yemeklerden sonra"
+  checkboxState="checked"
+  onCheckboxChange={(isChecked) => {
+    console.log('Checkbox changed:', isChecked);
+  }}
+/>
+
+// Checkbox tipi - Unchecked
+<ListItem 
+  type="checkbox"
+  titleText="After meals"
+  supportingText="Yemeklerden sonra"
+  checkboxState="unchecked"
+  onCheckboxChange={(isChecked) => {
+    console.log('Checkbox changed:', isChecked);
+  }}
+/>
+
+// Checkbox tipi - Supporting text olmadan
+<ListItem 
+  type="checkbox"
+  titleText="After meals"
+  hasSupportingText={false}
+  checkboxState="checked"
+  onCheckboxChange={handleCheckboxChange}
+/>
+
+================================================================================
+3. TRAILING CHECKBOX (Sağda Checkbox)
+================================================================================
+
+<ListItem 
+  type="default"
+  leadingType="icon"
+  leadingIcon={require('../assets/icons/alarm.png')}
+  titleText="Sabah alarmı"
+  supportingText="Her gün 08:00"
+  trailingType="checkbox"
+  checkboxState="checked"
+  onCheckboxChange={handleCheckboxChange}
+/>
+
+================================================================================
+4. DARK MODE
+================================================================================
+
+// Default type - Dark mode
+<ListItem 
+  type="default"
+  titleText="After meals"
+  supportingText="Yemeklerden sonra"
+  darkMode={true}
+/>
+
+// Checkbox type - Dark mode
+<ListItem 
+  type="checkbox"
+  titleText="After meals"
+  checkboxState="checked"
+  darkMode={true}
+  onCheckboxChange={handleCheckboxChange}
+/>
+
+================================================================================
+5. KULLANIM ÖRNEKLERİ (State ile)
+================================================================================
+
+import React, { useState } from 'react';
+import { View, FlatList } from 'react-native';
+import ListItem from './components/ListItem';
+
+const MealRemindersScreen = () => {
+  const [reminders, setReminders] = useState([
+    { id: '1', title: 'After meals', subtitle: 'Yemeklerden sonra', checked: true },
+    { id: '2', title: 'Before sleep', subtitle: 'Uyumadan önce', checked: false },
+    { id: '3', title: 'Morning', subtitle: 'Sabahları', checked: true },
+  ]);
+
+  const handleCheckboxChange = (id, isChecked) => {
+    setReminders(prevReminders =>
+      prevReminders.map(reminder =>
+        reminder.id === id 
+          ? { ...reminder, checked: isChecked }
+          : reminder
+      )
+    );
+  };
+
+  return (
+    <View style={{ padding: 20, gap: 12 }}>
+      {reminders.map(reminder => (
+        <ListItem
+          key={reminder.id}
+          type="checkbox"
+          titleText={reminder.title}
+          supportingText={reminder.subtitle}
+          checkboxState={reminder.checked ? 'checked' : 'unchecked'}
+          onCheckboxChange={(isChecked) => handleCheckboxChange(reminder.id, isChecked)}
+        />
+      ))}
+    </View>
+  );
+};
+
+================================================================================
+6. TÜM VARYASYONLAR
+================================================================================
+
+// 1. Default - Tam özellikli
+<ListItem 
+  type="default"
+  hasLeadingItem={true}
+  hasSupportingText={true}
+  hasTrailingItem={true}
+/>
+
+// 2. Default - Supporting text yok
+<ListItem 
+  type="default"
+  hasSupportingText={false}
+/>
+
+// 3. Default - Leading item yok
+<ListItem 
+  type="default"
+  hasLeadingItem={false}
+/>
+
+// 4. Default - Trailing item yok
+<ListItem 
+  type="default"
+  hasTrailingItem={false}
+/>
+
+// 5. Checkbox - Checked
+<ListItem 
+  type="checkbox"
+  checkboxState="checked"
+/>
+
+// 6. Checkbox - Unchecked
+<ListItem 
+  type="checkbox"
+  checkboxState="unchecked"
+/>
+
+// 7. Trailing Checkbox
+<ListItem 
+  type="default"
+  trailingType="checkbox"
+  checkboxState="checked"
+/>
+
+// 8. Dark Mode
+<ListItem 
+  type="default"
+  darkMode={true}
+/>
+
+// 9. Compact variant
+<ListItem 
+  type="default"
+  variant="compact"
+/>
+
+// 10. Checkbox + Dark Mode
+<ListItem 
+  type="checkbox"
+  checkboxState="checked"
+  darkMode={true}
+/>
+
+================================================================================
+7. ÖZET TABLOSU
+================================================================================
+
+┌──────────────────┬──────────────┬─────────────────┬──────────────────┐
+│ Özellik          │ Varsayılan   │ Seçenekler      │ Açıklama         │
+├──────────────────┼──────────────┼─────────────────┼──────────────────┤
+│ type             │ 'default'    │ default/checkbox│ Liste tipi       │
+│ hasLeadingItem   │ true         │ true/false      │ Sol öğe göster   │
+│ hasSupportingText│ true         │ true/false      │ Alt metin göster │
+│ hasTrailingItem  │ true         │ true/false      │ Sağ öğe göster   │
+│ trailingType     │ 'more'       │ more/icon/      │ Sağ öğe tipi     │
+│                  │              │ checkbox/none   │                  │
+│ checkboxState    │ 'unchecked'  │ checked/        │ Checkbox durumu  │
+│                  │              │ unchecked       │                  │
+│ onCheckboxChange │ -            │ function        │ Checkbox callback│
+│ darkMode         │ false        │ true/false      │ Dark mode        │
+│ variant          │ 'default'    │ default/compact │ Boyut varyantı   │
+└──────────────────┴──────────────┴─────────────────┴──────────────────┘
+
+================================================================================
+Son Güncelleme: Ekim 2025
+Versiyon: 2.0 (Checkbox desteği eklendi)
+================================================================================
+

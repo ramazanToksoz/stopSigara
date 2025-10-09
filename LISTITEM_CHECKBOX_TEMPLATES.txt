@@ -1,0 +1,453 @@
+================================================================================
+                    LISTITEM - CHECKBOX ŞABLONLARI
+================================================================================
+
+📋 Sağ tarafta checkbox olan hazır şablonlar
+
+================================================================================
+1. TEMEL CHECKBOX ŞABLONLARI
+================================================================================
+
+// ŞABLON 1: Basit Checkbox (Sağda)
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./assets/icons/alarm.png')}
+  leadingBackgroundColor="#E8F5FF"
+  titleText="After meals"
+  supportingText="Yemeklerden sonra"
+  trailingType="checkbox"
+  checkboxState="unchecked"
+  onCheckboxChange={(isChecked) => {
+    console.log('Checkbox değişti:', isChecked);
+  }}
+/>
+
+// ŞABLON 2: Checkbox (Checked)
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./assets/icons/calendar.png')}
+  leadingBackgroundColor="#E8FFE8"
+  titleText="Before sleep"
+  supportingText="Uyumadan önce"
+  trailingType="checkbox"
+  checkboxState="checked"
+  onCheckboxChange={handleCheckboxChange}
+/>
+
+// ŞABLON 3: Checkbox (Supporting Text Olmadan)
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./assets/icons/bell.png')}
+  leadingBackgroundColor="#FFE8E8"
+  titleText="Morning reminder"
+  hasSupportingText={false}
+  trailingType="checkbox"
+  checkboxState="unchecked"
+  onCheckboxChange={handleCheckboxChange}
+/>
+
+// ŞABLON 4: Checkbox (Leading Icon Olmadan)
+<ListItem 
+  hasLeadingItem={false}
+  titleText="Accept terms and conditions"
+  supportingText="I agree to the terms"
+  trailingType="checkbox"
+  checkboxState="unchecked"
+  onCheckboxChange={handleCheckboxChange}
+/>
+
+================================================================================
+2. ÖZEL TASARIM ŞABLONLARI
+================================================================================
+
+// ŞABLON 5: Büyük İkon + Checkbox
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./assets/icons/heart.png')}
+  leadingSize={48}
+  leadingBorderRadius={12}
+  leadingIconSize={28}
+  leadingBackgroundColor="#FFE8E8"
+  titleText="Sağlık Hedefi"
+  titleStyle={{ fontSize: 18, fontWeight: 'bold' }}
+  supportingText="Günlük egzersiz takibi"
+  trailingType="checkbox"
+  checkboxState="checked"
+  onCheckboxChange={handleCheckboxChange}
+/>
+
+// ŞABLON 6: Renkli Tasarım + Checkbox
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./assets/icons/star.png')}
+  leadingSize={40}
+  leadingBorderRadius={20}
+  leadingBackgroundColor="#FFD700"
+  titleText="Premium Özellik"
+  titleStyle={{ color: '#8A38F5', fontWeight: 'bold' }}
+  supportingText="Tüm özelliklere erişim"
+  supportingStyle={{ color: '#8A38F5' }}
+  backgroundColor="#F8F0FF"
+  trailingType="checkbox"
+  checkboxState="unchecked"
+  onCheckboxChange={handleCheckboxChange}
+/>
+
+// ŞABLON 7: Minimal + Checkbox
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./assets/icons/check.png')}
+  leadingSize={32}
+  leadingBorderRadius={8}
+  leadingIconSize={18}
+  leadingBackgroundColor="#E8F5E9"
+  titleText="Görev tamamlandı"
+  hasSupportingText={false}
+  variant="compact"
+  trailingType="checkbox"
+  checkboxState="checked"
+  onCheckboxChange={handleCheckboxChange}
+/>
+
+// ŞABLON 8: Dark Mode + Checkbox
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./assets/icons/moon.png')}
+  leadingBackgroundColor="#303236"
+  titleText="Gece Modu"
+  supportingText="Karanlık tema aktif"
+  trailingType="checkbox"
+  checkboxState="checked"
+  darkMode={true}
+  onCheckboxChange={handleCheckboxChange}
+/>
+
+================================================================================
+3. KULLANIM SENARYOLARı
+================================================================================
+
+SENARYO 1: Hatırlatıcı Listesi
+┌────────────────────────────────────────────────────────────────────┐
+│ const [reminders, setReminders] = useState([                       │
+│   { id: 1, title: 'After meals', subtitle: 'Yemekten sonra',      │
+│     icon: require('./meal.png'), checked: true },                 │
+│   { id: 2, title: 'Before sleep', subtitle: 'Uyumadan önce',      │
+│     icon: require('./sleep.png'), checked: false },               │
+│ ]);                                                                │
+│                                                                    │
+│ {reminders.map(item => (                                           │
+│   <ListItem                                                        │
+│     key={item.id}                                                  │
+│     leadingType="icon"                                             │
+│     leadingIcon={item.icon}                                        │
+│     leadingBackgroundColor="#E8F5FF"                               │
+│     titleText={item.title}                                         │
+│     supportingText={item.subtitle}                                 │
+│     trailingType="checkbox"                                        │
+│     checkboxState={item.checked ? 'checked' : 'unchecked'}        │
+│     onCheckboxChange={(isChecked) => {                            │
+│       setReminders(prev => prev.map(r =>                           │
+│         r.id === item.id ? {...r, checked: isChecked} : r         │
+│       ));                                                          │
+│     }}                                                             │
+│   />                                                               │
+│ ))}                                                                │
+└────────────────────────────────────────────────────────────────────┘
+
+SENARYO 2: Ayarlar Listesi
+┌────────────────────────────────────────────────────────────────────┐
+│ const [settings, setSettings] = useState({                         │
+│   notifications: true,                                             │
+│   darkMode: false,                                                 │
+│   autoSave: true,                                                  │
+│ });                                                                │
+│                                                                    │
+│ <ListItem                                                          │
+│   leadingType="icon"                                               │
+│   leadingIcon={require('./bell.png')}                             │
+│   leadingBackgroundColor="#FFE8E8"                                 │
+│   titleText="Bildirimler"                                          │
+│   supportingText="Anlık bildirimler"                               │
+│   trailingType="checkbox"                                          │
+│   checkboxState={settings.notifications ? 'checked' : 'unchecked'}│
+│   onCheckboxChange={(checked) =>                                  │
+│     setSettings({...settings, notifications: checked})            │
+│   }                                                                │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+SENARYO 3: Görev Listesi (To-Do)
+┌────────────────────────────────────────────────────────────────────┐
+│ const [todos, setTodos] = useState([                               │
+│   { id: 1, task: 'Egzersiz yap', done: false },                   │
+│   { id: 2, task: 'Su iç', done: true },                           │
+│   { id: 3, task: 'Uyumadan önce meditasyon', done: false },       │
+│ ]);                                                                │
+│                                                                    │
+│ const toggleTodo = (id) => {                                       │
+│   setTodos(prev => prev.map(todo =>                                │
+│     todo.id === id ? {...todo, done: !todo.done} : todo           │
+│   ));                                                              │
+│ };                                                                 │
+│                                                                    │
+│ {todos.map(todo => (                                               │
+│   <ListItem                                                        │
+│     key={todo.id}                                                  │
+│     leadingType="icon"                                             │
+│     leadingIcon={require('./task.png')}                           │
+│     leadingBackgroundColor="#E8F5E9"                               │
+│     titleText={todo.task}                                          │
+│     hasSupportingText={false}                                      │
+│     trailingType="checkbox"                                        │
+│     checkboxState={todo.done ? 'checked' : 'unchecked'}           │
+│     onCheckboxChange={() => toggleTodo(todo.id)}                  │
+│   />                                                               │
+│ ))}                                                                │
+└────────────────────────────────────────────────────────────────────┘
+
+SENARYO 4: Çoklu Seçim Listesi
+┌────────────────────────────────────────────────────────────────────┐
+│ const [selectedItems, setSelectedItems] = useState([]);           │
+│                                                                    │
+│ const items = [                                                    │
+│   { id: 1, name: 'Sabah', icon: require('./morning.png') },      │
+│   { id: 2, name: 'Öğle', icon: require('./noon.png') },          │
+│   { id: 3, name: 'Akşam', icon: require('./evening.png') },      │
+│ ];                                                                │
+│                                                                    │
+│ const toggleSelection = (id) => {                                 │
+│   setSelectedItems(prev =>                                        │
+│     prev.includes(id)                                             │
+│       ? prev.filter(i => i !== id)                                │
+│       : [...prev, id]                                             │
+│   );                                                              │
+│ };                                                                │
+│                                                                    │
+│ {items.map(item => (                                              │
+│   <ListItem                                                        │
+│     key={item.id}                                                  │
+│     leadingType="icon"                                             │
+│     leadingIcon={item.icon}                                        │
+│     titleText={item.name}                                          │
+│     hasSupportingText={false}                                      │
+│     trailingType="checkbox"                                        │
+│     checkboxState={                                                │
+│       selectedItems.includes(item.id) ? 'checked' : 'unchecked'   │
+│     }                                                              │
+│     onCheckboxChange={() => toggleSelection(item.id)}             │
+│   />                                                               │
+│ ))}                                                                │
+└────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+4. HAZIR KOMPONENTİ OLUŞTURMA
+================================================================================
+
+// CheckboxListItem.js (Hazır Component)
+import React from 'react';
+import ListItem from './ListItem';
+
+const CheckboxListItem = ({
+  icon,
+  iconBackgroundColor = '#E8F5FF',
+  title,
+  subtitle,
+  checked = false,
+  onToggle,
+  darkMode = false,
+  ...props
+}) => {
+  return (
+    <ListItem 
+      leadingType="icon"
+      leadingIcon={icon}
+      leadingBackgroundColor={iconBackgroundColor}
+      titleText={title}
+      supportingText={subtitle}
+      hasSupportingText={!!subtitle}
+      trailingType="checkbox"
+      checkboxState={checked ? 'checked' : 'unchecked'}
+      onCheckboxChange={onToggle}
+      darkMode={darkMode}
+      {...props}
+    />
+  );
+};
+
+export default CheckboxListItem;
+
+// Kullanımı:
+<CheckboxListItem 
+  icon={require('./meal.png')}
+  iconBackgroundColor="#E8F5FF"
+  title="After meals"
+  subtitle="Yemeklerden sonra"
+  checked={true}
+  onToggle={(isChecked) => console.log(isChecked)}
+/>
+
+================================================================================
+5. FARKLI TASARIM VARYASYONLARı
+================================================================================
+
+// VARİANT 1: Küçük Kompakt
+<ListItem 
+  leadingSize={32}
+  leadingBorderRadius={8}
+  leadingIconSize={18}
+  leadingType="icon"
+  leadingIcon={require('./icon.png')}
+  leadingBackgroundColor="#E8F5E9"
+  titleText="Kompakt görev"
+  hasSupportingText={false}
+  variant="compact"
+  trailingType="checkbox"
+  checkboxState="unchecked"
+/>
+
+// VARİANT 2: Büyük Premium
+<ListItem 
+  leadingSize={56}
+  leadingBorderRadius={16}
+  leadingIconSize={32}
+  leadingType="icon"
+  leadingIcon={require('./premium.png')}
+  leadingBackgroundColor="#FFD700"
+  titleText="Premium Özellik"
+  titleStyle={{ fontSize: 20, fontWeight: '900' }}
+  supportingText="Tüm haklar dahil"
+  supportingStyle={{ fontSize: 16 }}
+  trailingType="checkbox"
+  checkboxState="checked"
+/>
+
+// VARİANT 3: Renkli Arkaplan
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./star.png')}
+  leadingBackgroundColor="#8A38F5"
+  titleText="Favorilere ekle"
+  supportingText="Favori listenize ekleyin"
+  backgroundColor="#F8F0FF"
+  containerStyle={{
+    borderLeftWidth: 4,
+    borderLeftColor: '#8A38F5',
+  }}
+  trailingType="checkbox"
+  checkboxState="unchecked"
+/>
+
+// VARİANT 4: Border ve Shadow
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./bell.png')}
+  leadingBackgroundColor="#FFE8E8"
+  titleText="Hatırlatıcı"
+  supportingText="Her gün 09:00"
+  containerStyle={{
+    borderWidth: 2,
+    borderColor: '#FF0000',
+    borderStyle: 'dashed',
+    shadowColor: '#FF0000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  }}
+  trailingType="checkbox"
+  checkboxState="checked"
+/>
+
+================================================================================
+6. STATE YÖNETİMİ ÖRNEKLERİ
+================================================================================
+
+// ÖRNEK 1: Tek Checkbox State
+const [isChecked, setIsChecked] = useState(false);
+
+<ListItem 
+  titleText="Kabul ediyorum"
+  trailingType="checkbox"
+  checkboxState={isChecked ? 'checked' : 'unchecked'}
+  onCheckboxChange={setIsChecked}
+/>
+
+// ÖRNEK 2: Array State
+const [checkedItems, setCheckedItems] = useState([]);
+
+const handleCheck = (id, isChecked) => {
+  if (isChecked) {
+    setCheckedItems([...checkedItems, id]);
+  } else {
+    setCheckedItems(checkedItems.filter(item => item !== id));
+  }
+};
+
+// ÖRNEK 3: Object State
+const [states, setStates] = useState({
+  breakfast: false,
+  lunch: true,
+  dinner: false,
+});
+
+<ListItem 
+  titleText="Öğle yemeği"
+  trailingType="checkbox"
+  checkboxState={states.lunch ? 'checked' : 'unchecked'}
+  onCheckboxChange={(checked) => 
+    setStates({...states, lunch: checked})
+  }
+/>
+
+// ÖRNEK 4: Select All
+const [items, setItems] = useState([
+  { id: 1, name: 'Item 1', checked: false },
+  { id: 2, name: 'Item 2', checked: false },
+]);
+
+const selectAll = () => {
+  setItems(items.map(item => ({...item, checked: true})));
+};
+
+const deselectAll = () => {
+  setItems(items.map(item => ({...item, checked: false})));
+};
+
+================================================================================
+7. ÖZET - HIZLI BAŞLANGIÇ
+================================================================================
+
+// En Basit Kullanım:
+<ListItem 
+  titleText="Başlık"
+  trailingType="checkbox"
+  checkboxState="unchecked"
+  onCheckboxChange={(checked) => console.log(checked)}
+/>
+
+// İkonlu:
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./icon.png')}
+  leadingBackgroundColor="#E8F5FF"
+  titleText="Başlık"
+  supportingText="Alt metin"
+  trailingType="checkbox"
+  checkboxState="checked"
+  onCheckboxChange={handleCheck}
+/>
+
+// State ile:
+const [checked, setChecked] = useState(false);
+
+<ListItem 
+  titleText="Görev"
+  trailingType="checkbox"
+  checkboxState={checked ? 'checked' : 'unchecked'}
+  onCheckboxChange={setChecked}
+/>
+
+================================================================================
+Son Güncelleme: Ekim 2025
+Versiyon: 1.0
+================================================================================
+

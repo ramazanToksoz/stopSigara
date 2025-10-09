@@ -1,0 +1,352 @@
+================================================================================
+                LISTITEM - ÖZELLEŞTİRME REHBERİ
+================================================================================
+
+🎨 ListItem artık tamamen özelleştirilebilir! Her alan değiştirilebilir.
+
+================================================================================
+1. YENİ ÖZELLEŞTİRİLEBİLİR PARAMETRELER
+================================================================================
+
+LEADING ITEM (Sol):
+├── leadingSize: number (varsayılan: 40)
+├── leadingBorderRadius: number (varsayılan: 8)
+├── leadingIconSize: number (varsayılan: 24)
+└── leadingBackgroundColor: string (varsayılan: '#E8F5E9')
+
+TEXT CONTENT:
+├── titleStyle: object (özel title stili)
+└── supportingStyle: object (özel supporting text stili)
+
+TRAILING ITEM (Sağ):
+├── trailingIconSize: number (varsayılan: 24)
+└── trailingIconColor: string (otomatik: dark mode'a göre)
+
+CONTAINER:
+├── containerStyle: object (özel container stili)
+└── backgroundColor: string (özel arkaplan rengi)
+
+================================================================================
+2. LEADING ITEM ÖZELLEŞTİRME
+================================================================================
+
+// Daha büyük leading item
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./icon.png')}
+  leadingSize={56}              // 56x56px
+  leadingBorderRadius={16}      // Daha yuvarlak
+  leadingIconSize={32}          // Daha büyük ikon
+  leadingBackgroundColor="#FFE8E8"
+  titleText="Büyük İkon"
+/>
+
+// Kare leading item
+<ListItem 
+  leadingType="image"
+  leadingImage={require('./profile.png')}
+  leadingSize={48}
+  leadingBorderRadius={0}       // Kare (köşesiz)
+  titleText="Kare Profil"
+/>
+
+// Tam yuvarlak (circle)
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./heart.png')}
+  leadingSize={40}
+  leadingBorderRadius={20}      // Yarısı = tam yuvarlak
+  leadingBackgroundColor="#E8F5FF"
+  titleText="Yuvarlak İkon"
+/>
+
+// Gradient background (ViewGradient component ile)
+<ListItem 
+  leadingType="icon"
+  leadingIcon={require('./star.png')}
+  leadingSize={48}
+  leadingBorderRadius={12}
+  leadingBackgroundColor="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+  titleText="Gradient Arka Plan"
+/>
+
+================================================================================
+3. TEXT ÖZELLEŞTİRME
+================================================================================
+
+// Büyük ve kalın title
+<ListItem 
+  titleText="Önemli Başlık"
+  titleStyle={{
+    fontSize: 20,
+    fontWeight: '900',
+    color: '#FF0000',
+    fontFamily: 'DMSans-ExtraBold',
+  }}
+  supportingText="Alt metin"
+/>
+
+// Özel renkli supporting text
+<ListItem 
+  titleText="Başlık"
+  supportingText="Yeşil alt metin"
+  supportingStyle={{
+    color: '#46E01F',
+    fontSize: 16,
+    fontWeight: '600',
+  }}
+/>
+
+// İtalik ve underline
+<ListItem 
+  titleText="İtalik Başlık"
+  titleStyle={{
+    fontStyle: 'italic',
+    textDecorationLine: 'underline',
+  }}
+/>
+
+// Gradient text (MaskedView ile)
+<ListItem 
+  titleText="Gradient Metin"
+  titleStyle={{
+    fontSize: 18,
+    fontWeight: 'bold',
+    // Gradient için MaskedView kullanılması gerekir
+  }}
+/>
+
+================================================================================
+4. TRAILING ITEM ÖZELLEŞTİRME
+================================================================================
+
+// Büyük trailing icon
+<ListItem 
+  titleText="Büyük İkon"
+  trailingType="icon"
+  trailingIcon={require('./arrow.png')}
+  trailingIconSize={32}
+  trailingIconColor="#FF0000"
+/>
+
+// Renkli trailing icon
+<ListItem 
+  titleText="Renkli İkon"
+  trailingType="icon"
+  trailingIcon={require('./star.png')}
+  trailingIconSize={24}
+  trailingIconColor="#FFD700"  // Altın rengi
+/>
+
+// Küçük trailing icon
+<ListItem 
+  titleText="Küçük İkon"
+  trailingType="icon"
+  trailingIcon={require('./check.png')}
+  trailingIconSize={16}
+  trailingIconColor="#46E01F"
+/>
+
+================================================================================
+5. CONTAINER ÖZELLEŞTİRME
+================================================================================
+
+// Özel arkaplan rengi
+<ListItem 
+  titleText="Renkli Arka Plan"
+  backgroundColor="#E8F5FF"
+/>
+
+// Border ekle
+<ListItem 
+  titleText="Kenarlıklı"
+  containerStyle={{
+    borderWidth: 2,
+    borderColor: '#8A38F5',
+    borderStyle: 'dashed',
+  }}
+/>
+
+// Özel padding
+<ListItem 
+  titleText="Geniş Padding"
+  containerStyle={{
+    paddingVertical: 24,
+    paddingHorizontal: 20,
+  }}
+/>
+
+// Shadow özelleştir
+<ListItem 
+  titleText="Koyu Gölge"
+  containerStyle={{
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  }}
+/>
+
+// Gradient background
+<ListItem 
+  titleText="Gradient Arka Plan"
+  containerStyle={{
+    background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
+  }}
+/>
+
+================================================================================
+6. KOMPLE ÖZELLEŞTİRME ÖRNEKLERİ
+================================================================================
+
+ÖRNEK 1: Premium Card
+┌────────────────────────────────────────────────────────────────────┐
+│ <ListItem                                                          │
+│   leadingType="icon"                                               │
+│   leadingIcon={require('./premium.png')}                          │
+│   leadingSize={56}                                                 │
+│   leadingBorderRadius={16}                                         │
+│   leadingIconSize={32}                                             │
+│   leadingBackgroundColor="#FFD700"                                 │
+│   titleText="Premium Üyelik"                                       │
+│   titleStyle={{                                                    │
+│     fontSize: 20,                                                  │
+│     fontWeight: '900',                                             │
+│     color: '#8A38F5',                                              │
+│   }}                                                               │
+│   supportingText="Tüm özelliklere erişim"                          │
+│   supportingStyle={{                                               │
+│     color: '#666666',                                              │
+│     fontSize: 14,                                                  │
+│   }}                                                               │
+│   trailingType="icon"                                              │
+│   trailingIcon={require('./arrow-right.png')}                     │
+│   trailingIconSize={24}                                            │
+│   trailingIconColor="#8A38F5"                                      │
+│   backgroundColor="#F8F0FF"                                        │
+│   containerStyle={{                                                │
+│     borderWidth: 2,                                                │
+│     borderColor: '#8A38F5',                                        │
+│   }}                                                               │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+
+ÖRNEK 2: Bildirim Card
+┌────────────────────────────────────────────────────────────────────┐
+│ <ListItem                                                          │
+│   leadingType="icon"                                               │
+│   leadingIcon={require('./notification.png')}                     │
+│   leadingSize={40}                                                 │
+│   leadingBorderRadius={20}                                         │
+│   leadingIconSize={20}                                             │
+│   leadingBackgroundColor="#FFE8E8"                                 │
+│   titleText="Yeni Bildirim"                                        │
+│   titleStyle={{                                                    │
+│     fontSize: 16,                                                  │
+│     fontWeight: 'bold',                                            │
+│     color: '#FF0000',                                              │
+│   }}                                                               │
+│   supportingText="5 dakika önce"                                   │
+│   backgroundColor="#FFF5F5"                                        │
+│   trailingType="more"                                              │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+
+ÖRNEK 3: Başarı Card
+┌────────────────────────────────────────────────────────────────────┐
+│ <ListItem                                                          │
+│   leadingType="icon"                                               │
+│   leadingIcon={require('./check-circle.png')}                     │
+│   leadingSize={48}                                                 │
+│   leadingBorderRadius={24}                                         │
+│   leadingIconSize={28}                                             │
+│   leadingBackgroundColor="#E8FFE8"                                 │
+│   titleText="Başarıyla Tamamlandı"                                 │
+│   titleStyle={{                                                    │
+│     fontSize: 18,                                                  │
+│     fontWeight: 'bold',                                            │
+│     color: '#46E01F',                                              │
+│   }}                                                               │
+│   supportingText="7 gün sigara içmediniz"                          │
+│   supportingStyle={{                                               │
+│     color: '#46E01F',                                              │
+│     fontWeight: '600',                                             │
+│   }}                                                               │
+│   backgroundColor="#F0FFF0"                                        │
+│   containerStyle={{                                                │
+│     borderLeftWidth: 4,                                            │
+│     borderLeftColor: '#46E01F',                                    │
+│   }}                                                               │
+│   hasTrailingItem={false}                                          │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+
+ÖRNEK 4: Kompakt Minimal
+┌────────────────────────────────────────────────────────────────────┐
+│ <ListItem                                                          │
+│   leadingType="icon"                                               │
+│   leadingIcon={require('./calendar.png')}                         │
+│   leadingSize={32}                                                 │
+│   leadingBorderRadius={8}                                          │
+│   leadingIconSize={18}                                             │
+│   leadingBackgroundColor="#E8F5FF"                                 │
+│   titleText="Bugün"                                                │
+│   hasSupportingText={false}                                        │
+│   variant="compact"                                                │
+│   trailingType="icon"                                              │
+│   trailingIcon={require('./arrow.png')}                           │
+│   trailingIconSize={16}                                            │
+│   containerStyle={{                                                │
+│     paddingVertical: 8,                                            │
+│   }}                                                               │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+7. ÖZET TABLO
+================================================================================
+
+┌────────────────────────┬──────────────┬─────────────────────────────┐
+│ Özelleştirme Alanı    │ Parametre    │ Örnek Değer                 │
+├────────────────────────┼──────────────┼─────────────────────────────┤
+│ Leading Boyut          │ leadingSize  │ 32, 40, 48, 56, 64          │
+│ Leading Border Radius  │ leadingBorderRadius │ 0, 8, 12, 16, 20  │
+│ Leading Icon Boyut     │ leadingIconSize │ 16, 20, 24, 28, 32      │
+│ Leading Arka Plan      │ leadingBackgroundColor │ '#FFE8E8', etc │
+│ Title Font Boyut       │ titleStyle.fontSize │ 14, 16, 18, 20    │
+│ Title Renk             │ titleStyle.color │ '#FF0000', etc        │
+│ Supporting Font Boyut  │ supportingStyle.fontSize │ 12, 14, 16   │
+│ Supporting Renk        │ supportingStyle.color │ '#666666', etc  │
+│ Trailing Icon Boyut    │ trailingIconSize │ 16, 20, 24, 28       │
+│ Trailing Icon Renk     │ trailingIconColor │ '#FF0000', etc      │
+│ Container Arka Plan    │ backgroundColor │ '#E8F5FF', etc         │
+│ Container Padding      │ containerStyle.padding │ 12, 16, 20, 24 │
+│ Container Border       │ containerStyle.border │ 1, 2, 3, 4      │
+└────────────────────────┴──────────────┴─────────────────────────────┘
+
+================================================================================
+8. KULLANIM İPUÇLARI
+================================================================================
+
+✅ DO (Yapın):
+1. leadingSize ve leadingBorderRadius'u birlikte kullanın
+2. Yuvarlak için: borderRadius = size / 2
+3. titleStyle ve supportingStyle ile tutarlı font ailesi kullanın
+4. trailingIconColor ile dark mode uyumlu renkler seçin
+5. containerStyle ile gölge ve border'ı birlikte kullanabilirsiniz
+
+❌ DON'T (Yapmayın):
+1. Çok büyük leadingSize kullanmayın (max 64px önerilir)
+2. Çok fazla farklı renk kullanmayın (max 2-3 renk)
+3. titleStyle fontSize'ı çok büyük yapmayın (max 24px)
+4. Container'a çok fazla özel stil eklemeyin (karmaşık olur)
+
+================================================================================
+Son Güncelleme: Ekim 2025
+Versiyon: 3.0 (Tam özelleştirme desteği)
+================================================================================
+

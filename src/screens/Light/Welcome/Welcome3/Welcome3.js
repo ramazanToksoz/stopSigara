@@ -8,8 +8,7 @@ import Button from '../../../../components/Button';
 
 const Welcome3 = ({ navigation }) => {
   const handleFinish = () => {
-    // TODO: Navigate to onboarding or main screen
-    console.log('Navigate to Onboarding/Home');
+    navigation.navigate('Onboarding');
   };
 
   const handleBack = () => {

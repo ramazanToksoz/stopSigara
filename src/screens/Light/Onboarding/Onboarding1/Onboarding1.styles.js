@@ -5,44 +5,37 @@ import { Colors } from '../../../../constants/Colors';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: scale(20),
+    backgroundColor: Colors.gray[5],
   },
-  title: {
-    fontSize: moderateScale(28),
-    fontWeight: 'bold',
-    color: Colors.primary,
+  statusBar: {
+    marginTop: verticalScale(30),
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: scale(20),
+    paddingBottom: verticalScale(50),
+  },
+  listContainer: {
+    gap: verticalScale(12),
+    paddingTop: verticalScale(20),
+    paddingBottom: verticalScale(30),
+  },
+  heading: {
+    fontSize: moderateScale(24),
+    fontWeight: '700',
+    fontFamily: 'DMSans-Bold',
+    color: Colors.gray[80],
+    marginBottom: verticalScale(8),
+    textAlign: 'center',
+    marginTop: verticalScale(20),
     marginBottom: verticalScale(20),
-    textAlign: 'center',
   },
-  subtitle: {
-    fontSize: moderateScale(16),
-    color: Colors.textSecondary,
-    textAlign: 'center',
-    marginBottom: verticalScale(40),
-    lineHeight: moderateScale(24),
+  buttonContainer: {
+    paddingHorizontal: scale(20),
+    paddingBottom: verticalScale(40),
+    paddingTop: verticalScale(20),
   },
-  button: {
-    backgroundColor: Colors.primary,
-    paddingHorizontal: scale(40),
-    paddingVertical: verticalScale(15),
-    borderRadius: moderateScale(25),
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: verticalScale(2),
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: moderateScale(3.84),
-  },
-  buttonText: {
-    color: Colors.background,
-    fontSize: moderateScale(16),
-    fontWeight: '600',
-  },
+ 
 });
 
 

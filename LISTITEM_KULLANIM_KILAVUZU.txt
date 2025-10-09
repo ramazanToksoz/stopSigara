@@ -1,0 +1,307 @@
+================================================================================
+                    LISTITEM COMPONENT KULLANIM KILAVUZU
+================================================================================
+
+📍 Konum: src/components/ListItem/ListItem.js
+📍 Import: import ListItem from '../../../../components/ListItem';
+
+================================================================================
+1. TEMEL KULLANIM
+================================================================================
+
+<ListItem 
+  titleText="Title Text"
+  supportingText="Supporting Text"
+  onPress={handlePress}
+/>
+
+================================================================================
+2. PARAMETRELER (Props)
+================================================================================
+
+┌─────────────────────┬──────────────────────┬─────────────┬──────────────────┐
+│ Parametre           │ Tip                  │ Varsayılan  │ Açıklama         │
+├─────────────────────┼──────────────────────┼─────────────┼──────────────────┤
+│ leadingType         │ 'image'/'icon'/      │ 'image'     │ Sol öğe tipi     │
+│                     │ 'none'               │             │                  │
+│ leadingImage        │ Image source         │ -           │ Sol resim        │
+│ leadingIcon         │ Image source         │ -           │ Sol ikon         │
+│ leadingBgColor      │ string               │ '#E8F5E9'   │ Sol ikon bg      │
+│ titleText           │ string               │ 'Title'     │ Ana başlık       │
+│ supportingText      │ string               │ 'Supporting'│ Alt açıklama     │
+│ showTrailingItem    │ boolean              │ true        │ Sağ öğe göster   │
+│ trailingType        │ 'more'/'icon'/       │ 'more'      │ Sağ öğe tipi     │
+│                     │ 'none'               │             │                  │
+│ trailingIcon        │ Image source         │ -           │ Sağ ikon         │
+│ onPress             │ function             │ -           │ Ana tıklama      │
+│ onTrailingPress     │ function             │ -           │ Sağ öğe tıklama  │
+│ darkMode            │ boolean              │ false       │ Dark mode        │
+│ variant             │ 'default'/'compact'  │ 'default'   │ Boyut varyantı   │
+└─────────────────────┴──────────────────────┴─────────────┴──────────────────┘
+
+================================================================================
+3. VARYANTLAR
+================================================================================
+
+1. DEFAULT (Varsayılan)
+   - Yükseklik: 74px
+   - Padding: 16px
+   - İki satır metin
+   
+   <ListItem 
+     variant="default"
+     titleText="Başlık"
+     supportingText="Alt metin"
+   />
+
+2. COMPACT (Kompakt)
+   - Yükseklik: 60px
+   - Padding: 12px
+   - Daha küçük liste için
+   
+   <ListItem 
+     variant="compact"
+     titleText="Başlık"
+     supportingText="Alt metin"
+   />
+
+================================================================================
+4. LEADING ITEM (Sol Taraf)
+================================================================================
+
+1. IMAGE (Resim)
+   - 40x40px
+   - Border radius: 8px
+   - Cover resizeMode
+   
+   <ListItem 
+     leadingType="image"
+     leadingImage={require('../assets/profile.png')}
+     titleText="Kullanıcı Adı"
+     supportingText="Son görülme: 5 dk önce"
+   />
+
+2. ICON (İkon)
+   - 40x40px container
+   - 24x24px ikon
+   - Background color özelleştirilebilir
+   
+   <ListItem 
+     leadingType="icon"
+     leadingIcon={require('../assets/icons/heart.png')}
+     leadingBackgroundColor="#FFE8E8"
+     titleText="Sağlık"
+     supportingText="Günlük egzersiz"
+   />
+
+3. NONE (Yok)
+   <ListItem 
+     leadingType="none"
+     titleText="Sadece Metin"
+     supportingText="Ikon olmadan"
+   />
+
+================================================================================
+5. TRAILING ITEM (Sağ Taraf)
+================================================================================
+
+1. MORE (Üç Nokta)
+   - Varsayılan
+   - Tıklanabilir
+   - Menü açmak için
+   
+   <ListItem 
+     trailingType="more"
+     onTrailingPress={handleMenuPress}
+     titleText="Ayarlar"
+     supportingText="Uygulama ayarları"
+   />
+
+2. ICON (İkon)
+   - 24x24px
+   - Özel ikon
+   
+   <ListItem 
+     trailingType="icon"
+     trailingIcon={require('../assets/icons/arrow-right.png')}
+     onTrailingPress={handleNavigate}
+     titleText="Profil"
+     supportingText="Profil ayarları"
+   />
+
+3. NONE (Yok)
+   <ListItem 
+     showTrailingItem={false}
+     titleText="Basit Liste"
+     supportingText="Sağ ikon yok"
+   />
+
+================================================================================
+6. ÖRNEK KULLANIM SENARYOLARı
+================================================================================
+
+SENARYO 1: Kullanıcı Listesi
+┌────────────────────────────────────────────────────────────────────┐
+│ <ListItem                                                          │
+│   leadingType="image"                                              │
+│   leadingImage={require('../assets/users/user1.png')}             │
+│   titleText="Ahmet Yılmaz"                                         │
+│   supportingText="Online"                                          │
+│   trailingType="more"                                              │
+│   onPress={() => openProfile(user.id)}                            │
+│   onTrailingPress={() => openMenu(user.id)}                       │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+
+SENARYO 2: Ayarlar Menüsü
+┌────────────────────────────────────────────────────────────────────┐
+│ <ListItem                                                          │
+│   leadingType="icon"                                               │
+│   leadingIcon={require('../assets/icons/notification.png')}       │
+│   leadingBackgroundColor="#E8F5FF"                                 │
+│   titleText="Bildirimler"                                          │
+│   supportingText="Anlık bildirim ayarları"                         │
+│   trailingType="icon"                                              │
+│   trailingIcon={require('../assets/icons/arrow-right.png')}       │
+│   onPress={() => navigate('Notifications')}                       │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+
+SENARYO 3: İstatistikler
+┌────────────────────────────────────────────────────────────────────┐
+│ <ListItem                                                          │
+│   leadingType="icon"                                               │
+│   leadingIcon={require('../assets/icons/chart.png')}              │
+│   leadingBackgroundColor="#E8FFE8"                                 │
+│   titleText="7 Gün Sigara İçmedin"                                 │
+│   supportingText="Devam et!"                                       │
+│   showTrailingItem={false}                                         │
+│   variant="compact"                                                │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+
+SENARYO 4: Dark Mode
+┌────────────────────────────────────────────────────────────────────┐
+│ <ListItem                                                          │
+│   leadingType="image"                                              │
+│   leadingImage={require('../assets/avatar.png')}                  │
+│   titleText="Profil"                                               │
+│   supportingText="Profil bilgilerini düzenle"                      │
+│   darkMode={true}                                                  │
+│   onPress={handleProfilePress}                                     │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+
+SENARYO 5: Liste ile Kullanım
+┌────────────────────────────────────────────────────────────────────┐
+│ <FlatList                                                          │
+│   data={items}                                                     │
+│   keyExtractor={(item) => item.id}                                 │
+│   contentContainerStyle={{ gap: 12, padding: 20 }}                │
+│   renderItem={({ item }) => (                                      │
+│     <ListItem                                                      │
+│       leadingType="icon"                                           │
+│       leadingIcon={item.icon}                                      │
+│       leadingBackgroundColor={item.color}                          │
+│       titleText={item.title}                                       │
+│       supportingText={item.subtitle}                               │
+│       onPress={() => handleItemPress(item)}                        │
+│     />                                                             │
+│   )}                                                               │
+│ />                                                                 │
+└────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+7. TASARIM ÖZELLİKLERİ
+================================================================================
+
+📐 BOYUTLAR:
+- Genişlik: 100% (responsive)
+- Yükseklik: 74px (default), 60px (compact)
+- Padding: 16px (default), 12px (compact)
+- Border Radius: 16px
+- Gap: 12px (ana), 16px (main içi)
+
+🎨 RENKLER:
+- Background: #FFFFFF (Light), #1C1C1E (Dark)
+- Title: #54565F (Light), #FFFFFF (Dark)
+- Supporting: #8E949F (Light), #A0A0A0 (Dark)
+- Shadow: rgba(44, 44, 50, 0.16)
+
+📏 LEADING ITEM:
+- Boyut: 40x40px
+- Border Radius: 8px
+- Icon size: 24x24px (içinde)
+
+📏 TRAILING ITEM:
+- Boyut: 24x24px
+- More dots: 4x4px her biri
+
+✨ SHADOW:
+- Offset: (0, 1)
+- Opacity: 1
+- Radius: 4px
+- Elevation: 2 (Android)
+
+================================================================================
+8. RESPONSIVE TASARIM
+================================================================================
+
+Tüm boyutlar react-native-size-matters ile responsive:
+- scale() → Genişlik
+- verticalScale() → Yükseklik
+- moderateScale() → Font ve border radius
+
+Farklı ekran boyutlarında otomatik ölçeklenir:
+✅ iPhone SE (küçük)
+✅ iPhone 14 (orta)
+✅ iPhone 15 Pro Max (büyük)
+✅ iPad (tablet)
+✅ Android cihazlar
+
+================================================================================
+9. BEST PRACTICES
+================================================================================
+
+✅ YAPILMASI GEREKENLER:
+1. Title için kısa ve açıklayıcı metinler kullanın
+2. Supporting text için ek bilgi verin
+3. onPress handler'ı her zaman tanımlayın
+4. Liste kullanımında gap ile ayırın
+5. Dark mode için darkMode prop'unu kullanın
+
+❌ YAPILMAMASI GEREKENLER:
+1. Çok uzun title metinleri (numberOfLines=1)
+2. Leading item olmadan liste (görsel tutarsızlık)
+3. Tıklanamayan liste öğeleri (kullanıcı deneyimi)
+4. Tutarsız leading background renkleri
+
+================================================================================
+10. EK BİLGİLER
+================================================================================
+
+📁 Dosya Yapısı:
+src/components/ListItem/
+  ├── ListItem.js (Component)
+  ├── ListItem.styles.js (Styles)
+  └── index.js (Export)
+
+🎨 Gereksinimler:
+- react-native-size-matters
+- DMSans fonts
+- Colors constants
+
+📚 İlgili Componentler:
+- Button
+- TopNavigation
+- NavigationDots
+
+================================================================================
+Son Güncelleme: Ekim 2025
+Versiyon: 1.0
+================================================================================
+

@@ -1,0 +1,435 @@
+═══════════════════════════════════════════════════════════════════════════════
+   📻 LISTITEM RADIO BUTTON KULLANIM KILAVUZU
+═══════════════════════════════════════════════════════════════════════════════
+
+Bu dosya, ListItem componentinin Radio Button özelliğinin detaylı kullanım 
+kılavuzudur. Radio button'lar, kullanıcının bir liste içinden TEK bir seçenek
+seçmesine olanak tanır.
+
+═══════════════════════════════════════════════════════════════════════════════
+📋 İÇİNDEKİLER
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Temel Kullanım
+2. Radio Button Props
+3. State Yönetimi
+4. Hazır Şablonlar
+5. Örnekler
+6. Dark Mode Desteği
+7. Özelleştirme
+8. Checkbox vs Radio Farkları
+
+═══════════════════════════════════════════════════════════════════════════════
+1️⃣ TEMEL KULLANIM
+═══════════════════════════════════════════════════════════════════════════════
+
+Radio button kullanmak için trailingType="radio" olarak ayarlanmalıdır:
+
+<ListItem 
+  titleText="Seçenek 1"
+  trailingType="radio"
+  radioState="active"
+  onRadioChange={(isActive) => handleRadioChange(1)}
+/>
+
+═══════════════════════════════════════════════════════════════════════════════
+2️⃣ RADIO BUTTON PROPS
+═══════════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────┬─────────────────────┬───────────────────────────────┐
+│ Prop                │ Type                │ Açıklama                      │
+├─────────────────────┼─────────────────────┼───────────────────────────────┤
+│ trailingType        │ string              │ 'radio' olarak ayarla         │
+│ radioState          │ string              │ 'active' veya 'inactive'      │
+│ onRadioChange       │ function            │ Radio tıklandığında çalışır   │
+│ darkMode            │ boolean             │ Dark mode desteği             │
+└─────────────────────┴─────────────────────┴───────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════════
+3️⃣ STATE YÖNETİMİ
+═══════════════════════════════════════════════════════════════════════════════
+
+Radio button'lar TEK SEÇİM mantığıyla çalışır. State yönetimi:
+
+// ✅ Doğru Kullanım
+const [selectedOption, setSelectedOption] = useState(1);
+
+const handleRadioChange = (id) => {
+  setSelectedOption(id); // Sadece seçilen ID'yi kaydet
+};
+
+// Render
+{options.map((option) => (
+  <ListItem 
+    key={option.id}
+    titleText={option.title}
+    trailingType="radio"
+    radioState={selectedOption === option.id ? 'active' : 'inactive'}
+    onRadioChange={() => handleRadioChange(option.id)}
+  />
+))}
+
+
+// ❌ Yanlış Kullanım (Her item için ayrı state)
+const [option1, setOption1] = useState(false);
+const [option2, setOption2] = useState(false);
+
+═══════════════════════════════════════════════════════════════════════════════
+4️⃣ HAZIR ŞABLONLAR
+═══════════════════════════════════════════════════════════════════════════════
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ 📋 ŞABLON 1: Basit Radio Liste                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+import React, { useState } from 'react';
+import { View, ScrollView } from 'react-native';
+import ListItem from './components/ListItem';
+
+const RadioExample = () => {
+  const [selected, setSelected] = useState(1);
+  
+  const options = [
+    { id: 1, title: 'Seçenek 1' },
+    { id: 2, title: 'Seçenek 2' },
+    { id: 3, title: 'Seçenek 3' },
+  ];
+  
+  return (
+    <ScrollView>
+      {options.map((option) => (
+        <ListItem 
+          key={option.id}
+          leadingType="none"
+          titleText={option.title}
+          trailingType="radio"
+          radioState={selected === option.id ? 'active' : 'inactive'}
+          onRadioChange={() => setSelected(option.id)}
+        />
+      ))}
+    </ScrollView>
+  );
+};
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ 📋 ŞABLON 2: İkonlu Radio Liste                                          ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+const [selected, setSelected] = useState(1);
+
+const options = [
+  { 
+    id: 1, 
+    title: 'Seçenek 1',
+    icon: require('./icon1.png'),
+    backgroundColor: '#E8F5FF'
+  },
+  { 
+    id: 2, 
+    title: 'Seçenek 2',
+    icon: require('./icon2.png'),
+    backgroundColor: '#FFE8F5'
+  },
+];
+
+{options.map((option) => (
+  <ListItem 
+    key={option.id}
+    leadingType="icon"
+    leadingIcon={option.icon}
+    leadingBackgroundColor={option.backgroundColor}
+    titleText={option.title}
+    trailingType="radio"
+    radioState={selected === option.id ? 'active' : 'inactive'}
+    onRadioChange={() => setSelected(option.id)}
+  />
+))}
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ 📋 ŞABLON 3: Açıklamalı Radio Liste                                      ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+const [selected, setSelected] = useState(1);
+
+const options = [
+  { 
+    id: 1, 
+    title: 'Günlük Plan',
+    description: '₺9.99/ay'
+  },
+  { 
+    id: 2, 
+    title: 'Aylık Plan',
+    description: '₺29.99/ay - %25 indirim'
+  },
+  { 
+    id: 3, 
+    title: 'Yıllık Plan',
+    description: '₺99.99/yıl - %50 indirim'
+  },
+];
+
+{options.map((option) => (
+  <ListItem 
+    key={option.id}
+    leadingType="none"
+    titleText={option.title}
+    hasSupportingText={true}
+    supportingText={option.description}
+    trailingType="radio"
+    radioState={selected === option.id ? 'active' : 'inactive'}
+    onRadioChange={() => setSelected(option.id)}
+  />
+))}
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ 📋 ŞABLON 4: Onboarding2 Örneği (Sigara Sayısı)                          ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+const [selectedOption, setSelectedOption] = useState(1);
+
+const options = [
+  { id: 1, title: '1-5 sigara' },
+  { id: 2, title: '6-10 sigara' },
+  { id: 3, title: '11-20 sigara' },
+  { id: 4, title: '20+ sigara' },
+];
+
+const handleRadioChange = (id) => {
+  setSelectedOption(id);
+};
+
+<ScrollView style={styles.content} contentContainerStyle={styles.listContainer}>
+  <Text style={styles.heading}>Günde ortalama kaç sigara içiyorsunuz?</Text>
+  
+  {options.map((option) => (
+    <ListItem 
+      key={option.id}
+      leadingType="none"
+      titleText={option.title}
+      hasSupportingText={false}
+      trailingType="radio"
+      radioState={selectedOption === option.id ? 'active' : 'inactive'}
+      onRadioChange={() => handleRadioChange(option.id)}
+    />
+  ))}
+</ScrollView>
+
+═══════════════════════════════════════════════════════════════════════════════
+5️⃣ ÖRNEKLER
+═══════════════════════════════════════════════════════════════════════════════
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ ÖRNEK 1: Dil Seçimi                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+const [language, setLanguage] = useState('tr');
+
+const languages = [
+  { id: 'tr', name: 'Türkçe' },
+  { id: 'en', name: 'English' },
+  { id: 'de', name: 'Deutsch' },
+];
+
+{languages.map((lang) => (
+  <ListItem 
+    titleText={lang.name}
+    trailingType="radio"
+    radioState={language === lang.id ? 'active' : 'inactive'}
+    onRadioChange={() => setLanguage(lang.id)}
+  />
+))}
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ ÖRNEK 2: Ödeme Yöntemi Seçimi                                            ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+const [paymentMethod, setPaymentMethod] = useState('card');
+
+const methods = [
+  { 
+    id: 'card', 
+    title: 'Kredi Kartı',
+    icon: require('./icons/card.png'),
+    color: '#E8F5FF'
+  },
+  { 
+    id: 'bank', 
+    title: 'Banka Transferi',
+    icon: require('./icons/bank.png'),
+    color: '#FFE8F5'
+  },
+  { 
+    id: 'paypal', 
+    title: 'PayPal',
+    icon: require('./icons/paypal.png'),
+    color: '#FFF3E8'
+  },
+];
+
+{methods.map((method) => (
+  <ListItem 
+    leadingType="icon"
+    leadingIcon={method.icon}
+    leadingBackgroundColor={method.color}
+    titleText={method.title}
+    trailingType="radio"
+    radioState={paymentMethod === method.id ? 'active' : 'inactive'}
+    onRadioChange={() => setPaymentMethod(method.id)}
+  />
+))}
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ ÖRNEK 3: Zorluk Seviyesi Seçimi                                          ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+const [difficulty, setDifficulty] = useState('medium');
+
+const difficulties = [
+  { 
+    id: 'easy', 
+    title: 'Kolay',
+    description: 'Başlangıç seviyesi için'
+  },
+  { 
+    id: 'medium', 
+    title: 'Orta',
+    description: 'Deneyimliler için'
+  },
+  { 
+    id: 'hard', 
+    title: 'Zor',
+    description: 'Uzmanlar için'
+  },
+];
+
+{difficulties.map((level) => (
+  <ListItem 
+    titleText={level.title}
+    hasSupportingText={true}
+    supportingText={level.description}
+    trailingType="radio"
+    radioState={difficulty === level.id ? 'active' : 'inactive'}
+    onRadioChange={() => setDifficulty(level.id)}
+  />
+))}
+
+═══════════════════════════════════════════════════════════════════════════════
+6️⃣ DARK MODE DESTEĞİ
+═══════════════════════════════════════════════════════════════════════════════
+
+Radio button otomatik olarak dark mode'u destekler:
+
+// Light Mode
+<ListItem 
+  titleText="Seçenek"
+  trailingType="radio"
+  radioState="active"
+  darkMode={false}  // Varsayılan
+/>
+
+// Dark Mode
+<ListItem 
+  titleText="Seçenek"
+  trailingType="radio"
+  radioState="active"
+  darkMode={true}  // Dark mode aktif
+/>
+
+┌─────────────────────┬─────────────────────┬───────────────────────────────┐
+│ Durum               │ Light Mode          │ Dark Mode                     │
+├─────────────────────┼─────────────────────┼───────────────────────────────┤
+│ Inactive (dış)      │ Gray/5 (#F4F4F6)    │ Gray/90 (#303236)             │
+│ Inactive (border)   │ Gray/20 (#C5C8CE)   │ Gray/60 (#54565F)             │
+│ Active (iç nokta)   │ Brand/50 (#75D275)  │ Brand/50 (#75D275)            │
+└─────────────────────┴─────────────────────┴───────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════════
+7️⃣ ÖZELLEŞTİRME
+═══════════════════════════════════════════════════════════════════════════════
+
+Radio button'ların görünümü ListItem.styles.js'de özelleştirilebilir:
+
+// Boyut Değişikliği
+radioContainer: {
+  width: scale(30),      // Varsayılan: 24
+  height: verticalScale(30),  // Varsayılan: 24
+},
+radio: {
+  width: scale(24),      // Varsayılan: 18
+  height: verticalScale(24),  // Varsayılan: 18
+},
+radioInner: {
+  width: scale(14),      // Varsayılan: 10
+  height: verticalScale(14),  // Varsayılan: 10
+},
+
+// Renk Değişikliği
+radio: {
+  backgroundColor: '#FFFFFF',  // Varsayılan: #F4F4F6
+  borderColor: '#000000',      // Varsayılan: #C5C8CE
+},
+radioInner: {
+  backgroundColor: '#FF0000',  // Varsayılan: #75D275
+},
+
+═══════════════════════════════════════════════════════════════════════════════
+8️⃣ CHECKBOX VS RADIO FARKLARI
+═══════════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────┬─────────────────────┬───────────────────────────────┐
+│ Özellik             │ Checkbox            │ Radio Button                  │
+├─────────────────────┼─────────────────────┼───────────────────────────────┤
+│ Seçim Sayısı        │ Çoklu (0+)          │ Tekli (1)                     │
+│ Şekil               │ Kare (4px radius)   │ Yuvarlak (360px radius)       │
+│ İşaret              │ Checkmark (✓)       │ İç Nokta (●)                  │
+│ State               │ checked/unchecked   │ active/inactive               │
+│ Prop                │ checkboxState       │ radioState                    │
+│ Callback            │ onCheckboxChange    │ onRadioChange                 │
+│ Kullanım Alanı      │ Tercihler, Filtreler│ Seçenekler, Ayarlar          │
+└─────────────────────┴─────────────────────┴───────────────────────────────┘
+
+ÖRNEK KARŞILAŞTIRMA:
+
+// ✅ CHECKBOX - Çoklu Seçim
+// "Hangi bildirimleri almak istersiniz?" (birden fazla seçilebilir)
+<ListItem trailingType="checkbox" checkboxState="checked" />
+<ListItem trailingType="checkbox" checkboxState="unchecked" />
+<ListItem trailingType="checkbox" checkboxState="checked" />
+
+// ✅ RADIO - Tekli Seçim
+// "Cinsiyetiniz nedir?" (sadece bir tane seçilebilir)
+<ListItem trailingType="radio" radioState="active" />
+<ListItem trailingType="radio" radioState="inactive" />
+<ListItem trailingType="radio" radioState="inactive" />
+
+═══════════════════════════════════════════════════════════════════════════════
+📚 EK KAYNAKLAR
+═══════════════════════════════════════════════════════════════════════════════
+
+• LISTITEM_KULLANIM_KILAVUZU.txt - Genel ListItem kullanımı
+• LISTITEM_CUSTOMIZATION.txt - Özelleştirme rehberi
+• LISTITEM_CHECKBOX_TEMPLATES.txt - Checkbox şablonları
+
+═══════════════════════════════════════════════════════════════════════════════
+✅ ÖZET
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Radio button TEK SEÇİM içindir
+2. trailingType="radio" olarak ayarlanır
+3. radioState: "active" veya "inactive"
+4. State yönetimi: Tek bir selectedOption değişkeni
+5. onRadioChange ile seçim değişikliği yakalanır
+6. Dark mode otomatik desteklenir
+7. Checkbox'tan farkı: Şekil (●) ve tek seçim mantığı
+
+═══════════════════════════════════════════════════════════════════════════════
+Son güncelleme: Ekim 2025
+Versiyon: 1.0.0
+═══════════════════════════════════════════════════════════════════════════════
+

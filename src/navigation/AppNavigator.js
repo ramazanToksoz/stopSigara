@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Import navigators
 import WelcomeNavigator from './WelcomeNavigator';
+import OnboardingNavigator from './OnboardingNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,8 +24,14 @@ const AppNavigator = () => {
           component={WelcomeNavigator}
         />
         
+        {/* Onboarding Flow (Onboarding1,2,3,4) */}
+        <Stack.Screen 
+          name="Onboarding" 
+          component={OnboardingNavigator}
+        />
+        
         {/* Future screens will be added here */}
-        {/* Onboarding, Home, etc. */}
+        {/* Home, etc. */}
       </Stack.Navigator>
     </NavigationContainer>
   );

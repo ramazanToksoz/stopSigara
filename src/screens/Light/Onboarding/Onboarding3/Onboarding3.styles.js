@@ -5,64 +5,53 @@ import { Colors } from '../../../../constants/Colors';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: scale(20),
+    backgroundColor: Colors.gray[5],
   },
-  title: {
-    fontSize: moderateScale(28),
-    fontWeight: 'bold',
-    color: Colors.primary,
-    marginBottom: verticalScale(20),
-    textAlign: 'center',
+  statusBar: {
+    marginTop: verticalScale(30),
   },
-  subtitle: {
-    fontSize: moderateScale(16),
-    color: Colors.textSecondary,
-    textAlign: 'center',
-    marginBottom: verticalScale(40),
-    lineHeight: moderateScale(24),
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+  content: {
+    flex: 1,
     paddingHorizontal: scale(20),
   },
-  backButton: {
-    backgroundColor: Colors.border,
-    paddingHorizontal: scale(30),
-    paddingVertical: verticalScale(15),
-    borderRadius: moderateScale(25),
-    flex: 0.4,
+  scrollContent: {
+    paddingTop: verticalScale(20),
+    paddingBottom: verticalScale(30),
+  },
+  title: {
+    fontSize: moderateScale(24),
+    fontFamily: 'DMSans-Bold',
+    color: Colors.gray[80],
+    marginBottom: verticalScale(28),
+    textAlign: 'center',
+    marginTop: verticalScale(20),
+  },
+  methodsContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: scale(16),
+    alignSelf: 'stretch',
+  },
+  buttonContainer: {
+    paddingHorizontal: scale(20),
+    paddingBottom: verticalScale(40),
+    paddingTop: verticalScale(20),
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+  modalContent: {
+    backgroundColor: "#FFFFFF",
+    borderTopLeftRadius: moderateScale(32),
+    borderTopRightRadius: moderateScale(32),
+    paddingBottom: verticalScale(40),
+  },
+  datePickerContainer: {
     alignItems: 'center',
-  },
-  backButtonText: {
-    color: Colors.text,
-    fontSize: moderateScale(16),
-    fontWeight: '600',
-  },
-  finishButton: {
-    backgroundColor: Colors.success,
-    paddingHorizontal: scale(30),
-    paddingVertical: verticalScale(15),
-    borderRadius: moderateScale(25),
-    flex: 0.4,
-    alignItems: 'center',
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: verticalScale(2),
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: moderateScale(3.84),
-  },
-  finishButtonText: {
-    color: Colors.background,
-    fontSize: moderateScale(16),
-    fontWeight: '600',
+    paddingTop: verticalScale(20),
+    paddingBottom: verticalScale(20),
   },
 });
 

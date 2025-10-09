@@ -1,0 +1,124 @@
+TEXTAREA COMPONENT KULLANIM KILAVUZU
+=====================================
+
+TEMEL KULLANIM
+--------------
+
+import TextArea from '../components/TextArea';
+
+const [text, setText] = useState('');
+
+<TextArea
+  value={text}
+  onChangeText={setText}
+  placeholder="Notunuzu yazın..."
+/>
+
+
+ÖZELLİKLER (Props)
+------------------
+
+1. value (string)
+   - TextArea içeriği
+   - Örnek: value={text}
+
+2. onChangeText (function)
+   - Metin değiştiğinde çalışır
+   - Örnek: onChangeText={(newText) => setText(newText)}
+
+3. placeholder (string)
+   - Boş olduğunda gösterilecek metin
+   - Örnek: placeholder="Buraya yazın..."
+
+4. maxLength (number)
+   - Maksimum karakter sayısı
+   - Örnek: maxLength={500}
+
+5. editable (boolean)
+   - Düzenlenebilir mi?
+   - Default: true
+   - Örnek: editable={false}
+
+6. darkMode (boolean)
+   - Dark mode aktif mi?
+   - Default: false
+   - Örnek: darkMode={true}
+
+7. style (object)
+   - Ek stil eklemek için
+   - Örnek: style={{ marginTop: 20 }}
+
+
+STATE'LER
+---------
+
+Light Mode:
+- Empty: Boş haldeki görünüm
+- Active: Focus olduğunda (yeşil gölge)
+- Filled: İçerik girildiğinde
+
+Dark Mode:
+- Empty: Boş haldeki görünüm
+- Active: Focus olduğunda
+- Filled: İçerik girildiğinde
+
+
+ÖRNEKLER
+--------
+
+// Basit kullanım
+const [note, setNote] = useState('');
+
+<TextArea
+  value={note}
+  onChangeText={setNote}
+  placeholder="Notunuzu buraya yazın..."
+/>
+
+
+// Dark mode ile
+<TextArea
+  value={note}
+  onChangeText={setNote}
+  placeholder="Notunuzu buraya yazın..."
+  darkMode={true}
+/>
+
+
+// Karakter limiti ile
+<TextArea
+  value={note}
+  onChangeText={setNote}
+  placeholder="Maksimum 200 karakter..."
+  maxLength={200}
+/>
+
+
+// Readonly (Sadece okuma)
+<TextArea
+  value={savedNote}
+  placeholder="Not bulunamadı"
+  editable={false}
+/>
+
+
+// Custom stil ile
+<TextArea
+  value={note}
+  onChangeText={setNote}
+  placeholder="Not ekle..."
+  style={{
+    marginTop: 20,
+    marginBottom: 10,
+  }}
+/>
+
+
+NOTLAR
+------
+- Otomatik olarak focus/blur state'leri yönetilir
+- Light mode'da focus olunca yeşil gölge (#208F20)
+- Multiline TextInput kullanır
+- 140px minimum yükseklik
+- Responsive tasarım (react-native-size-matters)
+

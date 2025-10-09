@@ -1,0 +1,527 @@
+═══════════════════════════════════════════════════════════════════════════════
+   🎴 CARDMETHOD COMPONENT KULLANIM KILAVUZU
+═══════════════════════════════════════════════════════════════════════════════
+
+Bu dosya, CardMethod componentinin detaylı kullanım kılavuzudur. CardMethod,
+seçilebilir kart tasarımı için kullanılır (örn: yöntem seçimi, plan seçimi).
+
+═══════════════════════════════════════════════════════════════════════════════
+📋 İÇİNDEKİLER
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Temel Kullanım
+2. Props Listesi
+3. Hazır Şablonlar
+4. State Yönetimi
+5. Dark Mode
+6. Özelleştirme
+7. Örnekler
+
+═══════════════════════════════════════════════════════════════════════════════
+1️⃣ TEMEL KULLANIM
+═══════════════════════════════════════════════════════════════════════════════
+
+import CardMethod from './components/CardMethod';
+import { useState } from 'react';
+
+const MyScreen = () => {
+  const [selected, setSelected] = useState(null);
+  
+  return (
+    <View style={{ flexDirection: 'row', gap: 16 }}>
+      <CardMethod 
+        title="Cold Turkey"
+        description="Quit on chosen date."
+        icon={require('./icons/calendar.png')}
+        selected={selected === 'cold-turkey'}
+        onPress={() => setSelected('cold-turkey')}
+      />
+      
+      <CardMethod 
+        title="Gradual Reduction"
+        description="Tapering off over time."
+        icon={require('./icons/trend-down.png')}
+        selected={selected === 'gradual'}
+        onPress={() => setSelected('gradual')}
+      />
+    </View>
+  );
+};
+
+═══════════════════════════════════════════════════════════════════════════════
+2️⃣ PROPS LİSTESİ
+═══════════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────┬─────────────────────┬───────────────────────────────┐
+│ Prop                │ Type                │ Default / Açıklama            │
+├─────────────────────┼─────────────────────┼───────────────────────────────┤
+│ title               │ string              │ 'Method Title'                │
+│ description         │ string              │ 'Method description'          │
+│ icon                │ image source        │ -                             │
+│ selected            │ boolean             │ false                         │
+│ onPress             │ function            │ -                             │
+│ darkMode            │ boolean             │ false                         │
+│ containerStyle      │ object              │ -                             │
+└─────────────────────┴─────────────────────┴───────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════════
+3️⃣ HAZIR ŞABLONLAR
+═══════════════════════════════════════════════════════════════════════════════
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ ŞABLON 1: Tek Seçim (Radio Button Mantığı)                               ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+import { View } from 'react-native';
+import { useState } from 'react';
+import CardMethod from './components/CardMethod';
+
+const MethodSelection = () => {
+  const [selectedMethod, setSelectedMethod] = useState(null);
+  
+  const methods = [
+    {
+      id: 'cold-turkey',
+      title: 'Cold Turkey',
+      description: 'Quit on chosen date.',
+      icon: require('./icons/calendar.png'),
+    },
+    {
+      id: 'gradual',
+      title: 'Gradual Reduction',
+      description: 'Tapering off over time.',
+      icon: require('./icons/trend-down.png'),
+    },
+  ];
+  
+  return (
+    <View style={{ flexDirection: 'row', gap: 16 }}>
+      {methods.map((method) => (
+        <CardMethod 
+          key={method.id}
+          title={method.title}
+          description={method.description}
+          icon={method.icon}
+          selected={selectedMethod === method.id}
+          onPress={() => setSelectedMethod(method.id)}
+        />
+      ))}
+    </View>
+  );
+};
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ ŞABLON 2: Çoklu Seçim (Checkbox Mantığı)                                 ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+const MultiSelection = () => {
+  const [selectedMethods, setSelectedMethods] = useState([]);
+  
+  const toggleMethod = (id) => {
+    setSelectedMethods(prev => 
+      prev.includes(id)
+        ? prev.filter(item => item !== id)
+        : [...prev, id]
+    );
+  };
+  
+  const methods = [
+    { id: 'method1', title: 'Method 1', description: 'Description 1' },
+    { id: 'method2', title: 'Method 2', description: 'Description 2' },
+    { id: 'method3', title: 'Method 3', description: 'Description 3' },
+  ];
+  
+  return (
+    <View style={{ flexDirection: 'row', gap: 16, flexWrap: 'wrap' }}>
+      {methods.map((method) => (
+        <CardMethod 
+          key={method.id}
+          title={method.title}
+          description={method.description}
+          selected={selectedMethods.includes(method.id)}
+          onPress={() => toggleMethod(method.id)}
+        />
+      ))}
+    </View>
+  );
+};
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ ŞABLON 3: Grid Layout (3 Kart)                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+const GridSelection = () => {
+  const [selected, setSelected] = useState(null);
+  
+  const options = [
+    { id: 'option1', title: 'Option 1', description: 'Desc 1' },
+    { id: 'option2', title: 'Option 2', description: 'Desc 2' },
+    { id: 'option3', title: 'Option 3', description: 'Desc 3' },
+  ];
+  
+  return (
+    <View style={{ flexDirection: 'row', gap: 16, flexWrap: 'wrap' }}>
+      {options.map((option) => (
+        <View key={option.id} style={{ width: '30%' }}>
+          <CardMethod 
+            title={option.title}
+            description={option.description}
+            selected={selected === option.id}
+            onPress={() => setSelected(option.id)}
+          />
+        </View>
+      ))}
+    </View>
+  );
+};
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ ŞABLON 4: Onboarding3 Örneği (Gerçek Kullanım)                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+import { View, Text, ScrollView } from 'react-native';
+import { useState } from 'react';
+import CardMethod from './components/CardMethod';
+import Button from './components/Button';
+
+const Onboarding3 = () => {
+  const [selectedMethod, setSelectedMethod] = useState(null);
+  
+  const handleNext = () => {
+    console.log('Selected:', selectedMethod);
+  };
+  
+  const methods = [
+    {
+      id: 'cold-turkey',
+      title: 'Cold Turkey',
+      description: 'Quit on chosen date.',
+      icon: require('./icons/calendar.png'),
+    },
+    {
+      id: 'gradual',
+      title: 'Gradual Reduction',
+      description: 'Tapering off over time.',
+      icon: require('./icons/trend-down.png'),
+    },
+  ];
+  
+  return (
+    <View style={styles.container}>
+      <ScrollView>
+        <Text style={styles.title}>Nasıl bırakmak istiyorsun?</Text>
+        
+        <View style={{ flexDirection: 'row', gap: 16 }}>
+          {methods.map((method) => (
+            <CardMethod 
+              key={method.id}
+              title={method.title}
+              description={method.description}
+              icon={method.icon}
+              selected={selectedMethod === method.id}
+              onPress={() => setSelectedMethod(method.id)}
+            />
+          ))}
+        </View>
+      </ScrollView>
+      
+      <Button 
+        text="Devam Et"
+        onPress={handleNext}
+        disabled={!selectedMethod}
+      />
+    </View>
+  );
+};
+
+═══════════════════════════════════════════════════════════════════════════════
+4️⃣ STATE YÖNETİMİ
+═══════════════════════════════════════════════════════════════════════════════
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ Tek Seçim (Radio)                                                        ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+// State
+const [selected, setSelected] = useState(null);
+
+// Handler
+const handleSelect = (id) => {
+  setSelected(id);
+};
+
+// Render
+<CardMethod 
+  selected={selected === 'option1'}
+  onPress={() => handleSelect('option1')}
+/>
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ Çoklu Seçim (Checkbox)                                                   ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+// State
+const [selected, setSelected] = useState([]);
+
+// Handler
+const handleToggle = (id) => {
+  setSelected(prev => 
+    prev.includes(id)
+      ? prev.filter(item => item !== id)
+      : [...prev, id]
+  );
+};
+
+// Render
+<CardMethod 
+  selected={selected.includes('option1')}
+  onPress={() => handleToggle('option1')}
+/>
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ Form ile Kullanım                                                        ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+const [formData, setFormData] = useState({
+  method: null,
+  plan: null,
+});
+
+const handleMethodSelect = (methodId) => {
+  setFormData(prev => ({
+    ...prev,
+    method: methodId
+  }));
+};
+
+<CardMethod 
+  selected={formData.method === 'cold-turkey'}
+  onPress={() => handleMethodSelect('cold-turkey')}
+/>
+
+═══════════════════════════════════════════════════════════════════════════════
+5️⃣ DARK MODE
+═══════════════════════════════════════════════════════════════════════════════
+
+Dark mode kullanımı için darkMode prop'unu true yapın:
+
+// Light Mode
+<CardMethod 
+  title="Method"
+  description="Description"
+  darkMode={false}  // Varsayılan
+/>
+
+// Dark Mode
+<CardMethod 
+  title="Method"
+  description="Description"
+  darkMode={true}
+/>
+
+┌─────────────────────┬─────────────────────┬───────────────────────────────┐
+│ Element             │ Light Mode          │ Dark Mode                     │
+├─────────────────────┼─────────────────────┼───────────────────────────────┤
+│ Background          │ White (#FFFFFF)     │ Gray/80 (#3C3E44)             │
+│ Border (Normal)     │ Yok (shadow var)    │ Gray/90 (#303236)             │
+│ Border (Selected)   │ Secondary/40        │ Secondary/40 (#FAA04D)        │
+│ Title               │ Gray/60 (#54565F)   │ Gray/5 (#F4F4F6)              │
+│ Description         │ Gray/30 (#8E949F)   │ Gray/50 (#60646C)             │
+│ Icon                │ Secondary/40        │ Secondary/40 (#FAA04D)        │
+└─────────────────────┴─────────────────────┴───────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════════
+6️⃣ ÖZELLEŞTİRME
+═══════════════════════════════════════════════════════════════════════════════
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ Container Stili                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+<CardMethod 
+  title="Method"
+  description="Description"
+  containerStyle={{
+    backgroundColor: '#F0F0F0',
+    borderRadius: 20,
+    padding: 20,
+  }}
+/>
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ Özel Genişlik                                                             ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+<View style={{ width: 200 }}>
+  <CardMethod 
+    title="Method"
+    description="Description"
+  />
+</View>
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ Tam Genişlik                                                              ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+<CardMethod 
+  title="Method"
+  description="Description"
+  containerStyle={{ width: '100%' }}
+/>
+
+═══════════════════════════════════════════════════════════════════════════════
+7️⃣ ÖRNEKLER
+═══════════════════════════════════════════════════════════════════════════════
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ ÖRNEK 1: Plan Seçimi                                                     ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+const [plan, setPlan] = useState(null);
+
+const plans = [
+  { id: 'free', title: 'Free Plan', description: 'Basic features' },
+  { id: 'pro', title: 'Pro Plan', description: 'All features' },
+  { id: 'premium', title: 'Premium', description: 'Unlimited' },
+];
+
+<View style={{ flexDirection: 'row', gap: 16 }}>
+  {plans.map((item) => (
+    <CardMethod 
+      key={item.id}
+      title={item.title}
+      description={item.description}
+      selected={plan === item.id}
+      onPress={() => setPlan(item.id)}
+    />
+  ))}
+</View>
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ ÖRNEK 2: Zorluk Seviyesi                                                 ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+const [difficulty, setDifficulty] = useState(null);
+
+const levels = [
+  { id: 'easy', title: 'Kolay', description: 'Başlangıç' },
+  { id: 'medium', title: 'Orta', description: 'Deneyimli' },
+  { id: 'hard', title: 'Zor', description: 'Uzman' },
+];
+
+<View style={{ flexDirection: 'row', gap: 16 }}>
+  {levels.map((level) => (
+    <CardMethod 
+      key={level.id}
+      title={level.title}
+      description={level.description}
+      selected={difficulty === level.id}
+      onPress={() => setDifficulty(level.id)}
+    />
+  ))}
+</View>
+
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ ÖRNEK 3: Hedef Seçimi                                                    ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+const [goals, setGoals] = useState([]);
+
+const goalOptions = [
+  { id: 'health', title: 'Sağlık', description: 'Daha sağlıklı ol' },
+  { id: 'money', title: 'Para', description: 'Tasarruf et' },
+  { id: 'family', title: 'Aile', description: 'Aile için' },
+];
+
+const toggleGoal = (id) => {
+  setGoals(prev => 
+    prev.includes(id) ? prev.filter(g => g !== id) : [...prev, id]
+  );
+};
+
+<View style={{ flexDirection: 'row', gap: 16, flexWrap: 'wrap' }}>
+  {goalOptions.map((goal) => (
+    <CardMethod 
+      key={goal.id}
+      title={goal.title}
+      description={goal.description}
+      selected={goals.includes(goal.id)}
+      onPress={() => toggleGoal(goal.id)}
+    />
+  ))}
+</View>
+
+═══════════════════════════════════════════════════════════════════════════════
+🎨 TASARIM ÖZELLİKLERİ
+═══════════════════════════════════════════════════════════════════════════════
+
+BOYUTLAR:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Min Height: 118px
+• Padding: 18px
+• Gap: 12px
+• Border Radius: 18px
+• Icon Size: 32x32px
+
+TYPOGRAPHY:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Title:
+• Font: DMSans-Medium
+• Size: 16px
+• Line Height: 22px
+• Weight: 500
+• Color: Gray/60 (#54565F)
+
+Description:
+• Font: DMSans-Regular
+• Size: 13px
+• Line Height: 16px
+• Weight: 400
+• Color: Gray/30 (#8E949F)
+
+STATES:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Normal:
+• Background: White
+• Border: Yok
+• Shadow: Card shadow
+
+Selected:
+• Background: White
+• Border: 2px Secondary/40 (#FAA04D)
+• Shadow: Yok
+
+Dark Mode Normal:
+• Background: Gray/80 (#3C3E44)
+• Border: 1px Gray/90 (#303236)
+
+Dark Mode Selected:
+• Background: Gray/80 (#3C3E44)
+• Border: 2px Secondary/40 (#FAA04D)
+
+═══════════════════════════════════════════════════════════════════════════════
+✅ ÖZET
+═══════════════════════════════════════════════════════════════════════════════
+
+1. CardMethod seçilebilir kart componentidir
+2. Tek veya çoklu seçim için kullanılabilir
+3. Icon, title, description içerir
+4. Selected state ile border değişir
+5. Dark mode destekler
+6. Responsive tasarım (size-matters)
+7. TouchableOpacity ile tıklanabilir
+8. Özelleştirilebilir containerStyle
+
+═══════════════════════════════════════════════════════════════════════════════
+Son güncelleme: Ekim 2025
+Versiyon: 1.0.0
+═══════════════════════════════════════════════════════════════════════════════

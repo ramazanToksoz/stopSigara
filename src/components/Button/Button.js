@@ -5,7 +5,7 @@ import { styles } from './Button.styles';
 const Button = ({ 
   text,
   type = 'primary', // primary, neutral
-  buttonStyle = 'default', // default, outline, text, soft
+  buttonStyle = 'default', // default, outline, text, soft, chip
   size = 'default', // default, sm, xs
   mode = 'light', // light, dark
   disabled = false,
@@ -42,6 +42,13 @@ const Button = ({
         styleArray.push(styles.disabled_soft);
         if (isDark) styleArray.push(styles.disabled_soft_dark);
       }
+    } else if (buttonStyle === 'chip') {
+      styleArray.push(styles.chip);
+      if (type === 'primary') {
+        styleArray.push(styles.chip_selected);
+      } else {
+        styleArray.push(styles.chip_default);
+      }
     }
     
     return styleArray;
@@ -60,6 +67,12 @@ const Button = ({
       styleArray.push(styles[`text_${type}`]);
       if (buttonStyle === 'soft' && isDark && type === 'primary') {
         styleArray.push(styles.text_soft_dark);
+      }
+    } else if (buttonStyle === 'chip') {
+      if (type === 'primary') {
+        styleArray.push(styles.text_chip_selected);
+      } else {
+        styleArray.push(styles.text_chip_default);
       }
     }
     

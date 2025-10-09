@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as Font from 'expo-font';
 import AppNavigator from './src/navigation/AppNavigator';
-import Onboarding1 from './src/screens/Light/Onboarding/Onboarding1';
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -25,5 +24,5 @@ export default function App() {
     return null;
   }
 
-  return <AppNavigator/>;
+  return <AppNavigator />;
 }

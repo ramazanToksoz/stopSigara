@@ -5,64 +5,35 @@ import { Colors } from '../../../../constants/Colors';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: scale(20),
+    backgroundColor: Colors.gray[5],
   },
-  title: {
-    fontSize: moderateScale(28),
-    fontWeight: 'bold',
-    color: Colors.primary,
-    marginBottom: verticalScale(20),
+  statusBar: {
+    marginTop: verticalScale(30),
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: scale(20),
+    paddingBottom: verticalScale(50),
+  },
+  listContainer: {
+    gap: verticalScale(12),
+    paddingTop: verticalScale(20),
+    paddingBottom: verticalScale(30),
+  },
+  heading: {
+    fontSize: moderateScale(24),
+    fontWeight: '700',
+    fontFamily: 'DMSans-Bold',
+    color: Colors.gray[80],
+    marginBottom: verticalScale(8),
     textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: moderateScale(16),
-    color: Colors.textSecondary,
-    textAlign: 'left',
-    marginBottom: verticalScale(40),
-    lineHeight: moderateScale(28),
+    marginTop: verticalScale(20),
+    marginBottom: verticalScale(20),
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
     paddingHorizontal: scale(20),
-  },
-  backButton: {
-    backgroundColor: Colors.border,
-    paddingHorizontal: scale(30),
-    paddingVertical: verticalScale(15),
-    borderRadius: moderateScale(25),
-    flex: 0.4,
-    alignItems: 'center',
-  },
-  backButtonText: {
-    color: Colors.text,
-    fontSize: moderateScale(16),
-    fontWeight: '600',
-  },
-  nextButton: {
-    backgroundColor: Colors.primary,
-    paddingHorizontal: scale(30),
-    paddingVertical: verticalScale(15),
-    borderRadius: moderateScale(25),
-    flex: 0.4,
-    alignItems: 'center',
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: verticalScale(2),
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: moderateScale(3.84),
-  },
-  nextButtonText: {
-    color: Colors.background,
-    fontSize: moderateScale(16),
-    fontWeight: '600',
+    paddingBottom: verticalScale(40),
+    paddingTop: verticalScale(20),
   },
 });
 

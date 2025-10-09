@@ -202,5 +202,52 @@ export const styles = StyleSheet.create({
   textButton_xs: {
     gap: scale(8),
   },
+
+  // Chip Styles
+  chip: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: verticalScale(12),
+    paddingHorizontal: scale(16),
+    gap: scale(10),
+    minHeight: verticalScale(48),
+    height: verticalScale(54),
+    flex: 1,
+    borderRadius: moderateScale(14),
+    width: 'auto',
+  },
+
+  chip_default: {
+    backgroundColor: Colors.gray[10], // #E9EAEC
+  },
+
+  chip_selected: {
+    backgroundColor: Colors.gray[80], // #3C3E44
+    shadowColor: '#32313D',
+    shadowOffset: {
+      width: 0,
+      height: verticalScale(5),
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: moderateScale(12),
+    elevation: 8,
+  },
+
+  text_chip_default: {
+    fontSize: moderateScale(16),
+    lineHeight: moderateScale(22),
+    letterSpacing: -0.007,
+    fontFamily: 'DMSans-Bold',
+    color: Colors.gray[60], // #54565F
+  },
+
+  text_chip_selected: {
+    fontSize: moderateScale(16),
+    lineHeight: moderateScale(22),
+    letterSpacing: -0.007,
+    fontFamily: 'DMSans-Bold',
+    color: Colors.gray[0], // #FFFFFF
+  },
 });
 
