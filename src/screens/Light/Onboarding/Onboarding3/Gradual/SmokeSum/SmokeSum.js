@@ -5,12 +5,14 @@ import StatusBarComponent from '../../../../../../components/StatusBarComponent'
 import TopNavigation from '../../../../../../components/TopNavigation'
 import Button from '../../../../../../components/Button'
 import Slider from '../../../../../../components/Slider'
+import { useUser } from '../../../../../../context/UserContext'
 
 const SmokeSum = ({ navigation }) => {
+  const { updateUserData } = useUser();
   const [cigaretteCount, setCigaretteCount] = useState(20)
   
   const handleNext = () => {
-    // Navigate to next screen
+    updateUserData({ dailyCigarettes: cigaretteCount });
     console.log('Günlük sigara:', cigaretteCount)
     navigation.navigate('Target', { dailyCigarettes: cigaretteCount })
   }

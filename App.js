@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as Font from 'expo-font';
 import AppNavigator from './src/navigation/AppNavigator';
+import { UserProvider } from './src/context/UserContext';
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -24,5 +25,9 @@ export default function App() {
     return null;
   }
 
-  return <AppNavigator />;
+  return (
+    <UserProvider>
+      <AppNavigator />
+    </UserProvider>
+  );
 }

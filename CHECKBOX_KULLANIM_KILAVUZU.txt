@@ -1,0 +1,173 @@
+CHECKBOX COMPONENT KULLANIM KILAVUZU
+=====================================
+
+TEMEL KULLANIM
+--------------
+
+import Checkbox from '../components/Checkbox';
+
+const [checked, setChecked] = useState(false);
+
+<Checkbox 
+  checked={checked}
+  onPress={() => setChecked(!checked)}
+/>
+
+
+ÖZELLİKLER (Props)
+------------------
+
+1. checked (boolean)
+   - Checkbox işaretli mi?
+   - Default: false
+   - Örnek: checked={isChecked}
+
+2. onPress (function)
+   - Checkbox'a tıklandığında çalışır
+   - Örnek: onPress={() => setChecked(!checked)}
+
+3. darkMode (boolean)
+   - Dark mode aktif mi?
+   - Default: false
+   - false: Gri arkaplan (Light Mode)
+   - true: Koyu gri arkaplan (Dark Mode)
+   - Örnek: darkMode={true}
+
+4. disabled (boolean)
+   - Checkbox devre dışı mı?
+   - Default: false
+   - Örnek: disabled={true}
+
+
+CHECKBOX DURUMLARI
+------------------
+
+Light Mode (darkMode=false):
+- Unchecked: #F4F4F6 (Gray/5) arkaplan, #C5C8CE (Gray/20) border
+- Checked: #46E01F (Semantic/Success) arkaplan ve border, beyaz checkmark
+
+Dark Mode (darkMode=true):
+- Unchecked: #303236 (Gray/90) arkaplan, #54565F (Gray/60) border
+- Checked: #46E01F (Semantic/Success) arkaplan ve border, beyaz checkmark
+
+
+ÖRNEKLER
+--------
+
+// Basit kullanım
+const [accept, setAccept] = useState(false);
+
+<Checkbox 
+  checked={accept}
+  onPress={() => setAccept(!accept)}
+/>
+
+
+// Label ile birlikte (Beni Hatırla)
+const [keepSignedIn, setKeepSignedIn] = useState(false);
+
+<TouchableOpacity 
+  style={styles.checkboxContainer}
+  onPress={() => setKeepSignedIn(!keepSignedIn)}
+>
+  <Checkbox 
+    checked={keepSignedIn}
+    onPress={() => setKeepSignedIn(!keepSignedIn)}
+    darkMode={false}
+  />
+  <Text style={styles.checkboxLabel}>Beni Hatırla</Text>
+</TouchableOpacity>
+
+
+// Dark Mode
+<Checkbox 
+  checked={agreed}
+  onPress={() => setAgreed(!agreed)}
+  darkMode={true}
+/>
+
+
+// Disabled (devre dışı)
+<Checkbox 
+  checked={true}
+  onPress={() => {}}
+  disabled={true}
+/>
+
+
+// Terms & Conditions Örneği
+const [acceptTerms, setAcceptTerms] = useState(false);
+
+<View style={styles.termsContainer}>
+  <Checkbox 
+    checked={acceptTerms}
+    onPress={() => setAcceptTerms(!acceptTerms)}
+  />
+  <Text style={styles.termsText}>
+    I accept the <Text style={styles.link}>Terms & Conditions</Text>
+  </Text>
+</View>
+
+
+// Multiple Checkboxes
+const [preferences, setPreferences] = useState({
+  notifications: true,
+  emails: false,
+  updates: true,
+});
+
+<View>
+  <View style={styles.checkboxRow}>
+    <Checkbox 
+      checked={preferences.notifications}
+      onPress={() => setPreferences({
+        ...preferences,
+        notifications: !preferences.notifications
+      })}
+    />
+    <Text>Push Notifications</Text>
+  </View>
+  
+  <View style={styles.checkboxRow}>
+    <Checkbox 
+      checked={preferences.emails}
+      onPress={() => setPreferences({
+        ...preferences,
+        emails: !preferences.emails
+      })}
+    />
+    <Text>Email Updates</Text>
+  </View>
+</View>
+
+
+STIL ÖRNEKLERİ
+--------------
+
+// Checkbox Container
+checkboxContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: scale(10),
+},
+
+// Checkbox Label
+checkboxLabel: {
+  fontSize: moderateScale(14),
+  fontFamily: 'DMSans-Medium',
+  color: Colors.gray[40],
+  lineHeight: moderateScale(20),
+  letterSpacing: -0.006,
+},
+
+
+NOTLAR
+------
+- 18x18px boyutunda
+- 4px border radius
+- Checked durumda yeşil (#46E01F) arkaplan
+- Beyaz checkmark (10x7.17px)
+- TouchableOpacity ile tıklanabilir
+- activeOpacity: 0.7
+- Responsive tasarım (react-native-size-matters)
+

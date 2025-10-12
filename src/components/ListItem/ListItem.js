@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { styles } from './ListItem.styles';
+import LeadingItems from '../LeadingItems';
 
 const ListItem = ({
   // Type
@@ -8,13 +9,20 @@ const ListItem = ({
   
   // Leading Item (Sol taraf)
   hasLeadingItem = true,
-  leadingType = 'image', // 'image', 'icon', 'none'
+  leadingType = 'image', // 'image', 'icon', 'none', 'improvement', 'avatar', 'iconButton'
   leadingImage,
   leadingIcon,
   leadingBackgroundColor = '#E8F5E9',
   leadingSize = 40, // Özelleştirilebilir boyut
   leadingBorderRadius = 8, // Özelleştirilebilir border radius
   leadingIconSize = 24, // İkon boyutu
+  
+  // LeadingItems props for new types
+  leadingPercent, // Improvement tipi için
+  leadingTime, // Improvement tipi için
+  leadingCompleted, // Improvement tipi için
+  leadingAvatarSource, // Avatar tipi için
+  leadingOnPress, // IconButton tipi için
   
   // Text Content
   titleText = 'Title Text',
@@ -53,6 +61,51 @@ const ListItem = ({
   const renderLeadingItem = () => {
     if (!hasLeadingItem) return null;
     
+    // LeadingItems ile uyumlu yeni tipler - sadece leading kısmında
+    if (leadingType === 'improvement') {
+      return (
+        <View style={[styles.leadingContainer, { width: leadingSize, height: leadingSize }]}>
+          <LeadingItems
+            type="Improvement"
+            percent={leadingPercent || "30%"}
+            time={leadingTime || "1 Day"}
+            completed={leadingCompleted || false}
+            icon={leadingIcon}
+            iconSize={leadingSize}
+            darkMode={darkMode}
+          />
+        </View>
+      );
+    }
+    
+    if (leadingType === 'avatar') {
+      return (
+        <View style={[styles.leadingContainer, { width: leadingSize, height: leadingSize }]}>
+          <LeadingItems
+            type="Avatar"
+            avatarSource={leadingAvatarSource || leadingImage}
+            avatarSize={leadingSize}
+            darkMode={darkMode}
+          />
+        </View>
+      );
+    }
+    
+    if (leadingType === 'iconButton') {
+      return (
+        <View style={[styles.leadingContainer, { width: leadingSize, height: leadingSize }]}>
+          <LeadingItems
+            type="IconButton"
+            icon={leadingIcon}
+            iconSize={leadingSize}
+            onPress={leadingOnPress}
+            darkMode={darkMode}
+          />
+        </View>
+      );
+    }
+    
+    // Geleneksel tipler (geriye uyumluluk için)
     const leadingContainerStyle = {
       width: leadingSize,
       height: leadingSize,
@@ -235,7 +288,7 @@ const ListItem = ({
           {hasSupportingText && (
             <Text 
               style={finalSupportingStyle}
-              numberOfLines={1}
+              numberOfLines={0}
             >
               {supportingText}
             </Text>
@@ -269,7 +322,7 @@ const ListItem = ({
           {hasSupportingText && (
             <Text 
               style={finalSupportingStyle}
-              numberOfLines={1}
+              numberOfLines={0}
             >
               {supportingText}
             </Text>

@@ -1,4 +1,5 @@
 export const Colors = {
+  backgroundColor:"#FCFCFD",
   brand60: '#4F46E5',
   secondary60:"#F97316",
   gray60:"#4A4959",

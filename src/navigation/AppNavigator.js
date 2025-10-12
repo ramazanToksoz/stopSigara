@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Import navigators
 import WelcomeNavigator from './WelcomeNavigator';
 import OnboardingNavigator from './OnboardingNavigator';
+import AuthNavigator from './AuthNavigator';
+import HomeNavigator from './HomeNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,7 +14,7 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName="Welcome" 
+        initialRouteName="Auth" 
         screenOptions={{ 
           headerShown: false,
           animation: 'fade',
@@ -30,8 +32,17 @@ const AppNavigator = () => {
           component={OnboardingNavigator}
         />
         
-        {/* Future screens will be added here */}
-        {/* Home, etc. */}
+        {/* Auth Flow (Login, EmailLogin, etc.) */}
+        <Stack.Screen 
+          name="Auth" 
+          component={AuthNavigator}
+        />
+        
+        {/* Home Flow (ColdTurkey or Gradual based on user choice) */}
+        <Stack.Screen 
+          name="Home" 
+          component={HomeNavigator}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

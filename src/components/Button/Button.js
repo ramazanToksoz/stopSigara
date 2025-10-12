@@ -11,6 +11,7 @@ const Button = ({
   disabled = false,
   onPress,
   hideArrow = false, // Arrow'u gizlemek için
+  leftIcon = null, // Sol tarafta gösterilecek icon
 }) => {
   const isDark = mode === 'dark';
   
@@ -117,6 +118,16 @@ const Button = ({
       disabled={disabled}
       activeOpacity={0.7}
     >
+      {leftIcon && (
+        <Image 
+          source={leftIcon} 
+          style={{ 
+            width: size === 'xs' || size === 'sm' ? 18 : 20, 
+            height: size === 'xs' || size === 'sm' ? 18 : 20,
+          }} 
+          resizeMode="contain"
+        />
+      )}
       <Text style={getTextStyle()}>{text}</Text>
       {shouldShowArrow() && (
         <Image 

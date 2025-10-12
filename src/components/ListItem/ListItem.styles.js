@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   // Container
   container: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingVertical: verticalScale(16),
     paddingHorizontal: scale(16),
     gap: scale(12),
@@ -40,13 +40,18 @@ export const styles = StyleSheet.create({
   // Main (LeadingItem + Text)
   main: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: scale(16),
     flex: 1,
-    height: verticalScale(42),
+    minHeight: verticalScale(42),
   },
   
   // Leading Item
+  leadingContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
   leadingItem: {
     width: scale(40),
     height: verticalScale(40),
@@ -70,7 +75,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     flex: 1,
-    height: verticalScale(42),
+    minHeight: verticalScale(42),
   },
   textContainerFull: {
     flex: 1,
@@ -97,6 +102,8 @@ export const styles = StyleSheet.create({
     letterSpacing: -0.006,
     color: Colors.gray[30], // #8E949F
     width: '100%',
+    flex: 1,
+    flexWrap: 'wrap',
   },
   supportingTextDark: {
     color: '#A0A0A0',

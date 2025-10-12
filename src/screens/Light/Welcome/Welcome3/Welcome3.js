@@ -21,8 +21,7 @@ const Welcome3 = ({ navigation }) => {
   };
 
   const handleSignIn = () => {
-    // TODO: Navigate to sign in
-    console.log('Navigate to sign in');
+    navigation.navigate('Auth');
   };
 
   return (

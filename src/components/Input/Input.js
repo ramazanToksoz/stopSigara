@@ -22,6 +22,9 @@ const Input = ({
   secureTextEntry = false,
   showPasswordToggle = true,
   
+  // Separator
+  hideSeparator = false,
+  
   // Phone Props
   countryCode = '+90',
   countryFlag,
@@ -129,6 +132,11 @@ const Input = ({
       baseStyle.push(styles.textInputCode);
     }
     
+    // Password style when hidden
+    if (type === 'password' && !isPasswordVisible) {
+      baseStyle.push(styles.textInputPassword);
+    }
+    
     if (darkMode) {
       baseStyle.push(styles.textInputDark);
       if (isEmpty) baseStyle.push(styles.textInputDarkEmpty);
@@ -212,6 +220,7 @@ const Input = ({
   
   // Render Separator
   const renderSeparator = () => {
+    if (hideSeparator) return null;
     if (!isActive && isEmpty) return null;
     
     return (

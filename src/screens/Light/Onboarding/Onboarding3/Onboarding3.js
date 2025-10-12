@@ -7,8 +7,11 @@ import { Colors } from '../../../../constants/Colors'
 import CardMethod from '../../../../components/CardMethod'
 import Button from '../../../../components/Button'
 import DatePicker from '../../../../components/DatePicker'
+import { useUser } from '../../../../context/UserContext'
 
 const Onboarding3 = ({ navigation }) => {
+  const { updateQuitMethod, updateUserData } = useUser();
+  
   const handleSkip = () => {
     navigation.navigate('Onboarding4');
   };
@@ -17,10 +20,11 @@ const Onboarding3 = ({ navigation }) => {
     console.log("Next - Selected method:", selectedMethod);
     
     if (selectedMethod === 'gradual') {
-      // Yavaş yavaş azalt seçiliyse SmokeSum'a git
+      updateQuitMethod('gradual');
       navigation.navigate('SmokeSum');
     } else if (selectedMethod === 'cold-turkey' && quitDate) {
-      // Aniden bırak seçiliyse direkt Onboarding4'e git
+      updateQuitMethod('coldturkey');
+      updateUserData({ quitDate: quitDate.toISOString() });
       console.log("Quit date:", quitDate.toLocaleDateString('tr-TR'));
       navigation.navigate('Onboarding4');
     }

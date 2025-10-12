@@ -1,0 +1,78 @@
+BUTTON LEFT ICON KULLANIMI
+===========================
+
+Button komponentine sol tarafta icon ekleme özelliği eklendi.
+
+KULLANIM
+--------
+
+import Button from '../components/Button';
+
+<Button
+  text="Continue with Google"
+  type="neutral"
+  buttonStyle="soft"
+  size="default"
+  leftIcon={require('../assets/images/icons/Google_icon.png')}
+  hideArrow={true}
+  onPress={handlePress}
+/>
+
+
+YENİ ÖZELLIK
+------------
+
+leftIcon (image source)
+  - Sol tarafta gösterilecek icon
+  - require() ile image import edilmeli
+  - Örnek: leftIcon={require('../assets/images/icons/icon.png')}
+  - İkon boyutu otomatik ayarlanır:
+    * default size: 20x20
+    * sm/xs size: 18x18
+
+
+ÖRNEKLER
+--------
+
+// Google ile giriş butonu
+<Button
+  text="Continue with Google"
+  type="neutral"
+  buttonStyle="soft"
+  leftIcon={require('../assets/images/icons/Google_icon.png')}
+  hideArrow={true}
+/>
+
+// Apple ile giriş butonu
+<Button
+  text="Continue with Apple"
+  type="neutral"
+  buttonStyle="soft"
+  leftIcon={require('../assets/images/icons/Apple_icon.png')}
+  hideArrow={true}
+/>
+
+// Email ile giriş butonu
+<Button
+  text="Continue with Email"
+  type="neutral"
+  buttonStyle="soft"
+  leftIcon={require('../assets/images/icons/sms.png')}
+  hideArrow={true}
+/>
+
+// Hem sol icon hem sağ arrow (hideArrow=false veya belirtme)
+<Button
+  text="İleri Git"
+  type="primary"
+  leftIcon={require('../assets/images/icons/user.png')}
+/>
+
+
+NOTLAR
+------
+- leftIcon ve arrow (sağ ok) birlikte kullanılabilir
+- hideArrow={true} ile sağ ok gizlenebilir
+- Icon rengi otomatik tintColor almaz, orijinal renkli gösterilir
+- SSO (Social Sign-On) butonları için idealdir
+

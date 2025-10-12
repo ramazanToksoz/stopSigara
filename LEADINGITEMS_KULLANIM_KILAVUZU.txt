@@ -1,0 +1,488 @@
+LEADINGITEMS COMPONENT KULLANIM KILAVUZU
+===========================================
+
+## Genel Bakış
+LeadingItems component'i çoklu tip desteği ile tasarlanmış gelişmiş bir React Native bileşenidir. Figma tasarımına uygun olarak oluşturulmuş ve 11 farklı tip desteği sunar.
+
+## Dosya Yapısı
+- src/components/LeadingItems/LeadingItems.js (Ana component)
+- src/components/LeadingItems/LeadingItems.styles.js (Stil dosyası)
+- src/components/LeadingItems/index.js (Export dosyası)
+
+## Import Etme
+```javascript
+import LeadingItems from '../../components/LeadingItems';
+```
+
+## Temel Kullanım
+```javascript
+<LeadingItems />
+```
+
+## Props (Özellikler)
+
+### Tip Seçenekleri
+**type (string, opsiyonel)**
+- Açıklama: Component tipini belirler
+- Varsayılan: "Default"
+- Seçenekler: 'Default', 'IconWithBg', 'Icon', 'Payment', 'IconWithSoftBg', 'Social', 'Home', 'IconButton', 'Improvement', 'Locked Achievement', 'Avatar'
+
+### İçerik Özellikleri
+**title (string, opsiyonel)**
+- Açıklama: Başlık metni veya kullanıcı adı
+- Varsayılan: "Leading Items"
+- Örnek: 
+```javascript
+<LeadingItems title="Benim Başlığım" />
+```
+
+**subtitle (string, opsiyonel)**
+- Açıklama: Alt başlık metni
+- Varsayılan: undefined
+
+**percent (string, opsiyonel)**
+- Açıklama: Yüzde değeri (Improvement tipi için)
+- Varsayılan: "30%"
+
+**time (string, opsiyonel)**
+- Açıklama: Zaman bilgisi (Improvement tipi için)
+- Varsayılan: "1 Day"
+
+**completed (boolean, opsiyonel)**
+- Açıklama: Tamamlanma durumu
+- Varsayılan: false
+
+### İkon Özellikleri
+**icon (image source, opsiyonel)**
+- Açıklama: İkon kaynağı
+- Varsayılan: undefined
+
+**iconSize (number, opsiyonel)**
+- Açıklama: İkon boyutu
+- Varsayılan: 24
+
+**iconBackgroundColor (string, opsiyonel)**
+- Açıklama: İkon arka plan rengi
+- Varsayılan: '#E8F5E9'
+
+**iconBorderRadius (number, opsiyonel)**
+- Açıklama: İkon border radius
+- Varsayılan: 8
+
+### Avatar Özellikleri
+**avatarSource (image source, opsiyonel)**
+- Açıklama: Avatar resim kaynağı
+- Varsayılan: undefined
+
+**avatarSize (number, opsiyonel)**
+- Açıklama: Avatar boyutu
+- Varsayılan: 40
+
+### Ödeme Özellikleri
+**paymentIcon (image source, opsiyonel)**
+- Açıklama: Ödeme ikonu
+- Varsayılan: undefined
+
+**paymentSize (number, opsiyonel)**
+- Açıklama: Ödeme ikonu boyutu
+- Varsayılan: 48
+
+### Sosyal Medya Özellikleri
+**socialPlatform (string, opsiyonel)**
+- Açıklama: Sosyal medya platformu
+- Varsayılan: 'Facebook'
+- Seçenekler: 'Apple', 'Discord', 'Dribbble', 'Facebook', 'Figma', 'Github', 'Google', 'Instagram', 'LinkedIn', 'Medium', 'Pinterest', 'Reddit', 'Signal', 'Snapchat', 'Spotify', 'Telegram', 'TikTok', 'Tumblr', 'Behance', 'Twitch', 'VK', 'YouTube', 'X (Twitter)', 'Threads', 'WhatsApp', 'Messenger'
+
+### Başarı Özellikleri
+**achievementText (string, opsiyonel)**
+- Açıklama: Başarı metni
+- Varsayılan: "Title"
+
+**isLocked (boolean, opsiyonel)**
+- Açıklama: Kilitli durumu
+- Varsayılan: false
+
+### Stil Özellikleri
+**darkMode (boolean, opsiyonel)**
+- Açıklama: Koyu tema modu
+- Varsayılan: false
+
+**size (string, opsiyonel)**
+- Açıklama: Component boyutu
+- Varsayılan: 'Default'
+- Seçenekler: 'Default', 'Sm', 'Xs'
+
+### Etkileşim Özellikleri
+**onPress (function, opsiyonel)**
+- Açıklama: Basma olayı fonksiyonu
+- Varsayılan: undefined
+
+**disabled (boolean, opsiyonel)**
+- Açıklama: Devre dışı durumu
+- Varsayılan: false
+
+### Layout Özellikleri
+**showDarkBg (boolean, opsiyonel)**
+- Açıklama: Koyu arka plan elementini göster/gizle
+- Varsayılan: false
+
+## Kullanım Örnekleri
+
+### 1. Varsayılan Kullanım (Başlık)
+```javascript
+<LeadingItems title="Ana Başlık" />
+```
+
+### 2. İkon ile Arka Plan
+```javascript
+<LeadingItems 
+  type="IconWithBg"
+  icon={require('../../assets/images/icons/arrow-left.png')}
+  iconBackgroundColor="#E8F5E9"
+  iconSize={24}
+/>
+```
+
+### 3. Basit İkon
+```javascript
+<LeadingItems 
+  type="Icon"
+  icon={require('../../assets/images/icons/settings.png')}
+  iconSize={32}
+/>
+```
+
+### 4. Yumuşak Arka Planlı İkon
+```javascript
+<LeadingItems 
+  type="IconWithSoftBg"
+  icon={require('../../assets/images/icons/heart.png')}
+  darkMode={false}
+/>
+```
+
+### 5. Ödeme Yöntemi
+```javascript
+<LeadingItems 
+  type="Payment"
+  paymentIcon={require('../../assets/images/icons/apple-pay.png')}
+  paymentSize={48}
+/>
+```
+
+### 6. Sosyal Medya
+```javascript
+<LeadingItems 
+  type="Social"
+  socialPlatform="Facebook"
+  iconSize={24}
+/>
+```
+
+### 7. Ana Sayfa Profili
+```javascript
+<LeadingItems 
+  type="Home"
+  title="Brian"
+  avatarSource={require('../../assets/images/icons/Avatar.png')}
+  avatarSize={40}
+  darkMode={false}
+/>
+```
+
+### 8. İkon Butonu
+```javascript
+<LeadingItems 
+  type="IconButton"
+  icon={require('../../assets/images/icons/flash.png')}
+  iconSize={40}
+  onPress={() => console.log('Button pressed')}
+/>
+```
+
+### 9. Gelişim Göstergesi
+```javascript
+<LeadingItems 
+  type="Improvement"
+  percent="85%"
+  time="7 Days"
+  completed={true}
+  icon={require('../../assets/images/icons/tick-circle.png')}
+/>
+```
+
+### 10. Kilitli Başarı
+```javascript
+<LeadingItems 
+  type="Locked Achievement"
+  achievementText="Master Level"
+  isLocked={true}
+/>
+```
+
+### 11. Avatar
+```javascript
+<LeadingItems 
+  type="Avatar"
+  avatarSource={require('../../assets/images/icons/Avatar.png')}
+  avatarSize={50}
+/>
+```
+
+### 12. Koyu Tema ile
+```javascript
+<LeadingItems 
+  type="Home"
+  title="Brian"
+  darkMode={true}
+  avatarSource={require('../../assets/images/icons/Avatar.png')}
+/>
+```
+
+### 13. Dinamik Tip Seçimi
+```javascript
+const [itemType, setItemType] = useState('Default');
+
+<LeadingItems 
+  type={itemType}
+  title="Dinamik Başlık"
+  onPress={() => setItemType(itemType === 'Default' ? 'Icon' : 'Default')}
+/>
+```
+
+## Stil Özellikleri
+
+### Typography
+- **Başlık Font**: DMSans-Bold, 72px, Line Height: 80px, Color: #000000
+- **Kullanıcı Adı**: DMSans-SemiBold, 20px, Line Height: 28px, Color: #54565F
+- **Selamlama**: DMSans-Medium, 14px, Line Height: 20px, Color: #8E949F
+- **Yüzde**: DMSans-Bold, 13px, Line Height: 16px, Color: #54565F
+- **Başarı Metni**: DMSans-Bold, 13px, Line Height: 16px, Color: #8E949F
+
+### Renk Paleti
+- **Brand Primary**: #58B658 (Yeşil)
+- **Gray 0**: #FFFFFF (Beyaz)
+- **Gray 5**: #F4F4F6 (Çok açık gri)
+- **Gray 20**: #C5C8CE (Açık gri)
+- **Gray 40**: #8E949F (Orta gri)
+- **Gray 60**: #54565F (Koyu gri)
+- **Gray 80**: #3C3E44 (Çok koyu gri)
+- **Gray 95**: #1A1B1E (En koyu gri)
+
+### Layout
+- **Container**: Flex layout, responsive design
+- **Icon Sizes**: 16px, 20px, 24px, 32px, 40px, 48px, 50px, 64px
+- **Border Radius**: 4px, 6px, 8px, 360px (circular)
+- **Shadows**: Brand shadow with rgba(88, 182, 88, 0.3)
+
+## Responsive Tasarım
+Component react-native-size-matters kütüphanesi kullanarak responsive tasarım sağlar:
+- scale() - Genişlik için
+- verticalScale() - Yükseklik için
+- moderateScale() - Font boyutları için
+
+## Tasarım Sistemi Entegrasyonu
+Component aşağıdaki tasarım sistemi öğelerini kullanır:
+- Colors.gray[95] - Koyu arka plan rengi
+- DMSans font ailesi
+- Figma tasarımına uygun spacing
+
+## Dikkat Edilmesi Gerekenler
+1. **Tip Seçimi**: Her tip için uygun props kullanın (örneğin Payment tipi için paymentIcon gerekli)
+2. **İkon Boyutları**: IconButton tipi için iconSize minimum 40px olmalıdır
+3. **Avatar Kaynakları**: Avatar ve Home tipleri için avatarSource gereklidir
+4. **Responsive Tasarım**: Büyük font boyutları geniş ekranlarda test edilmelidir
+5. **Dark Mode**: Koyu tema için uygun renk kontrastları sağlanmalıdır
+6. **Performance**: Çok sayıda LeadingItems kullanımında FlatList düşünülmelidir
+7. **Accessibility**: TouchableOpacity kullanılan tipler için accessibilityLabel eklenmelidir
+
+## Örnekler ve Kullanım Senaryoları
+
+### Sayfa Başlığı Olarak
+```javascript
+const HomeScreen = () => {
+  return (
+    <View style={styles.container}>
+      <LeadingItems title="Ana Sayfa" />
+      {/* Diğer içerik */}
+    </View>
+  );
+};
+```
+
+### Profil Kartı Olarak
+```javascript
+const ProfileCard = ({ user }) => {
+  return (
+    <LeadingItems 
+      type="Home"
+      title={user.name}
+      avatarSource={{ uri: user.avatar }}
+      darkMode={user.preferredTheme === 'dark'}
+    />
+  );
+};
+```
+
+### Gelişim Göstergesi Olarak
+```javascript
+const ProgressIndicator = ({ progress, timeFrame }) => {
+  return (
+    <LeadingItems 
+      type="Improvement"
+      percent={`${progress}%`}
+      time={timeFrame}
+      completed={progress >= 100}
+      icon={require('../../assets/images/icons/tick-circle.png')}
+    />
+  );
+};
+```
+
+### Başarı Sistemi Olarak
+```javascript
+const AchievementBadge = ({ achievement, isUnlocked }) => {
+  return (
+    <LeadingItems 
+      type={isUnlocked ? "Improvement" : "Locked Achievement"}
+      achievementText={achievement.title}
+      percent={achievement.progress}
+      isLocked={!isUnlocked}
+    />
+  );
+};
+```
+
+### Navigasyon Butonu Olarak
+```javascript
+const NavigationButton = ({ icon, onPress, disabled }) => {
+  return (
+    <LeadingItems 
+      type="IconButton"
+      icon={icon}
+      iconSize={40}
+      onPress={onPress}
+      disabled={disabled}
+    />
+  );
+};
+```
+
+### Ödeme Seçenekleri Olarak
+```javascript
+const PaymentOptions = () => {
+  const paymentMethods = [
+    { type: 'apple-pay', icon: require('../../assets/images/icons/apple-pay.png') },
+    { type: 'google-pay', icon: require('../../assets/images/icons/google-pay.png') },
+  ];
+
+  return (
+    <View style={styles.paymentContainer}>
+      {paymentMethods.map((method) => (
+        <LeadingItems 
+          key={method.type}
+          type="Payment"
+          paymentIcon={method.icon}
+          paymentSize={48}
+        />
+      ))}
+    </View>
+  );
+};
+```
+
+### Sosyal Medya Bağlantıları Olarak
+```javascript
+const SocialLinks = ({ platforms }) => {
+  return (
+    <View style={styles.socialContainer}>
+      {platforms.map((platform) => (
+        <LeadingItems 
+          key={platform.name}
+          type="Social"
+          socialPlatform={platform.name}
+          iconSize={24}
+        />
+      ))}
+    </View>
+  );
+};
+```
+
+### Dinamik İkon Listesi Olarak
+```javascript
+const IconList = ({ icons, onIconPress }) => {
+  return (
+    <View style={styles.iconListContainer}>
+      {icons.map((iconData, index) => (
+        <LeadingItems 
+          key={index}
+          type="IconWithBg"
+          icon={iconData.source}
+          iconBackgroundColor={iconData.bgColor}
+          iconSize={iconData.size}
+          onPress={() => onIconPress(iconData.action)}
+        />
+      ))}
+    </View>
+  );
+};
+```
+
+## Troubleshooting
+
+### Problem: Başlık ekrandan taşıyor
+Çözüm: Parent container'da width sınırlaması yapın
+```javascript
+<View style={{ width: '100%' }}>
+  <LeadingItems title="Çok Uzun Başlık Metni" />
+</View>
+```
+
+### Problem: Koyu arka plan görünmüyor
+Çözüm: Parent container'ın position'ını kontrol edin
+```javascript
+<View style={{ position: 'relative' }}>
+  <LeadingItems showDarkBg={true} />
+</View>
+```
+
+### Problem: Font render edilmiyor
+Çözüm: DMSans font'unun yüklendiğinden emin olun
+```javascript
+// Font yükleme kontrolü
+import { Platform } from 'react-native';
+// Platform'a göre font kontrolü yapın
+```
+
+## Versiyon Bilgileri
+- **Versiyon**: 2.0.0 (Çoklu Tip Desteği)
+- **React Native**: 0.70+
+- **react-native-size-matters**: ^0.4.0
+- **Son güncelleme**: [Güncel Tarih]
+
+## Geliştirici Notları
+- **Figma Uyumluluğu**: Component [Figma tasarımına](https://www.figma.com/design/woI64RpSyI74EbMjv9vHhN/Unsmoke---Quit-Smoking---Wellness-Mobile-UI-Kit?node-id=28-5353&t=Ui20QauyUdGPlegI-4) %100 uyumlu olarak geliştirilmiştir
+- **Tasarım Sistemi**: Tüm renkler ve spacing değerleri proje tasarım sisteminden alınmıştır
+- **Responsive Design**: react-native-size-matters kullanılarak tüm ekran boyutları desteklenir
+- **Type Safety**: TypeScript desteği için interface tanımlamaları eklenebilir
+- **Performance**: Memoization ve optimize edilmiş render yapısı
+- **Accessibility**: Screen reader desteği ve keyboard navigation
+
+## Tip Karşılaştırma Tablosu
+| Tip | Amaç | Gerekli Props | Opsiyonel Props |
+|-----|------|---------------|-----------------|
+| Default | Basit başlık | title | showDarkBg |
+| IconWithBg | İkon + arka plan | icon | iconSize, iconBackgroundColor |
+| Icon | Basit ikon | icon | iconSize |
+| IconWithSoftBg | Yumuşak arka planlı ikon | icon | iconSize, darkMode |
+| Payment | Ödeme yöntemi | paymentIcon | paymentSize |
+| Social | Sosyal medya | socialPlatform | iconSize |
+| Home | Kullanıcı profili | title, avatarSource | avatarSize, darkMode |
+| IconButton | Tıklanabilir ikon | icon, onPress | iconSize, disabled |
+| Improvement | Gelişim göstergesi | percent | icon, time, completed |
+| Locked Achievement | Kilitli başarı | achievementText | isLocked |
+| Avatar | Sadece avatar | avatarSource | avatarSize |
+
+## İletişim
+Sorularınız için: [Geliştirici İletişim Bilgileri]

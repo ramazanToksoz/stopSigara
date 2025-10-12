@@ -141,6 +141,14 @@ export const styles = StyleSheet.create({
     color: '#54565F', // Gray/60
   },
   
+  textInputPassword: {
+    fontSize: moderateScale(13),
+    lineHeight: moderateScale(16),
+    letterSpacing: -0.005,
+    fontFamily: 'DMSans-Medium',
+    color: '#54565F', // Gray/60
+  },
+  
   textInputDark: {
     color: '#F4F4F6', // Gray/5
   },

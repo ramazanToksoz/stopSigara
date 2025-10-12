@@ -6,14 +6,16 @@ import TopNavigation from '../../../../components/TopNavigation'
 import { Colors } from '../../../../constants/Colors'
 import Button from '../../../../components/Button'
 import TextArea from '../../../../components/TextArea'
+import { useUser } from '../../../../context/UserContext'
 
 const Onboarding4 = ({ navigation }) => {
+  const { updateUserData } = useUser();
   const [text, setText] = useState('');
   
   const handleNext = () => {
+    updateUserData({ quitReason: text });
     console.log("Next - Onboarding4", text);
-    // TODO: Navigate to Home or next screen
-    console.log("Navigate to Home");
+    navigation.navigate('Auth');
   };
   
   return (

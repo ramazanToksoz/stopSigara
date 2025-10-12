@@ -4,8 +4,10 @@ import { styles } from './Target.styles'
 import StatusBarComponent from '../../../../../../components/StatusBarComponent'
 import TopNavigation from '../../../../../../components/TopNavigation'
 import Button from '../../../../../../components/Button'
+import { useUser } from '../../../../../../context/UserContext'
 
 const Target = ({ navigation, route }) => {
+  const { updateUserData } = useUser();
   const { dailyCigarettes = 20 } = route?.params || {}
   const [selectedTarget, setSelectedTarget] = useState(null)
 
@@ -18,6 +20,7 @@ const Target = ({ navigation, route }) => {
 
   const handleNext = () => {
     if (selectedTarget) {
+      updateUserData({ targetReduction: selectedTarget });
       console.log('Selected target:', selectedTarget)
       console.log('New daily target:', dailyCigarettes + selectedTarget)
       navigation.navigate('Onboarding4')

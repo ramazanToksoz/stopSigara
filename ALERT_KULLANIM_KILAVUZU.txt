@@ -1,0 +1,171 @@
+ALERT COMPONENT KULLANIM KILAVUZU
+==================================
+
+TEMEL KULLANIM
+--------------
+
+import Alert from '../components/Alert';
+
+<Alert
+  type="error"
+  message="This is an alert"
+  onClose={() => setAlertVisible(false)}
+/>
+
+
+ÖZELLİKLER (Props)
+------------------
+
+1. type (string)
+   - Alert tipi
+   - Değerler: 'error', 'warning', 'success'
+   - Default: 'error'
+   - Örnek: type="warning"
+
+2. message (string)
+   - Alert mesajı
+   - Default: 'This is an alert'
+   - Örnek: message="İşlem başarılı!"
+
+3. darkMode (boolean)
+   - Dark mode aktif mi?
+   - Default: false
+   - false: Koyu arkaplan (#1A1B1E), beyaz yazı
+   - true: Açık arkaplan (#F4F4F6), koyu yazı
+   - Örnek: darkMode={true}
+
+4. onClose (function)
+   - Kapatma butonu tıklandığında çalışır
+   - Opsiyonel (belirtilmezse X butonu görünmez)
+   - Örnek: onClose={() => setAlertVisible(false)}
+
+5. visible (boolean)
+   - Alert görünür mü?
+   - Default: true
+   - Örnek: visible={alertVisible}
+
+
+ALERT TİPLERİ
+-------------
+
+Error (Hata):
+- Icon: forbidden-2.png (Kırmızı yasaklama işareti)
+- Renk: #FF6565 (Semantic/Destructive)
+- Kullanım: type="error"
+
+Warning (Uyarı):
+- Icon: danger.png (Sarı uyarı işareti)
+- Renk: #FFD143 (Semantic/Warning)
+- Kullanım: type="warning"
+
+Success (Başarı):
+- Icon: tick-square.png (Yeşil onay işareti)
+- Renk: #46E01F (Semantic/Success)
+- Kullanım: type="success"
+
+
+ÖRNEKLER
+--------
+
+// Error Alert (Light Mode)
+const [showError, setShowError] = useState(true);
+
+<Alert
+  type="error"
+  message="E-posta veya şifre hatalı!"
+  darkMode={false}
+  onClose={() => setShowError(false)}
+  visible={showError}
+/>
+
+
+// Warning Alert (Light Mode)
+const [showWarning, setShowWarning] = useState(true);
+
+<Alert
+  type="warning"
+  message="İnternet bağlantınızı kontrol edin"
+  darkMode={false}
+  onClose={() => setShowWarning(false)}
+  visible={showWarning}
+/>
+
+
+// Success Alert (Light Mode)
+const [showSuccess, setShowSuccess] = useState(true);
+
+<Alert
+  type="success"
+  message="Kayıt başarılı!"
+  darkMode={false}
+  onClose={() => setShowSuccess(false)}
+  visible={showSuccess}
+/>
+
+
+// Dark Mode Alert
+<Alert
+  type="error"
+  message="Bir hata oluştu"
+  darkMode={true}
+  onClose={() => setShowError(false)}
+/>
+
+
+// Close butonu olmadan
+<Alert
+  type="warning"
+  message="Bu mesaj kapanmaz"
+  darkMode={false}
+/>
+
+
+// Tam Örnek (Login Sayfası)
+const EmailLogin = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertType, setAlertType] = useState('error');
+  const [alertMessage, setAlertMessage] = useState('');
+
+  const handleLogin = () => {
+    if (!email || !password) {
+      setAlertType('error');
+      setAlertMessage('Lütfen tüm alanları doldurun!');
+      setShowAlert(true);
+      return;
+    }
+
+    // Login logic...
+    setAlertType('success');
+    setAlertMessage('Giriş başarılı!');
+    setShowAlert(true);
+  };
+
+  return (
+    <View>
+      {showAlert && (
+        <Alert
+          type={alertType}
+          message={alertMessage}
+          onClose={() => setShowAlert(false)}
+          visible={showAlert}
+        />
+      )}
+      
+      {/* Form inputs... */}
+    </View>
+  );
+};
+
+
+NOTLAR
+------
+- Alert otomatik olarak shadow efekti içerir
+- Border radius 10px sabit
+- Responsive tasarım (react-native-size-matters)
+- Close butonu opsiyoneldir
+- visible prop ile göster/gizle kontrolü yapılabilir
+- Light mode: koyu bg, açık text
+- Dark mode: açık bg, koyu text
+
