@@ -20,7 +20,7 @@ const CardPost = ({
   const [showSettings, setShowSettings] = useState(false);
   const getAvatarSource = () => {
     if (avatar) return avatar;
-    return require('../../assets/images/icons/avatar2.png'); // Default avatar
+    return { uri: 'https://via.placeholder.com/40x40/58B658/FFFFFF?text=S' }; // Default avatar
   };
 
   const getPostContent = () => {

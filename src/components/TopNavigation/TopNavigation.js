@@ -5,9 +5,14 @@ import { styles } from './TopNavigation.styles';
 const TopNavigation = ({ 
   // Leading Item (Sol)
   showLeadingItem = true,
-  leadingType = 'icon', // 'icon' or 'none'
+  leadingType = 'icon', // 'icon', 'avatar', or 'none'
   leadingIcon = 'arrow-circle-left', // icon type
   onLeadingPress,
+  
+  // Avatar Properties (Leading için)
+  avatarSource,
+  greetingText = '',
+  userName = '',
   
   // Center Item (Orta)
   showCenterItem = false,
@@ -18,9 +23,14 @@ const TopNavigation = ({
   
   // Trailing Item (Sağ)
   showTrailingItem = true,
-  trailingType = 'button', // 'button', 'icon', or 'none'
+  trailingType = 'button', // 'button', 'icon', 'notification', or 'none'
   trailingText = 'Skip',
+  trailingIcon = 'setting-2', // icon type for trailing icon
   onTrailingPress,
+  
+  // Notification Properties (Trailing için)
+  notificationIcon,
+  hasNotificationIndicator = false,
   
   // Button Properties (Trailing Button için)
   buttonType = 'neutral', // 'primary', 'neutral'
@@ -33,11 +43,34 @@ const TopNavigation = ({
   
   // Mode
   darkMode = false,
+  backgroundColor = 'transparent',
 }) => {
   
   // Leading Item Render
   const renderLeadingItem = () => {
     if (!showLeadingItem) return <View style={styles.leading} />;
+    
+    if (leadingType === 'avatar') {
+      return (
+        <View style={styles.leadingAvatar}>
+          <View style={styles.avatarContainer}>
+            <Image 
+              source={avatarSource || require('../../assets/images/icons/logo.png')}
+              style={styles.avatar}
+              resizeMode="cover"
+            />
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={[styles.greetingText, darkMode && styles.greetingTextDark]}>
+              {greetingText}
+            </Text>
+            <Text style={[styles.userName, darkMode && styles.userNameDark]}>
+              {userName}
+            </Text>
+          </View>
+        </View>
+      );
+    }
     
     if (leadingType === 'icon') {
       return (
@@ -104,6 +137,59 @@ const TopNavigation = ({
   // Trailing Item Render
   const renderTrailingItem = () => {
     if (!showTrailingItem) return <View style={styles.trailing} />;
+    
+    if (trailingType === 'icon') {
+      const getTrailingIconSource = () => {
+        switch (trailingIcon) {
+          case 'setting-2':
+            return require('../../assets/images/icons/setting-2.png');
+          case 'arrow-circle-left':
+            return require('../../assets/images/icons/Leading.png');
+          default:
+            return require('../../assets/images/icons/setting-2.png');
+        }
+      };
+
+      return (
+        <View style={styles.trailing}>
+          <TouchableOpacity 
+            style={styles.trailingIconButton}
+            onPress={onTrailingPress}
+            activeOpacity={0.7}
+          >
+            <Image 
+              source={getTrailingIconSource()}
+              style={[
+                styles.trailingIcon,
+                { tintColor: darkMode ? '#FFFFFF' : '#54565F' }
+              ]}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
+    if (trailingType === 'notification') {
+      return (
+        <View style={styles.trailing}>
+          <TouchableOpacity 
+            style={styles.notificationButton}
+            onPress={onTrailingPress}
+            activeOpacity={0.7}
+          >
+            <View style={styles.notificationIcon}>
+              <Image 
+                source={notificationIcon || require('../../assets/images/icons/OUTLINE.png')}
+                style={[styles.notificationIconImage, darkMode && styles.notificationIconImageDark]}
+                resizeMode="contain"
+              />
+              {hasNotificationIndicator && <View style={styles.indicator} />}
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
     
     if (trailingType === 'button') {
       const getButtonStyles = () => {
@@ -185,7 +271,11 @@ const TopNavigation = ({
   };
 
   return (
-    <View style={[styles.container, darkMode && styles.containerDark]}>
+    <View style={[
+      styles.container, 
+      darkMode && styles.containerDark,
+      { backgroundColor }
+    ]}>
       {renderLeadingItem()}
       {renderCenterItem()}
       {renderTrailingItem()}

@@ -43,16 +43,4 @@ export const styles = StyleSheet.create({
   activeIcon: {
     tintColor: Colors.brand[60],
   },
-  homeIndicator: {
-    height: verticalScale(24),
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingBottom: verticalScale(8),
-  },
-  indicatorBar: {
-    width: scale(152),
-    height: verticalScale(5),
-    backgroundColor: '#000000',
-    borderRadius: 10,
-  },
 });

@@ -1,0 +1,372 @@
+# CARDPOST COMPONENT KULLANIM KILAVUZU
+
+## GENEL BAKIŞ
+CardPost component'i sosyal medya benzeri gönderi kartları oluşturmak için kullanılır. 
+Farklı içerik türlerini destekler ve kullanıcı etkileşimleri için callback fonksiyonları sağlar.
+
+## IMPORT
+```javascript
+import CardPost from '../../components/CardPost';
+```
+
+## TEMEL KULLANIM
+
+### Basit Text Gönderisi
+```javascript
+<CardPost
+  name="Sarah"
+  time="2m ago"
+  text="One week done 🎉! Food already tastes better and I'm breathing easier."
+  type="Text"
+  likes="1.4K"
+  comments="128"
+  onLike={() => console.log('Liked')}
+  onComment={() => console.log('Commented')}
+  onSave={() => console.log('Saved')}
+  onMore={() => console.log('More options')}
+/>
+```
+
+## PROPS DETAYLARI
+
+### Zorunlu Props
+Yok - Tüm props'lar opsiyoneldir ve varsayılan değerleri vardır.
+
+### Opsiyonel Props
+
+#### Temel Bilgiler
+- `name` (string): Kullanıcı adı (varsayılan: "Sarah")
+- `time` (string): Gönderi zamanı (varsayılan: "2m ago")
+- `avatar` (image source): Kullanıcı avatar'ı (varsayılan: avatar2.png)
+- `text` (string): Gönderi metni
+- `type` (string): Gönderi türü (varsayılan: "Text")
+
+#### İstatistikler
+- `likes` (string): Beğeni sayısı (varsayılan: "1.4K")
+- `comments` (string): Yorum sayısı (varsayılan: "128")
+
+#### Tema
+- `darkMode` (boolean): Karanlık tema (varsayılan: false)
+
+#### Callback Fonksiyonları
+- `onLike` (function): Beğeni butonuna basıldığında
+- `onComment` (function): Yorum butonuna basıldığında
+- `onSave` (function): Kaydet butonuna basıldığında
+- `onMore` (function): Daha fazla seçenek butonuna basıldığında
+
+## GÖNDERİ TÜRLERİ
+
+### 1. Text Gönderisi
+```javascript
+<CardPost
+  type="Text"
+  text="Day 3 and feeling stronger! The cravings are real but I'm pushing through."
+  likes="892"
+  comments="45"
+/>
+```
+
+### 2. Image Gönderisi
+```javascript
+<CardPost
+  type="Image"
+  text="Check out my progress photo! Feeling great!"
+  likes="2.1K"
+  comments="156"
+/>
+```
+- Otomatik olarak journey.png görseli eklenir
+- Metin + görsel kombinasyonu
+
+### 3. Link Gönderisi
+```javascript
+<CardPost
+  type="Link"
+  text="Found this amazing article about the benefits of quitting smoking."
+  likes="2.1K"
+  comments="156"
+/>
+```
+- Link preview ile birlikte gösterilir
+- Başlık: "5 Ways Your Body Heals After Quitting Smoking"
+- URL: "healthline.com"
+
+### 4. Comment Gönderisi
+```javascript
+<CardPost
+  type="Comment"
+  text="Great job! Keep it up!"
+  likes="24"
+  comments="3"
+/>
+```
+- Sadece beğeni ve yorum butonları (kaydet butonu yok)
+
+## KARANLIK TEMA
+
+### Karanlık Tema Aktif
+```javascript
+<CardPost
+  darkMode={true}
+  name="Mike"
+  text="Dark mode post example"
+  type="Text"
+/>
+```
+
+### Karanlık Tema Özellikleri
+- Kart arka planı: Koyu gri
+- Metin renkleri: Açık renkler
+- Border renkleri: Uyumlu koyu tonlar
+
+## CALLBACK FONKSİYONLARI
+
+### Beğeni Fonksiyonu
+```javascript
+const handleLike = (postId) => {
+  // Beğeni sayısını artır
+  // API çağrısı yap
+  console.log('Post liked:', postId);
+};
+
+<CardPost
+  onLike={() => handleLike(postId)}
+  likes={likeCount}
+/>
+```
+
+### Yorum Fonksiyonu
+```javascript
+const handleComment = (postId) => {
+  // Yorum sayfasına git
+  navigation.navigate('Comments', { postId });
+};
+
+<CardPost
+  onComment={() => handleComment(postId)}
+  comments={commentCount}
+/>
+```
+
+### Kaydet Fonksiyonu
+```javascript
+const handleSave = (postId) => {
+  // Gönderiyi kaydedilenler listesine ekle
+  savePost(postId);
+};
+
+<CardPost
+  onSave={() => handleSave(postId)}
+/>
+```
+
+## ÖZEL AVATAR KULLANIMI
+
+### Varsayılan Avatar
+```javascript
+<CardPost name="John" /> // avatar2.png kullanılır
+```
+
+### Özel Avatar
+```javascript
+<CardPost
+  name="Jane"
+  avatar={require('../../assets/images/custom-avatar.png')}
+/>
+```
+
+## GERÇEK DÜNYA ÖRNEKLERİ
+
+### Topluluk Feed Listesi
+```javascript
+const posts = [
+  {
+    id: 1,
+    name: "Sarah",
+    time: "14m ago",
+    text: "One week done 🎉! Food already tastes better.",
+    type: "Image",
+    likes: "1.4K",
+    comments: "128"
+  },
+  {
+    id: 2,
+    name: "Mike",
+    time: "1h ago",
+    text: "Day 3 and feeling stronger! Thanks for support! 💪",
+    type: "Text",
+    likes: "892",
+    comments: "45"
+  }
+];
+
+{posts.map(post => (
+  <CardPost
+    key={post.id}
+    name={post.name}
+    time={post.time}
+    text={post.text}
+    type={post.type}
+    likes={post.likes}
+    comments={post.comments}
+    onLike={() => handleLike(post.id)}
+    onComment={() => handleComment(post.id)}
+    onSave={() => handleSave(post.id)}
+  />
+))}
+```
+
+### Karanlık Tema ile Kullanım
+```javascript
+<CardPost
+  darkMode={isDarkMode}
+  name="Emma"
+  time="2h ago"
+  text="Dark mode is so much easier on the eyes!"
+  type="Text"
+  likes="156"
+  comments="23"
+  onLike={() => toggleLike()}
+  onComment={() => openComments()}
+  onSave={() => saveToBookmarks()}
+/>
+```
+
+## STIL ÖZELLEŞTİRME
+
+### Temel Stil Özellikleri
+- Kart arka planı: Beyaz (#FFFFFF)
+- Border radius: 16px
+- Padding: 16px
+- Shadow: Hafif gölge efekti
+- Margin bottom: 12px
+
+### Karanlık Tema Stilleri
+- Kart arka planı: Koyu gri (Colors.gray[90])
+- Tüm metin renkleri otomatik olarak değişir
+
+## MODAL ÖZELLİĞİ
+
+CardPost component'i içinde Settings modal'ı bulunur:
+- "More" butonuna basıldığında modal açılır
+- Settings component'i gösterilir
+- Modal overlay ile kapatılabilir
+
+## PERFORMANS İPUÇLARI
+
+### 1. Avatar Optimizasyonu
+```javascript
+// Büyük avatar listesi için memoization
+const memoizedAvatar = useMemo(() => 
+  require('../../assets/images/avatar.png'), [userId]
+);
+```
+
+### 2. Callback Fonksiyonları
+```javascript
+// Re-render'ı önlemek için useCallback kullan
+const handleLike = useCallback(() => {
+  onLike(postId);
+}, [postId, onLike]);
+```
+
+## HATA YÖNETİMİ
+
+### Avatar Bulunamadığında
+- Otomatik olarak varsayılan avatar (avatar2.png) kullanılır
+- Hata vermez, sessizce varsayılan değere geçer
+
+### Callback Fonksiyonları
+```javascript
+// Güvenli callback kullanımı
+<CardPost
+  onLike={onLike || (() => {})}
+  onComment={onComment || (() => {})}
+  onSave={onSave || (() => {})}
+/>
+```
+
+## TEST ÖRNEKLERİ
+
+### Basit Test
+```javascript
+<CardPost
+  name="Test User"
+  time="now"
+  text="Test post"
+  type="Text"
+  onLike={() => console.log('Test like')}
+/>
+```
+
+### Tüm Özelliklerle Test
+```javascript
+<CardPost
+  name="Test User"
+  time="1m ago"
+  avatar={require('../../assets/images/test-avatar.png')}
+  text="Comprehensive test post with all features enabled"
+  type="Link"
+  darkMode={true}
+  likes="999"
+  comments="99"
+  onLike={() => console.log('Like test')}
+  onComment={() => console.log('Comment test')}
+  onSave={() => console.log('Save test')}
+  onMore={() => console.log('More test')}
+/>
+```
+
+## SORUN GİDERME
+
+### Yaygın Sorunlar
+
+1. **Avatar görünmüyor**
+   - Avatar path'ini kontrol edin
+   - Varsayılan avatar otomatik yüklenir
+
+2. **Callback fonksiyonları çalışmıyor**
+   - Fonksiyonları doğru şekilde tanımladığınızdan emin olun
+   - Undefined kontrolü yapın
+
+3. **Karanlık tema çalışmıyor**
+   - darkMode prop'unu true olarak ayarlayın
+   - Colors constant'ının doğru import edildiğinden emin olun
+
+### Debug İpuçları
+```javascript
+// Console'da prop'ları kontrol et
+console.log('CardPost props:', {
+  name, time, type, darkMode, likes, comments
+});
+```
+
+## GELECEK GELİŞTİRMELER
+
+### Önerilen Özellikler
+- Video gönderisi desteği
+- Çoklu görsel desteği
+- Emoji reaksiyonları
+- Paylaşım butonu
+- Kullanıcı profil sayfasına yönlendirme
+
+### Customization Seçenekleri
+- Özel stil prop'ları
+- Farklı layout seçenekleri
+- Animasyon özellikleri
+- Accessibility iyileştirmeleri
+
+---
+
+## ÖZET
+
+CardPost component'i:
+✅ 4 farklı gönderi türü destekler (Text, Image, Link, Comment)
+✅ Karanlık tema desteği
+✅ Kullanıcı etkileşimleri için callback fonksiyonları
+✅ Responsive tasarım
+✅ Modal özelliği
+✅ Varsayılan değerler ile kolay kullanım
+✅ Hata toleransı
+
+Bu component sosyal medya benzeri uygulamalar için ideal bir çözümdür.

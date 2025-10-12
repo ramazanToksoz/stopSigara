@@ -8,9 +8,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: verticalScale(8),
-    paddingHorizontal: scale(18),
+    paddingHorizontal: scale(15),
     height: verticalScale(48),
-    backgroundColor: 'transparent',
+    backgroundColor: '#FCFCFD',
   },
   containerDark: {
     backgroundColor: '#000000',
@@ -18,14 +18,60 @@ export const styles = StyleSheet.create({
   
   // Leading (Sol)
   leading: {
-    width: scale(32),
-    height: verticalScale(32),
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: scale(10),
+    width: scale(60),
+    zIndex: 2,
+  },
+  
+  leadingAvatar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: scale(10),
+    width: scale(200),
+    zIndex: 2,
   },
   leadingIcon: {
     width: scale(24),
     height: verticalScale(24),
+  },
+  
+  // Avatar Properties
+  avatarContainer: {
+    width: scale(40),
+    height: scale(40),
+    borderRadius: 9999,
+    overflow: 'hidden',
+  },
+  avatar: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  textContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+  greetingText: {
+    fontFamily: 'DMSans-Medium',
+    fontSize: moderateScale(14),
+    lineHeight: moderateScale(20),
+    letterSpacing: -0.006,
+    color: '#F4F4F6',
+  },
+  greetingTextDark: {
+    color: '#F4F4F6',
+  },
+  userName: {
+    fontFamily: 'DMSans-SemiBold',
+    fontSize: moderateScale(20),
+    lineHeight: moderateScale(28),
+    letterSpacing: -0.2,
+    color: '#FFFFFF',
+  },
+  userNameDark: {
+    color: '#FFFFFF',
   },
   
   // Center (Orta)
@@ -33,6 +79,12 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    zIndex: 1,
   },
   
   // Progress (Center için)
@@ -67,9 +119,9 @@ export const styles = StyleSheet.create({
   // Title (Center için)
   title: {
     fontFamily: 'DMSans-Bold',
-    fontSize: moderateScale(18),
+    fontSize: moderateScale(18), // Body lg/Bold
     lineHeight: moderateScale(24),
-    color: Colors.gray[80],
+    color: '#54565F', // Gray/60
     textAlign: 'center',
   },
   titleDark: {
@@ -78,10 +130,42 @@ export const styles = StyleSheet.create({
   
   // Trailing (Sağ)
   trailing: {
-    minWidth: scale(32),
+    width: scale(60),
     height: verticalScale(32),
     justifyContent: 'center',
     alignItems: 'flex-end',
+    zIndex: 2,
+  },
+  
+  // Notification Properties
+  notificationButton: {
+    padding: 0,
+  },
+  notificationIcon: {
+    position: 'relative',
+    width: scale(24),
+    height: verticalScale(24),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notificationIconImage: {
+    width: '100%',
+    height: '100%',
+    tintColor: '#FFFFFF',
+  },
+  notificationIconImageDark: {
+    tintColor: '#FFFFFF',
+  },
+  indicator: {
+    position: 'absolute',
+    top: verticalScale(0),
+    right: scale(0),
+    width: scale(8),
+    height: verticalScale(8),
+    borderRadius: 9999,
+    backgroundColor: '#FF6565',
+    borderWidth: 1.5,
+    borderColor: '#58B658',
   },
   
   // Button (Trailing için)
@@ -146,5 +230,17 @@ export const styles = StyleSheet.create({
   },
   buttonText_dark: {
     color: '#FFFFFF',
+  },
+
+  // Trailing Icon Styles
+  trailingIconButton: {
+    padding: scale(8),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  trailingIcon: {
+    width: scale(24),
+    height: scale(24),
   },
 });

@@ -1,0 +1,444 @@
+# NOTIFICATIONCARD COMPONENT KULLANIM KILAVUZU
+
+## GENEL BAKIŞ
+NotificationCard component'i bildirim kartları oluşturmak için özel olarak tasarlanmıştır.
+Farklı bildirim türlerini destekler ve kullanıcı etkileşimleri için callback fonksiyonları sağlar.
+
+## IMPORT
+```javascript
+import NotificationCard from '../../components/NotificationCard';
+```
+
+## TEMEL KULLANIM
+
+### Basit Bildirim
+```javascript
+<NotificationCard
+  title="Yeni Mesaj"
+  message="Sarah'dan yeni bir mesaj aldınız"
+  time="2m ago"
+  onPress={() => console.log('Notification pressed')}
+/>
+```
+
+## PROPS DETAYLARI
+
+### Zorunlu Props
+Yok - Tüm props'lar opsiyoneldir ve varsayılan değerleri vardır.
+
+### Opsiyonel Props
+
+#### Temel Bilgiler
+- `type` (string): Bildirim türü (varsayılan: "info")
+- `title` (string): Bildirim başlığı (varsayılan: "Notification Title")
+- `message` (string): Bildirim mesajı (varsayılan: "This is a notification message")
+- `time` (string): Bildirim zamanı (varsayılan: "2m ago")
+- `icon` (image source): Özel icon
+
+#### Durum
+- `isRead` (boolean): Okunmuş durumu (varsayılan: false)
+- `darkMode` (boolean): Karanlık tema (varsayılan: false)
+
+#### Görünüm
+- `showTime` (boolean): Zaman gösterimi (varsayılan: true)
+- `showDismiss` (boolean): Kapatma butonu (varsayılan: true)
+
+#### Callback Fonksiyonları
+- `onPress` (function): Kart'a basıldığında
+- `onDismiss` (function): Kapatma butonuna basıldığında
+
+## BİLDİRİM TÜRLERİ
+
+### 1. Info (Bilgi)
+```javascript
+<NotificationCard
+  type="info"
+  title="Güncelleme"
+  message="Uygulama yeni özelliklerle güncellendi"
+  time="1h ago"
+/>
+```
+- **Icon**: message.png
+- **Renk**: Mavi (brand[60])
+- **Kullanım**: Genel bilgilendirmeler
+
+### 2. Success (Başarı)
+```javascript
+<NotificationCard
+  type="success"
+  title="Tebrikler!"
+  message="7 günlük hedefinizi başarıyla tamamladınız"
+  time="30m ago"
+/>
+```
+- **Icon**: tick-circle.png
+- **Renk**: Yeşil (brand[60])
+- **Kullanım**: Başarı mesajları, hedef tamamlama
+
+### 3. Warning (Uyarı)
+```javascript
+<NotificationCard
+  type="warning"
+  title="Dikkat"
+  message="Sigara içme isteğiniz artıyor"
+  time="5m ago"
+/>
+```
+- **Icon**: danger.png
+- **Renk**: Turuncu (#FFB800)
+- **Kullanım**: Uyarılar, dikkat çekici mesajlar
+
+### 4. Error (Hata)
+```javascript
+<NotificationCard
+  type="error"
+  title="Hata"
+  message="Veri senkronizasyonu başarısız"
+  time="10m ago"
+/>
+```
+- **Icon**: forbidden-2.png
+- **Renk**: Kırmızı (semantic.destructive)
+- **Kullanım**: Hata mesajları, başarısız işlemler
+
+### 5. Achievement (Başarı)
+```javascript
+<NotificationCard
+  type="achievement"
+  title="Yeni Rozet!"
+  message="1 Hafta Rozeti kazandınız"
+  time="1d ago"
+/>
+```
+- **Icon**: kas.png
+- **Renk**: Mor (#8B5CF6)
+- **Kullanım**: Rozetler, ödüller, kilometre taşları
+
+## ÖZEL İCON KULLANIMI
+
+### Varsayılan Icon'lar
+Her tür için otomatik icon atanır:
+- Info: message.png
+- Success: tick-circle.png
+- Warning: danger.png
+- Error: forbidden-2.png
+- Achievement: kas.png
+
+### Özel Icon
+```javascript
+<NotificationCard
+  type="info"
+  title="Özel Bildirim"
+  message="Özel icon ile bildirim"
+  icon={require('../../assets/images/icons/custom-icon.png')}
+/>
+```
+
+## OKUNMUŞ/OKUNMAMIŞ DURUMU
+
+### Okunmamış Bildirim
+```javascript
+<NotificationCard
+  title="Yeni Bildirim"
+  message="Bu bildirim henüz okunmadı"
+  isRead={false}
+/>
+```
+- Sol tarafta renkli çizgi
+- Açık yeşil arka plan
+- Kalın başlık yazısı
+- Sağ üstte renkli nokta
+
+### Okunmuş Bildirim
+```javascript
+<NotificationCard
+  title="Eski Bildirim"
+  message="Bu bildirim okundu"
+  isRead={true}
+/>
+```
+- Sol tarafta çizgi yok
+- Beyaz arka plan
+- Normal başlık yazısı
+- Sağ üstte nokta yok
+
+## KARANLIK TEMA
+
+### Karanlık Tema Aktif
+```javascript
+<NotificationCard
+  darkMode={true}
+  title="Karanlık Tema"
+  message="Bu bildirim karanlık temada"
+  type="info"
+/>
+```
+
+### Karanlık Tema Özellikleri
+- Kart arka planı: Koyu gri
+- Metin renkleri: Açık renkler
+- Icon container: Uyumlu renkler
+
+## CALLBACK FONKSİYONLARI
+
+### Kart'a Basma
+```javascript
+const handleNotificationPress = (notificationId) => {
+  // Bildirimi okundu olarak işaretle
+  markAsRead(notificationId);
+  // İlgili sayfaya yönlendir
+  navigation.navigate('Detail', { id: notificationId });
+};
+
+<NotificationCard
+  title="Detay Bildirimi"
+  message="Bu bildirime tıklayın"
+  onPress={() => handleNotificationPress(notificationId)}
+/>
+```
+
+### Kapatma Fonksiyonu
+```javascript
+const handleDismiss = (notificationId) => {
+  // Bildirimi kapat
+  dismissNotification(notificationId);
+  // Listeden kaldır
+  removeFromList(notificationId);
+};
+
+<NotificationCard
+  title="Kapatılabilir Bildirim"
+  message="Bu bildirimi kapatabilirsiniz"
+  onDismiss={() => handleDismiss(notificationId)}
+  showDismiss={true}
+/>
+```
+
+## GÖRÜNÜM ÖZELLEŞTİRME
+
+### Zaman Gösterimini Kapat
+```javascript
+<NotificationCard
+  title="Zaman Yok"
+  message="Bu bildirimde zaman gösterilmiyor"
+  showTime={false}
+/>
+```
+
+### Kapatma Butonunu Gizle
+```javascript
+<NotificationCard
+  title="Kapatılamaz"
+  message="Bu bildirim kapatılamaz"
+  showDismiss={false}
+/>
+```
+
+## GERÇEK DÜNYA ÖRNEKLERİ
+
+### Bildirim Listesi
+```javascript
+const notifications = [
+  {
+    id: 1,
+    type: 'success',
+    title: 'Tebrikler!',
+    message: '7 günlük hedefinizi tamamladınız',
+    time: '2h ago',
+    isRead: false
+  },
+  {
+    id: 2,
+    type: 'warning',
+    title: 'Dikkat',
+    message: 'Sigara içme isteğiniz artıyor',
+    time: '1h ago',
+    isRead: true
+  },
+  {
+    id: 3,
+    type: 'achievement',
+    title: 'Yeni Rozet!',
+    message: '1 Hafta Rozeti kazandınız',
+    time: '1d ago',
+    isRead: false
+  }
+];
+
+{notifications.map(notification => (
+  <NotificationCard
+    key={notification.id}
+    type={notification.type}
+    title={notification.title}
+    message={notification.message}
+    time={notification.time}
+    isRead={notification.isRead}
+    onPress={() => handleNotificationPress(notification.id)}
+    onDismiss={() => handleDismiss(notification.id)}
+  />
+))}
+```
+
+### Karanlık Tema ile Kullanım
+```javascript
+<NotificationCard
+  darkMode={isDarkMode}
+  type="info"
+  title="Karanlık Tema Bildirimi"
+  message="Bu bildirim karanlık temada görünüyor"
+  time="5m ago"
+  isRead={false}
+  onPress={() => handlePress()}
+/>
+```
+
+## STIL ÖZELLEŞTİRME
+
+### Temel Stil Özellikleri
+- Kart arka planı: Beyaz (#FFFFFF)
+- Border radius: 16px
+- Padding: 16px
+- Shadow: Hafif gölge efekti
+- Margin bottom: 12px
+
+### Okunmamış Stil Özellikleri
+- Sol kenar: 4px renkli çizgi
+- Arka plan: Açık yeşil (#F8FFFE)
+- Başlık: Kalın yazı
+- Sağ üst: Renkli nokta
+
+### Icon Container
+- Boyut: 40x40px
+- Border radius: 20px
+- Renkli arka plan (15% opacity)
+- Icon boyutu: 20x20px
+
+## PERFORMANS İPUÇLARI
+
+### 1. List Rendering
+```javascript
+// FlatList ile optimize edilmiş rendering
+<FlatList
+  data={notifications}
+  keyExtractor={(item) => item.id}
+  renderItem={({ item }) => (
+    <NotificationCard {...item} />
+  )}
+  showsVerticalScrollIndicator={false}
+/>
+```
+
+### 2. Callback Optimization
+```javascript
+// Re-render'ı önlemek için useCallback
+const handlePress = useCallback((id) => {
+  onNotificationPress(id);
+}, [onNotificationPress]);
+
+const handleDismiss = useCallback((id) => {
+  onNotificationDismiss(id);
+}, [onNotificationDismiss]);
+```
+
+## HATA YÖNETİMİ
+
+### Güvenli Callback Kullanımı
+```javascript
+<NotificationCard
+  title="Güvenli Bildirim"
+  message="Callback'ler güvenli şekilde tanımlandı"
+  onPress={onPress || (() => {})}
+  onDismiss={onDismiss || (() => {})}
+/>
+```
+
+### Icon Bulunamadığında
+- Otomatik olarak türe göre varsayılan icon kullanılır
+- Hata vermez, sessizce varsayılan değere geçer
+
+## TEST ÖRNEKLERİ
+
+### Basit Test
+```javascript
+<NotificationCard
+  title="Test Bildirimi"
+  message="Bu bir test bildirimidir"
+  onPress={() => console.log('Test pressed')}
+/>
+```
+
+### Tüm Özelliklerle Test
+```javascript
+<NotificationCard
+  type="success"
+  title="Kapsamlı Test"
+  message="Tüm özellikler test ediliyor"
+  time="now"
+  icon={require('../../assets/images/icons/test-icon.png')}
+  isRead={false}
+  darkMode={true}
+  showTime={true}
+  showDismiss={true}
+  onPress={() => console.log('Press test')}
+  onDismiss={() => console.log('Dismiss test')}
+/>
+```
+
+## SORUN GİDERME
+
+### Yaygın Sorunlar
+
+1. **Icon görünmüyor**
+   - Icon path'ini kontrol edin
+   - Varsayılan icon otomatik yüklenir
+
+2. **Callback fonksiyonları çalışmıyor**
+   - Fonksiyonları doğru şekilde tanımladığınızdan emin olun
+   - Undefined kontrolü yapın
+
+3. **Karanlık tema çalışmıyor**
+   - darkMode prop'unu true olarak ayarlayın
+   - Colors constant'ının doğru import edildiğinden emin olun
+
+4. **Okunmamış durumu görünmüyor**
+   - isRead prop'unu false olarak ayarlayın
+   - Border ve arka plan renklerini kontrol edin
+
+### Debug İpuçları
+```javascript
+// Console'da prop'ları kontrol et
+console.log('NotificationCard props:', {
+  type, title, message, isRead, darkMode
+});
+```
+
+## GELECEK GELİŞTİRMELER
+
+### Önerilen Özellikler
+- Swipe to dismiss
+- Long press actions
+- Custom animations
+- Sound notifications
+- Push notification integration
+
+### Customization Seçenekleri
+- Özel renk paleti
+- Farklı layout seçenekleri
+- Custom icon sets
+- Accessibility iyileştirmeleri
+
+---
+
+## ÖZET
+
+NotificationCard component'i:
+✅ 5 farklı bildirim türü destekler (info, success, warning, error, achievement)
+✅ Okunmuş/okunmamış durumu
+✅ Karanlık tema desteği
+✅ Kullanıcı etkileşimleri için callback fonksiyonları
+✅ Responsive tasarım
+✅ Özelleştirilebilir görünüm
+✅ Varsayılan değerler ile kolay kullanım
+✅ Hata toleransı
+
+Bu component bildirim sistemleri için ideal bir çözümdür.

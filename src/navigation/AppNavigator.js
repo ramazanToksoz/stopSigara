@@ -7,6 +7,11 @@ import WelcomeNavigator from './WelcomeNavigator';
 import OnboardingNavigator from './OnboardingNavigator';
 import AuthNavigator from './AuthNavigator';
 import HomeNavigator from './HomeNavigator';
+import Notifications from '../screens/Light/Notifications';
+import CravingAssistance from '../screens/Light/CravingAssistance';
+import Statistics from '../screens/Light/Statistics';
+import Improvements from '../screens/Light/Statistics/ColdTurkey/Improvements';
+import MainLayout from '../components/MainLayout';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,7 +46,51 @@ const AppNavigator = () => {
         {/* Home Flow (ColdTurkey or Gradual based on user choice) */}
         <Stack.Screen 
           name="Home" 
-          component={HomeNavigator}
+          component={({ navigation }) => (
+            <MainLayout activeTab="home" navigation={navigation}>
+              <HomeNavigator navigation={navigation} />
+            </MainLayout>
+          )}
+        />
+        
+        {/* Notifications Screen */}
+        <Stack.Screen 
+          name="Notifications" 
+          component={({ navigation }) => (
+            <MainLayout activeTab="home" navigation={navigation}>
+              <Notifications navigation={navigation} />
+            </MainLayout>
+          )}
+        />
+        
+        {/* Craving Assistance Screen */}
+        <Stack.Screen 
+          name="CravingAssistance" 
+          component={({ navigation }) => (
+            <MainLayout activeTab="flash" navigation={navigation}>
+              <CravingAssistance navigation={navigation} />
+            </MainLayout>
+          )}
+        />
+        
+        {/* Statistics Screen */}
+        <Stack.Screen 
+          name="Statistics" 
+          component={({ navigation }) => (
+            <MainLayout activeTab="chart" navigation={navigation}>
+              <Statistics navigation={navigation} />
+            </MainLayout>
+          )}
+        />
+        
+        {/* Improvements Screen */}
+        <Stack.Screen 
+          name="Improvements" 
+          component={({ navigation }) => (
+            <MainLayout activeTab="chart" navigation={navigation}>
+              <Improvements navigation={navigation} />
+            </MainLayout>
+          )}
         />
       </Stack.Navigator>
     </NavigationContainer>

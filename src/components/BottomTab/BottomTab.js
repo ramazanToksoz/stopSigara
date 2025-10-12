@@ -63,9 +63,6 @@ const BottomTab = ({ activeTab = 'home', onTabPress }) => {
           </TouchableOpacity>
         ))}
       </View>
-      <View style={styles.homeIndicator}>
-        <View style={styles.indicatorBar} />
-      </View>
     </View>
   );
 };

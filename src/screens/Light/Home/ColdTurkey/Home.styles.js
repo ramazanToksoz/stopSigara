@@ -11,17 +11,22 @@ export const styles = StyleSheet.create({
   },
   topSection: {
     backgroundColor: Colors.brand[60],
-    paddingHorizontal: scale(18),
+    paddingHorizontal: scale(5),
     paddingBottom: verticalScale(52),
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
+  },
+  topNavWrapper: {
+    width: '100%',
+    paddingHorizontal: scale(0), // Kenarlara çok yakın
+    marginHorizontal: scale(0),
+    marginTop: verticalScale(40),
   },
   topNav: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: verticalScale(8),
-    marginTop: verticalScale(40),
   },
   leading: {
     flexDirection: 'row',

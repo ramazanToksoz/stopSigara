@@ -4,38 +4,31 @@ import { styles } from './Home.styles';
 import { StatusBar } from 'expo-status-bar';
 import { Colors } from '../../../../constants/Colors';
 import { Svg, Circle } from 'react-native-svg';
-import BottomTab from '../../../../components/BottomTab';
 import CardPost from '../../../../components/CardPost';
 import ListItem from '../../../../components/ListItem';
+import TopNavigation from '../../../../components/TopNavigation';
 
 const ColdTurkeyHome = ({ navigation }) => {
+  console.log('ColdTurkeyHome');
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.brand[60]} />
       
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.topSection}>
-          <View style={styles.topNav}>
-            <View style={styles.leading}>
-              <View style={styles.avatarContainer}>
-                <Image 
-                  source={require('../../../../assets/images/icons/Avatar.png')} 
-                  style={styles.avatar}
-                />
-              </View>
-              <View style={styles.textContainer}>
-                <Text style={styles.greetingText}>Good morning,</Text>
-                <Text style={styles.userName}>Brian</Text>
-              </View>
-            </View>
-            
-            <TouchableOpacity style={styles.notificationButton}>
-              <Image 
-                source={require('../../../../assets/images/icons/TrailingItem.png')} 
-                style={styles.notificationIcon}
-              />
-              <View style={styles.indicator} />
-            </TouchableOpacity>
+          <View style={styles.topNavWrapper}>
+            <TopNavigation
+              leadingType="avatar"
+              avatarSource={require('../../../../assets/images/icons/Avatar.png')}
+              greetingText="Good morning,"
+              userName="Brian"
+              trailingType="notification"
+              notificationIcon={require('../../../../assets/images/icons/TrailingItem.png')}
+              hasNotificationIndicator={true}
+              onTrailingPress={() => navigation.navigate('Notifications')}
+              backgroundColor="transparent"
+              darkMode={true}
+            />
           </View>
           
           <View style={styles.mainContent}>
@@ -88,7 +81,11 @@ const ColdTurkeyHome = ({ navigation }) => {
               </View>
               
               <View style={styles.assistanceList}>
-                <TouchableOpacity style={styles.assistanceItem}>
+                <TouchableOpacity 
+                  style={styles.assistanceItem}
+                  onPress={() => navigation.navigate('CravingAssistance')}
+                  activeOpacity={0.8}
+                >
                   <View style={styles.assistanceIcon}>
                     <Image 
                       source={require('../../../../assets/images/icons/message.png')} 
@@ -98,7 +95,11 @@ const ColdTurkeyHome = ({ navigation }) => {
                   <Text style={styles.assistanceLabel}>AI Chat</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.assistanceItem}>
+                <TouchableOpacity 
+                  style={styles.assistanceItem}
+                  onPress={() => navigation.navigate('CravingAssistance')}
+                  activeOpacity={0.8}
+                >
                   <View style={styles.assistanceIcon}>
                     <Image 
                       source={require('../../../../assets/images/icons/game.png')} 
@@ -108,7 +109,11 @@ const ColdTurkeyHome = ({ navigation }) => {
                   <Text style={styles.assistanceLabel}>Mini Game</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.assistanceItem}>
+                <TouchableOpacity 
+                  style={styles.assistanceItem}
+                  onPress={() => navigation.navigate('CravingAssistance')}
+                  activeOpacity={0.8}
+                >
                   <View style={styles.assistanceIcon}>
                     <Image 
                       source={require('../../../../assets/images/icons/emoji-normal.png')} 
@@ -118,7 +123,11 @@ const ColdTurkeyHome = ({ navigation }) => {
                   <Text style={styles.assistanceLabel}>Breathing</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.assistanceItem}>
+                <TouchableOpacity 
+                  style={styles.assistanceItem}
+                  onPress={() => navigation.navigate('CravingAssistance')}
+                  activeOpacity={0.8}
+                >
                   <View style={styles.assistanceIcon}>
                     <Image 
                       source={require('../../../../assets/images/icons/category-2.png')} 
@@ -210,13 +219,6 @@ const ColdTurkeyHome = ({ navigation }) => {
                 </View>
            </View>
          </ScrollView>
-         <BottomTab 
-           activeTab="home" 
-           onTabPress={(tabId) => {
-             // Handle tab navigation here
-             console.log('Tab pressed:', tabId);
-           }} 
-         />
      </View>
    )
  }
