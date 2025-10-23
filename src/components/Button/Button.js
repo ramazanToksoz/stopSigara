@@ -12,6 +12,8 @@ const Button = ({
   onPress,
   hideArrow = false, // Arrow'u gizlemek için
   leftIcon = null, // Sol tarafta gösterilecek icon
+  hasIconLeft = false, // Sol tarafta icon göster
+  iconLeft = 'share', // Sol taraftaki icon tipi
 }) => {
   const isDark = mode === 'dark';
   
@@ -90,6 +92,17 @@ const Button = ({
     if (size === 'sm') return 20;
     return 24;
   };
+
+  const getIconSource = (iconType) => {
+    switch (iconType) {
+      case 'share':
+        return require('../../assets/images/icons/share.png');
+      case 'arrow-right':
+        return require('../../assets/images/icons/arrow-right.png');
+      default:
+        return require('../../assets/images/icons/more.png');
+    }
+  };
   
   // Arrow ikonunu göster (sadece default ve soft butonlarda)
   const shouldShowArrow = () => {
@@ -118,9 +131,9 @@ const Button = ({
       disabled={disabled}
       activeOpacity={0.7}
     >
-      {leftIcon && (
+      {(leftIcon || hasIconLeft) && (
         <Image 
-          source={leftIcon} 
+          source={leftIcon || getIconSource(iconLeft)} 
           style={{ 
             width: size === 'xs' || size === 'sm' ? 18 : 20, 
             height: size === 'xs' || size === 'sm' ? 18 : 20,

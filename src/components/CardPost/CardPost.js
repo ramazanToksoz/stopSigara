@@ -15,7 +15,8 @@ const CardPost = ({
   onLike,
   onComment,
   onSave,
-  onMore
+  onMore,
+  navigation
 }) => {
   const [showSettings, setShowSettings] = useState(false);
   const getAvatarSource = () => {

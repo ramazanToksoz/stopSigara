@@ -4,7 +4,7 @@ import { Colors } from '../../constants/Colors';
 
 export const styles = StyleSheet.create({
   postCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F4F4F6', // Gray/5 from Figma
     borderRadius: 16,
     padding: scale(16),
     shadowColor: 'rgba(44, 44, 50, 0.06)',

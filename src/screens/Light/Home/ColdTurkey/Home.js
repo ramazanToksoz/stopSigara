@@ -22,6 +22,7 @@ const ColdTurkeyHome = ({ navigation }) => {
               avatarSource={require('../../../../assets/images/icons/Avatar.png')}
               greetingText="Good morning,"
               userName="Brian"
+              onLeadingPress={() => navigation.navigate('Profile')}
               trailingType="notification"
               notificationIcon={require('../../../../assets/images/icons/TrailingItem.png')}
               hasNotificationIndicator={true}

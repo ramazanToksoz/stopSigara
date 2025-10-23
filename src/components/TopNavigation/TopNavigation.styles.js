@@ -243,4 +243,25 @@ export const styles = StyleSheet.create({
     width: scale(24),
     height: scale(24),
   },
+
+  // Add Icon Button Styles (for green background button)
+  addIconButton: {
+    backgroundColor: '#58B658', // Brand/60 from Figma
+    borderRadius: scale(20), // 360px equivalent
+    width: scale(40),
+    height: scale(40),
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: 'rgba(88, 182, 88, 0.3)',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 1,
+    shadowRadius: 12,
+    elevation: 5,
+  },
+
+  addIcon: {
+    width: scale(20),
+    height: scale(20),
+    tintColor: '#FFFFFF',
+  },
 });

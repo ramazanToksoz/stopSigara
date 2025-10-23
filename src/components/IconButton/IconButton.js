@@ -21,12 +21,18 @@ const IconButton = ({
     if (type === 'Primary' && style === 'Soft') {
       return styles.primarySoft;
     }
+    if (type === 'Gray') {
+      return styles.grayStyle;
+    }
     return styles.primaryDefault;
   };
 
   const getIconStyle = () => {
     if (type === 'Primary') {
       return styles.primaryIcon;
+    }
+    if (type === 'Gray') {
+      return styles.grayIcon;
     }
     return styles.baseIcon;
   };

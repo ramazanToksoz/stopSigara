@@ -7,6 +7,7 @@ import { LineChart } from "react-native-gifted-charts";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 const ColdTurkeyStatistics = ({ navigation }) => {
+  console.log("=== COLD TURKEY STATISTICS COMPONENT LOADED ===");
   const [activeTab, setActiveTab] = useState("This Week");
   const [selectedValue, setSelectedValue] = useState(null);
 

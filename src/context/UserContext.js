@@ -11,6 +11,7 @@ export const UserProvider = ({ children }) => {
   });
 
   const updateQuitMethod = (method) => {
+    console.log("UserContext - updateQuitMethod called with:", method);
     setQuitMethod(method);
   };
 

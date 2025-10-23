@@ -17,12 +17,14 @@ const Onboarding3 = ({ navigation }) => {
   };
   
   const handleNext = () => {
-    console.log("Next - Selected method:", selectedMethod);
+    console.log("Onboarding3 - Next - Selected method:", selectedMethod);
     
     if (selectedMethod === 'gradual') {
+      console.log("Onboarding3 - Setting quitMethod to 'gradual'");
       updateQuitMethod('gradual');
       navigation.navigate('SmokeSum');
     } else if (selectedMethod === 'cold-turkey' && quitDate) {
+      console.log("Onboarding3 - Setting quitMethod to 'coldturkey'");
       updateQuitMethod('coldturkey');
       updateUserData({ quitDate: quitDate.toISOString() });
       console.log("Quit date:", quitDate.toLocaleDateString('tr-TR'));

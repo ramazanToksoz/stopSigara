@@ -1,0 +1,180 @@
+import { StyleSheet } from 'react-native';
+import { Colors } from '../../constants/Colors';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+
+
+export const styles = StyleSheet.create({
+  backdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-end',
+  },
+  backdropTouchable: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  modalContainer: {
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: moderateScale(24),
+    borderTopRightRadius: moderateScale(24),
+    borderBottomLeftRadius: moderateScale(24),
+    borderBottomRightRadius: moderateScale(24),
+    height: verticalScale(500),
+    flexDirection: 'column',
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: scale(12),
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingBottom: verticalScale(20),
+  },
+  header: {
+    alignItems: 'center',
+    marginVertical: verticalScale(12),
+  },
+  logoContainer: {
+    marginBottom: verticalScale(8),
+  },
+  logoBackground: {
+    width: moderateScale(60),
+    height: moderateScale(60),
+    borderRadius: moderateScale(30),
+    backgroundColor: '#58B658',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    width: moderateScale(40),
+    height: moderateScale(40),
+  },
+  headerText: {
+    alignItems: 'center',
+    width: scale(346),
+  },
+  headerTitle: {
+    fontFamily: 'DM Sans',
+    fontSize: moderateScale(20),
+    fontWeight: '700',
+    lineHeight: verticalScale(28),
+    color: '#3C3E44',
+    textAlign: 'center',
+    marginBottom: verticalScale(8),
+    letterSpacing: moderateScale(-0.2),
+  },
+  headerSubtitle: {
+    fontFamily: 'DM Sans',
+    fontSize: moderateScale(16),
+    fontWeight: '400',
+    lineHeight: verticalScale(22),
+    color: '#54565F',
+    textAlign: 'center',
+    letterSpacing: moderateScale(-0.112),
+  },
+  featuresSection: {
+    marginVertical: verticalScale(8),
+  },
+  featuresTitle: {
+    fontFamily: 'DM Sans',
+    fontSize: moderateScale(14),
+    fontWeight: '400',
+    lineHeight: verticalScale(20),
+    color: '#6C707A',
+    marginBottom: verticalScale(8),
+    letterSpacing: moderateScale(-0.084),
+  },
+  featuresList: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: moderateScale(16),
+    overflow: 'hidden',
+  },
+  featureItem: {
+    paddingHorizontal: scale(16),
+    paddingVertical: verticalScale(12),
+  },
+  divider: {
+    height: verticalScale(1),
+    backgroundColor: '#E9EAEC',
+    marginLeft: scale(16),
+  },
+  bottomSection: {
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: verticalScale(-4),
+    },
+    shadowOpacity: 0.03,
+    shadowRadius: moderateScale(8),
+    elevation: 8,
+  },
+  pricingContainer: {
+    paddingHorizontal: scale(20),
+    paddingVertical: verticalScale(8),
+  },
+  priceText: {
+    fontFamily: 'DM Sans',
+    fontSize: moderateScale(24),
+    fontWeight: '700',
+    lineHeight: verticalScale(32),
+    color: '#3C3E44',
+    textAlign: 'center',
+    marginVertical: verticalScale(8),
+    letterSpacing: moderateScale(-0.288),
+  },
+  startTrialButton: {
+    backgroundColor: '#58B658',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: scale(16),
+    paddingVertical: verticalScale(12),
+    borderRadius: moderateScale(14),
+    marginVertical: verticalScale(8),
+    shadowColor: '#58B658',
+    shadowOffset: {
+      width: 0,
+      height: verticalScale(5),
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: moderateScale(12),
+    elevation: 5,
+  },
+  startTrialText: {
+    fontFamily: 'DM Sans',
+    fontSize: moderateScale(18),
+    fontWeight: '700',
+    lineHeight: verticalScale(24),
+    color: '#FFFFFF',
+    letterSpacing: moderateScale(-0.144),
+    marginRight: scale(8),
+  },
+  arrowIcon: {
+    width: moderateScale(16.667),
+    height: moderateScale(16.667),
+    tintColor: '#FFFFFF',
+  },
+  trialText: {
+    fontFamily: 'DM Sans',
+    fontSize: moderateScale(13),
+    fontWeight: '400',
+    lineHeight: verticalScale(16),
+    color: '#6C707A',
+    textAlign: 'center',
+    marginVertical: verticalScale(8),
+    letterSpacing: moderateScale(-0.065),
+  },
+  homeIndicator: {
+    height: verticalScale(24),
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingVertical: verticalScale(8),
+  },
+  homeIndicatorBar: {
+    width: scale(134),
+    height: verticalScale(5),
+    backgroundColor: '#000000',
+    borderRadius: moderateScale(10),
+  },
+});

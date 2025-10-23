@@ -23,7 +23,7 @@ const TopNavigation = ({
   
   // Trailing Item (Sağ)
   showTrailingItem = true,
-  trailingType = 'button', // 'button', 'icon', 'notification', or 'none'
+  trailingType = 'button', // 'button', 'icon', 'notification', 'iconButton', or 'none'
   trailingText = 'Skip',
   trailingIcon = 'setting-2', // icon type for trailing icon
   onTrailingPress,
@@ -52,7 +52,11 @@ const TopNavigation = ({
     
     if (leadingType === 'avatar') {
       return (
-        <View style={styles.leadingAvatar}>
+        <TouchableOpacity 
+          style={styles.leadingAvatar}
+          onPress={onLeadingPress}
+          activeOpacity={0.7}
+        >
           <View style={styles.avatarContainer}>
             <Image 
               source={avatarSource || require('../../assets/images/icons/logo.png')}
@@ -68,11 +72,20 @@ const TopNavigation = ({
               {userName}
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
       );
     }
     
     if (leadingType === 'icon') {
+      const getLeadingIconSource = () => {
+        switch (leadingIcon) {
+          case 'arrow-circle-left':
+            return require('../../assets/images/icons/arrow-circle-left.png');
+          default:
+            return require('../../assets/images/icons/Leading.png');
+        }
+      };
+
       return (
         <TouchableOpacity 
           style={styles.leading}
@@ -80,7 +93,7 @@ const TopNavigation = ({
           activeOpacity={0.7}
         >
           <Image 
-            source={require('../../assets/images/icons/Leading.png')}
+            source={getLeadingIconSource()}
             style={[
               styles.leadingIcon,
               { tintColor: darkMode ? '#FFFFFF' : '#54565F' }
@@ -145,10 +158,37 @@ const TopNavigation = ({
             return require('../../assets/images/icons/setting-2.png');
           case 'arrow-circle-left':
             return require('../../assets/images/icons/Leading.png');
+          case 'add':
+            return require('../../assets/images/icons/add.png');
+          case 'document-copy':
+            return require('../../assets/images/icons/document-copy.png');
+          case 'close-circle':
+            return require('../../assets/images/icons/close-circle.png');
+          case 'close-circle2':
+            return require('../../assets/images/icons/close-circle2.png');
           default:
             return require('../../assets/images/icons/setting-2.png');
         }
       };
+
+      // Special styling for add icon (green background)
+      if (trailingIcon === 'add') {
+        return (
+          <View style={styles.trailing}>
+            <TouchableOpacity 
+              style={styles.addIconButton}
+              onPress={onTrailingPress}
+              activeOpacity={0.7}
+            >
+              <Image 
+                source={getTrailingIconSource()}
+                style={styles.addIcon}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          </View>
+        );
+      }
 
       return (
         <View style={styles.trailing}>

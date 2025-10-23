@@ -4,7 +4,7 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FCFCFD', // Screen Background
+    backgroundColor: '#FCFCFD', // Screen Background from Figma
   },
   
   content: {
@@ -94,7 +94,7 @@ export const styles = StyleSheet.create({
 
   // Tab Group Pills
   tabGroupContainer: {
-    backgroundColor: '#E9EAEC', // Gray/10
+    backgroundColor: '#E9EAEC', // Gray/10 from Figma
     flexDirection: 'row',
     paddingHorizontal: scale(6),
     paddingVertical: verticalScale(4),
@@ -115,7 +115,7 @@ export const styles = StyleSheet.create({
   },
 
   tabPillActive: {
-    backgroundColor: '#FFFFFF', // Gray/0 (White)
+    backgroundColor: '#FFFFFF', // Gray/0 (White) from Figma
     shadowColor: 'rgba(15, 23, 42, 0.12)',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
@@ -125,9 +125,9 @@ export const styles = StyleSheet.create({
 
   tabPillText: {
     fontFamily: 'DMSans-SemiBold',
-    fontSize: moderateScale(13), // Body xs/SemiBold
+    fontSize: moderateScale(13), // Body xs/SemiBold from Figma
     lineHeight: moderateScale(16),
-    color: '#54565F', // Gray/60
+    color: '#54565F', // Gray/60 from Figma
     letterSpacing: -0.065,
   },
 
@@ -137,7 +137,7 @@ export const styles = StyleSheet.create({
 
   // Chart Section
   chartSection: {
-    height: verticalScale(454),
+    height: verticalScale(467), // Figma height
     marginBottom: verticalScale(24),
   },
 
@@ -153,145 +153,52 @@ export const styles = StyleSheet.create({
 
   chartTitle: {
     fontFamily: 'DMSans-Bold',
-    fontSize: moderateScale(16), // Body md/Bold
+    fontSize: moderateScale(16), // Body md/Bold from Figma
     lineHeight: moderateScale(22),
-    color: '#54565F', // Gray/60
+    color: '#54565F', // Gray/60 from Figma
     letterSpacing: -0.112,
   },
 
-  trendContainer: {
-    alignItems: 'flex-end',
-  },
-
-  trendText: {
-    fontFamily: 'DMSans-Medium',
-    fontSize: moderateScale(12),
+  chartSubtitle: {
+    fontFamily: 'DMSans-Regular',
+    fontSize: moderateScale(13), // Body xs/Regular from Figma
     lineHeight: moderateScale(16),
+    color: '#60646C', // Gray/50 from Figma
     letterSpacing: -0.065,
-  },
-
-  trendDown: {
-    color: '#58B658', // Brand/60 - pozitif trend
-  },
-
-  trendUp: {
-    color: '#FF6565', // Semantic/Destructive - negatif trend
+    marginTop: verticalScale(2),
   },
 
   chartContainer: {
+    height: verticalScale(327), // Figma chart height
+    marginBottom: verticalScale(12),
+  },
+
+  // Chart Legend
+  chartLegend: {
     flexDirection: 'row',
-    height: verticalScale(327),
-    marginBottom: verticalScale(48),
-    gap: scale(22), // Figma'da 22px gap
-  },
-
-  yAxis: {
-    width: scale(21),
-    height: '100%',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    gap: verticalScale(39), // Figma'da 39px gap
-  },
-
-  yAxisLabel: {
-    fontFamily: 'DMSans-SemiBold',
-    fontSize: moderateScale(16), // Body md/SemiBold
-    lineHeight: moderateScale(22),
-    color: '#6C707A', // Gray/40
-    textAlign: 'right',
-    letterSpacing: -0.112,
-  },
-
-  chartContent: {
-    width: scale(318), // Figma'da 318px
-    height: verticalScale(314),
-    position: 'relative',
-  },
-
-  chartGrid: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-
-  gridLine: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 1,
-    backgroundColor: '#E9EAEC', // Gray/10
-    opacity: 0.3,
-  },
-
-  chartLine: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-
-  dataPoint: {
-    position: 'absolute',
-    width: scale(8),
-    height: scale(8),
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: '#FFFFFF',
-  },
-
-  actualDataPoint: {
-    backgroundColor: '#58B658', // Brand/60 - gerçek tüketim
-  },
-
-  targetDataPoint: {
-    backgroundColor: '#7B68EE', // Target line color - hedef tüketim
-  },
-
-  xAxis: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: scale(318),
-    height: verticalScale(48), // Figma'da 48px yükseklik
-    marginLeft: scale(43), // Y-axis'den sonra 43px offset
-  },
-
-  xAxisItem: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: verticalScale(8),
-    height: verticalScale(48),
     justifyContent: 'center',
+    alignItems: 'center',
+    gap: scale(24),
+    marginTop: verticalScale(20), // Üstten margin eklendi
   },
 
-  xAxisDay: {
-    fontFamily: 'DMSans-Bold',
-    fontSize: moderateScale(14), // Body sm/Bold
-    lineHeight: moderateScale(20),
-    color: '#6C707A', // Gray/40
-    opacity: 0.8,
-    letterSpacing: -0.084,
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: scale(4),
   },
 
-  xAxisDate: {
-    fontFamily: 'DMSans-Medium',
-    fontSize: moderateScale(14), // Body sm/Medium
-    lineHeight: moderateScale(20),
-    color: '#6C707A', // Gray/40
-    opacity: 0.6,
-    letterSpacing: -0.084,
+  legendDot: {
+    width: scale(20),
+    height: scale(5),
+    borderRadius: scale(2),
   },
 
-  xAxisValue: {
-    fontFamily: 'DMSans-Bold',
-    fontSize: moderateScale(10),
-    lineHeight: moderateScale(12),
-    color: '#58B658', // Brand/60
-    marginTop: verticalScale(2),
+  legendText: {
+    fontSize: moderateScale(13), // Body xs/Regular from Figma
+    fontFamily: 'DMSans-Regular',
+    color: '#8E949F', // Gray/30 from Figma
+    letterSpacing: -0.065,
   },
 
   // Metrics Section
@@ -301,7 +208,7 @@ export const styles = StyleSheet.create({
   },
 
   mainMetricCard: {
-    backgroundColor: '#FFFFFF', // Gray/0 (White)
+    backgroundColor: '#FFFFFF', // Gray/0 (White) from Figma
     borderRadius: 16,
     padding: scale(24),
     shadowColor: 'rgba(44, 44, 50, 0.06)',
@@ -309,6 +216,7 @@ export const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 4,
     elevation: 2,
+    height: verticalScale(134), // Figma height
   },
 
   mainMetricTop: {
@@ -319,25 +227,25 @@ export const styles = StyleSheet.create({
 
   mainMetricValue: {
     fontFamily: 'DMSans-Bold',
-    fontSize: moderateScale(24), // Body 2xl/Bold
+    fontSize: moderateScale(24), // Body 2xl/Bold from Figma
     lineHeight: moderateScale(32),
-    color: '#58B658', // Brand/60
+    color: '#58B658', // Brand/60 from Figma
     letterSpacing: -0.288,
   },
 
   mainMetricLabel: {
     fontFamily: 'DMSans-Medium',
-    fontSize: moderateScale(18), // Body lg/Medium
+    fontSize: moderateScale(18), // Body lg/Medium from Figma
     lineHeight: moderateScale(24),
-    color: '#54565F', // Gray/60
+    color: '#54565F', // Gray/60 from Figma
     letterSpacing: -0.144,
   },
 
   mainMetricDescription: {
     fontFamily: 'DMSans-Medium',
-    fontSize: moderateScale(16), // Body md/Medium
+    fontSize: moderateScale(16), // Body md/Medium from Figma
     lineHeight: moderateScale(22),
-    color: '#8E949F', // Gray/30
+    color: '#8E949F', // Gray/30 from Figma
     letterSpacing: -0.112,
   },
 
@@ -348,7 +256,7 @@ export const styles = StyleSheet.create({
 
   secondaryCard: {
     flex: 1,
-    backgroundColor: '#FFFFFF', // Gray/0 (White)
+    backgroundColor: '#FFFFFF', // Gray/0 (White) from Figma
     borderRadius: 16,
     padding: scale(18),
     shadowColor: 'rgba(44, 44, 50, 0.06)',
@@ -376,41 +284,49 @@ export const styles = StyleSheet.create({
 
   secondaryCardValue: {
     fontFamily: 'DMSans-ExtraBold',
-    fontSize: moderateScale(26), // Heading xs/ExtraBold
+    fontSize: moderateScale(26), // Heading xs/ExtraBold from Figma
     lineHeight: moderateScale(32),
-    color: '#58B658', // Brand/60
+    color: '#58B658', // Brand/60 from Figma
     letterSpacing: -0.338,
   },
 
   secondaryCardLabel: {
     fontFamily: 'DMSans-SemiBold',
-    fontSize: moderateScale(14), // Body sm/SemiBold
+    fontSize: moderateScale(14), // Body sm/SemiBold from Figma
     lineHeight: moderateScale(20),
-    color: '#6C707A', // Gray/40
+    color: '#6C707A', // Gray/40 from Figma
     letterSpacing: -0.084,
   },
 
-  // Chart Legend
-  chartLegend: {
-    flexDirection: 'row',
+  // Pointer Label Styles
+  pointerLabelContainer: {
+    position: 'absolute',
+    top: -40,
+    left: -50,
+    width: 100,
+    height: 90,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: verticalScale(12),
-    gap: scale(20)
   },
-  legendItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: scale(6)
+
+  pointerLabel: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    paddingHorizontal: scale(8),
+    paddingVertical: verticalScale(4),
+    shadowColor: 'rgba(0, 0, 0, 0.1)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#E9EAEC',
   },
-  legendDot: {
-    width: scale(8),
-    height: scale(8),
-    borderRadius: scale(4)
-  },
-  legendText: {
-    fontSize: scale(12),
-    fontFamily: 'DMSans-Medium',
-    color: '#6C707A'
+
+  pointerLabelText: {
+    fontFamily: 'DMSans-SemiBold',
+    fontSize: moderateScale(12),
+    color: '#54565F',
+    textAlign: 'center',
   },
 });

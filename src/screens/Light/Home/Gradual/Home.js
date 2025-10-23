@@ -11,7 +11,7 @@ import TopNavigation from '../../../../components/TopNavigation';
 
 const GradualHome = ({ navigation }) => {
   const { userData } = useUser()
-
+console.log("GradualHome")
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.brand[60]} />
@@ -26,6 +26,7 @@ const GradualHome = ({ navigation }) => {
               avatarSource={require('../../../../assets/images/icons/Avatar.png')}
               greetingText="Good morning,"
               userName="Brian"
+              onLeadingPress={() => navigation.navigate('Profile')}
               trailingType="notification"
               notificationIcon={require('../../../../assets/images/icons/notification.png')}
               hasNotificationIndicator={true}

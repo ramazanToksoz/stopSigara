@@ -33,6 +33,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+  // Gray Style (for AddPost buttons)
+  grayStyle: {
+    backgroundColor: '#F4F4F6', // Gray/5 from Figma
+    borderRadius: 360,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   
   // Size Styles
   sizeDefault: {
@@ -42,9 +50,9 @@ export const styles = StyleSheet.create({
   },
   
   sizeSm: {
-    width: scale(40),
-    height: scale(40),
-    padding: scale(10),
+    width: scale(48),
+    height: scale(48),
+    padding: scale(12),
   },
   
   sizeXs: {
@@ -65,10 +73,15 @@ export const styles = StyleSheet.create({
     height: scale(24),
     tintColor: Colors.gray[60],
   },
-  
-  iconSm: {
+
+  grayIcon: {
     width: scale(20),
     height: scale(20),
+  },
+  
+  iconSm: {
+    width: scale(24),
+    height: scale(24),
   },
   
   iconXs: {
