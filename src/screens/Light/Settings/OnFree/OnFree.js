@@ -4,10 +4,12 @@ import { styles } from './OnFree.styles';
 import TopNavigation from '../../../../components/TopNavigation';
 import ListItem from '../../../../components/ListItem';
 import UpgradePlusModal from '../../../../components/UpgradePlusModal';
+import Logout from '../Logout';
 
 const OnFree = ({ navigation }) => {
   console.log("onfree")
   const [isUpgradeModalVisible, setIsUpgradeModalVisible] = useState(false);
+  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
 
   const handleProfilePress = () => {
     navigation.navigate('EditProfile');
@@ -39,13 +41,21 @@ const OnFree = ({ navigation }) => {
   };
 
   const handleAboutPress = () => {
-    // Navigate to about
-    console.log('About pressed');
+    navigation.navigate('About');
   };
 
   const handleLogoutPress = () => {
-    // Handle logout
-    console.log('Logout pressed');
+    setIsLogoutModalVisible(true);
+  };
+
+  const handleLogoutConfirm = () => {
+    // Handle actual logout logic here
+    console.log('User confirmed logout');
+    // You can add logout logic here, e.g., clear user data, navigate to login, etc.
+  };
+
+  const handleLogoutClose = () => {
+    setIsLogoutModalVisible(false);
   };
 
   const handleUpgradePress = () => {
@@ -277,6 +287,13 @@ const OnFree = ({ navigation }) => {
         onClose={handleCloseModal}
         onStartTrial={handleStartTrial}
         navigation={navigation}
+      />
+
+      {/* Logout Modal */}
+      <Logout
+        visible={isLogoutModalVisible}
+        onClose={handleLogoutClose}
+        onConfirm={handleLogoutConfirm}
       />
     </View>
   );

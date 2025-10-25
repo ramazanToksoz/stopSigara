@@ -31,6 +31,9 @@ import ChangePassword from '../screens/Light/Settings/Security/ChangePassword';
 import SettingsNotificationsScreen from '../screens/Light/Settings/SettingsNotificationsScreen';
 import Language from '../screens/Light/Settings/Language';
 import Help from '../screens/Light/Settings/Help';
+import About from '../screens/Light/Settings/About';
+import Terms from '../screens/Light/Settings/Terms';
+import Logout from '../screens/Light/Settings/Logout';
 import MainLayout from '../components/MainLayout';
 import { useUser } from '../context/UserContext';
 
@@ -221,6 +224,28 @@ const AppNavigator = () => {
         <Stack.Screen 
           name="Help" 
           component={Help}
+        />
+        
+        {/* About Screen */}
+        <Stack.Screen 
+          name="About" 
+          component={About}
+        />
+        
+        {/* Terms Screen */}
+        <Stack.Screen 
+          name="Terms" 
+          component={Terms}
+        />
+        
+        {/* Logout Screen */}
+        <Stack.Screen 
+          name="Logout" 
+          component={Logout}
+          options={{
+            presentation: 'transparentModal',
+            headerShown: false,
+          }}
         />
               </Stack.Navigator>
     </NavigationContainer>
