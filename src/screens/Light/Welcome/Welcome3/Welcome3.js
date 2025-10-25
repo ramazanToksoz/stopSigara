@@ -7,6 +7,7 @@ import NavigationDots from '../../../../components/NavigationDots';
 import Button from '../../../../components/Button';
 
 const Welcome3 = ({ navigation }) => {
+  console.log('Welcome3');
   const handleFinish = () => {
     navigation.navigate('Onboarding');
   };
@@ -16,8 +17,7 @@ const Welcome3 = ({ navigation }) => {
   };
 
   const handleSkip = () => {
-    // TODO: Skip to main screen (Home veya Onboarding)
-    console.log('Skip to main screen');
+    navigation.navigate('Onboarding');
   };
 
   const handleSignIn = () => {

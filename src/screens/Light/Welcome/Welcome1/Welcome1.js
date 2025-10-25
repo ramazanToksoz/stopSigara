@@ -6,6 +6,7 @@ import TopNavigation from '../../../../components/TopNavigation';
 import NavigationDots from '../../../../components/NavigationDots';
 import Button from '../../../../components/Button';
 const Welcome1 = ({ navigation }) => {
+  console.log('Welcome1');
   const handleNext = () => {
     navigation.navigate('Welcome2');
   };
@@ -15,13 +16,11 @@ const Welcome1 = ({ navigation }) => {
   };
 
   const handleSkip = () => {
-    // TODO: Skip to main screen (Home veya Onboarding)
-    console.log('Skip to main screen');
+    navigation.navigate('Onboarding');
   };
 
   const handleSignIn = () => {
-    // TODO: Navigate to sign in
-    console.log('Navigate to sign in');
+    navigation.navigate('Auth');
   };
 
   return (

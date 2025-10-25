@@ -7,6 +7,7 @@ import Input from '../../../../../components/Input'
 import Button from '../../../../../components/Button'
 
 const VerifyOTP = ({ navigation, route }) => {
+  console.log('VerifyOTP');
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(24);
   const [hasError, setHasError] = useState(false);

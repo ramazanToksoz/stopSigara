@@ -7,6 +7,7 @@ import Button from '../../../../../../components/Button'
 import { useUser } from '../../../../../../context/UserContext'
 
 const Target = ({ navigation, route }) => {
+  console.log('Target');
   const { updateUserData } = useUser();
   const { dailyCigarettes = 20 } = route?.params || {}
   const [selectedTarget, setSelectedTarget] = useState(null)

@@ -7,12 +7,22 @@ import { Colors } from '../../../../constants/Colors'
 import ListItem from '../../../../components/ListItem'
 import Button from '../../../../components/Button'
 import Input from '../../../../components/Input'
+import { useUser } from '../../../../context/UserContext'
 const Onboarding2 = ({ navigation }) => {
+  console.log('Onboarding2');
+  const { updateUserData } = useUser();
+  
   const handleSkip = () => {
     navigation.navigate('Onboarding4');
   };
   
   const handleNext = () => {
+    // Get selected reason
+    const selectedReason = selectedOption === 4 ? otherReason : options.find(opt => opt.id === selectedOption)?.title;
+    
+    // Save quit reason type to context
+    updateUserData({ quitReasonType: selectedReason });
+    console.log('Onboarding2 - Saved quit reason type:', selectedReason);
     navigation.navigate('Onboarding3');
   };
   

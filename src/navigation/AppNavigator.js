@@ -34,8 +34,8 @@ import Help from '../screens/Light/Settings/Help';
 import About from '../screens/Light/Settings/About';
 import Terms from '../screens/Light/Settings/Terms';
 import Logout from '../screens/Light/Settings/Logout';
+import OnboardingData from '../screens/Light/Test/OnboardingData';
 import MainLayout from '../components/MainLayout';
-import { useUser } from '../context/UserContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,7 +43,7 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName="Home" 
+        initialRouteName="Welcome" 
         screenOptions={{ 
           headerShown: false,
           animation: 'fade',
@@ -247,7 +247,10 @@ const AppNavigator = () => {
             headerShown: false,
           }}
         />
-              </Stack.Navigator>
+        
+        {/* Test Screen */}
+        <Stack.Screen name="OnboardingData" component={OnboardingData} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

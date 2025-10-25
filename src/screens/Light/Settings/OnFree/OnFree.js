@@ -49,9 +49,8 @@ const OnFree = ({ navigation }) => {
   };
 
   const handleLogoutConfirm = () => {
-    // Handle actual logout logic here
-    console.log('User confirmed logout');
-    // You can add logout logic here, e.g., clear user data, navigate to login, etc.
+    // Navigate back to Welcome screen
+    navigation.navigate('Welcome');
   };
 
   const handleLogoutClose = () => {

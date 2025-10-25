@@ -10,6 +10,7 @@ import DatePicker from '../../../../components/DatePicker'
 import { useUser } from '../../../../context/UserContext'
 
 const Onboarding3 = ({ navigation }) => {
+  console.log('Onboarding3');
   const { updateQuitMethod, updateUserData } = useUser();
   
   const handleSkip = () => {

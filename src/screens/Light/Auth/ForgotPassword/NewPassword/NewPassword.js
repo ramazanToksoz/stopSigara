@@ -8,6 +8,7 @@ import Button from '../../../../../components/Button'
 import Alert from '../../../../../components/Alert'
 
 const NewPassword = ({ navigation }) => {
+  console.log('NewPassword');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);

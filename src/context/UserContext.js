@@ -5,9 +5,19 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [quitMethod, setQuitMethod] = useState(null); // 'coldturkey' or 'gradual'
   const [userData, setUserData] = useState({
-    dailyCigarettes: null,
-    targetReduction: null,
-    quitReason: '',
+    // Onboarding1 - Reminder preferences
+    reminders: [],
+    
+    // Onboarding2 - Quit reason (radio selection)
+    quitReasonType: null, // 'health', 'family', 'money', 'social', 'other'
+    
+    // Onboarding3 - Quit method and related data
+    quitDate: null, // For cold turkey
+    dailyCigarettes: null, // For gradual
+    targetReduction: null, // For gradual
+    
+    // Onboarding4 - Personal quit reason (text)
+    personalQuitReason: '',
   });
 
   const updateQuitMethod = (method) => {
@@ -22,9 +32,12 @@ export const UserProvider = ({ children }) => {
   const resetUserData = () => {
     setQuitMethod(null);
     setUserData({
+      reminders: [],
+      quitReasonType: null,
+      quitDate: null,
       dailyCigarettes: null,
       targetReduction: null,
-      quitReason: '',
+      personalQuitReason: '',
     });
   };
 

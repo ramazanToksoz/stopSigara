@@ -8,6 +8,7 @@ import Slider from '../../../../../../components/Slider'
 import { useUser } from '../../../../../../context/UserContext'
 
 const SmokeSum = ({ navigation }) => {
+  console.log('SmokeSum');
   const { updateUserData } = useUser();
   const [cigaretteCount, setCigaretteCount] = useState(20)
   

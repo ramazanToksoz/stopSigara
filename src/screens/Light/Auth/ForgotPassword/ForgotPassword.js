@@ -7,6 +7,7 @@ import Input from '../../../../components/Input'
 import Button from '../../../../components/Button'
 
 const ForgotPassword = ({ navigation }) => {
+  console.log('ForgotPassword');
   const [email, setEmail] = useState('');
 
   const handleContinue = () => {

@@ -9,13 +9,18 @@ import TextArea from '../../../../components/TextArea'
 import { useUser } from '../../../../context/UserContext'
 
 const Onboarding4 = ({ navigation }) => {
+  console.log('Onboarding4');
   const { updateUserData } = useUser();
   const [text, setText] = useState('');
   
   const handleNext = () => {
-    updateUserData({ quitReason: text });
-    console.log("Next - Onboarding4", text);
+    updateUserData({ personalQuitReason: text });
+    console.log("Onboarding4 - Saved personal quit reason:", text);
     navigation.navigate('Auth');
+  };
+
+  const handleTestData = () => {
+    navigation.navigate('OnboardingData');
   };
   
   return (
@@ -61,6 +66,12 @@ const Onboarding4 = ({ navigation }) => {
         </View>
         
         <View style={styles.buttonContainer}>
+          <Button 
+            text="Verileri Görüntüle (Test)" 
+            onPress={handleTestData}
+            hideArrow={true}
+            buttonStyle="neutral"
+          />
           <Button 
             text="Bitir" 
             onPress={handleNext}

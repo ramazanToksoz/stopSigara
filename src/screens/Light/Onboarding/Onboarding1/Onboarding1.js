@@ -6,12 +6,20 @@ import TopNavigation from "../../../../components/TopNavigation";
 import ListItem from "../../../../components/ListItem";
 import { Colors } from "../../../../constants/Colors";
 import Button from "../../../../components/Button";
+import { useUser } from "../../../../context/UserContext";
 
 const Onboarding1 = ({ navigation }) => {
+  console.log('Onboarding1');
+  const { updateUserData } = useUser();
+  
   const handleSkip = () => {
     navigation.navigate('Onboarding4');
   };
+  
   const handleNext = () => {
+    // Save reminder preferences to context
+    updateUserData({ reminders: reminders });
+    console.log('Onboarding1 - Saved reminders:', reminders);
     navigation.navigate('Onboarding2');
   };
   

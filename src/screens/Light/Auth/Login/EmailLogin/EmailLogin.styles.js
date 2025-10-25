@@ -103,5 +103,12 @@ export const styles = StyleSheet.create({
     lineHeight: moderateScale(20),
     letterSpacing: -0.006,
   },
+  errorText: {
+    fontSize: moderateScale(12),
+    fontFamily: 'DMSans-Medium',
+    color: '#FF3B30',
+    marginTop: verticalScale(4),
+    marginLeft: scale(4),
+  },
 });
 

@@ -8,7 +8,7 @@ const LoadingScreens = ({ navigation }) => {
     // 2 saniye sonra Welcome1'e git
     const timer = setTimeout(() => {
       navigation.replace('Welcome1');
-    }, 5000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [navigation]);

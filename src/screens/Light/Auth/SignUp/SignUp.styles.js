@@ -103,5 +103,12 @@ export const styles = StyleSheet.create({
     width: '100%',
     gap: verticalScale(8),
   },
+  errorText: {
+    fontSize: moderateScale(12),
+    fontFamily: 'DMSans-Medium',
+    color: '#FF3B30',
+    marginTop: verticalScale(4),
+    marginLeft: scale(4),
+  },
 });
 

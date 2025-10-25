@@ -6,6 +6,7 @@ import { Colors } from '../../../../constants/Colors'
 import Button from '../../../../components/Button'
 
 const Login = ({ navigation }) => {
+  console.log('Login');
   const handleGoogleAuth = () => {
     console.log('Google Auth');
     // TODO: Google authentication
