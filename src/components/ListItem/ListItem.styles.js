@@ -188,26 +188,135 @@ export const styles = StyleSheet.create({
   },
   radio: {
     width: scale(18),
-    height: verticalScale(18),
-    borderRadius: moderateScale(360), // Tam yuvarlak
+    height: scale(18), // verticalScale yerine scale kullan
+    borderRadius: scale(9), // width/2 = 9px yarıçap
     borderWidth: 1,
     borderColor: '#C5C8CE', // Gray/20
     backgroundColor: '#F4F4F6', // Gray/5
     justifyContent: 'center',
     alignItems: 'center',
   },
+  radioActive: {
+    backgroundColor: '#54565F', // Figma'ya göre koyu gri arka plan
+    borderColor: '#54565F', // Figma'ya göre koyu gri border
+  },
   radioDark: {
     backgroundColor: '#303236', // Gray/90
     borderColor: '#54565F', // Gray/60
   },
   radioInner: {
-    width: scale(10),
-    height: verticalScale(10),
-    borderRadius: moderateScale(360), // Tam yuvarlak
-    backgroundColor: '#75D275', // Brand/50
+    width: scale(8),
+    height: scale(8), // verticalScale yerine scale kullan
+    borderRadius: scale(4), // width/2 = 4px yarıçap
+    backgroundColor: '#54565F', // Figma'ya göre koyu gri
   },
   radioInnerDark: {
     backgroundColor: '#75D275', // Brand/50 (aynı kalır)
+  },
+  
+  // Switch Styles
+  switchContainer: {
+    // Container için özel stil gerekmiyor
+  },
+  switch: {
+    width: scale(44),
+    height: verticalScale(24),
+    borderRadius: moderateScale(123), // Tam yuvarlak
+    backgroundColor: '#E9EAEC', // Gray/10
+    padding: moderateScale(2),
+    justifyContent: 'center',
+  },
+  switchActive: {
+    backgroundColor: '#46E01F', // Semantic/Success
+  },
+  switchDark: {
+    backgroundColor: '#303236', // Gray/90
+  },
+  switchThumb: {
+    width: scale(20),
+    height: verticalScale(20),
+    borderRadius: moderateScale(360), // Tam yuvarlak
+    backgroundColor: '#FFFFFF', // White
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  switchThumbActive: {
+    transform: [{ translateX: scale(20) }], // Sağa kaydır
+  },
+  switchThumbDark: {
+    backgroundColor: '#FFFFFF', // White (aynı kalır)
+  },
+  
+  // Trailing Button Styles
+  trailingButton: {
+    borderRadius: moderateScale(8),
+    paddingHorizontal: scale(12),
+    paddingVertical: verticalScale(6),
+    shadowColor: '#32313D',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 5,
+  },
+  trailingButtonPrimary: {
+    backgroundColor: '#58B658', // Brand/60
+  },
+  trailingButtonNeutral: {
+    backgroundColor: '#3C3E44', // Gray/80
+  },
+  trailingButtonXs: {
+    paddingHorizontal: scale(8),
+    paddingVertical: verticalScale(4),
+  },
+  trailingButtonSm: {
+    paddingHorizontal: scale(10),
+    paddingVertical: verticalScale(5),
+  },
+  trailingButtonMd: {
+    paddingHorizontal: scale(12),
+    paddingVertical: verticalScale(6),
+  },
+  trailingButtonDark: {
+    // Dark mode için özel stiller
+  },
+  trailingButtonText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  trailingButtonTextXs: {
+    fontSize: moderateScale(12),
+  },
+  trailingButtonTextSm: {
+    fontSize: moderateScale(14),
+  },
+  trailingButtonTextMd: {
+    fontSize: moderateScale(16),
+  },
+  trailingButtonTextPrimary: {
+    color: '#FFFFFF', // White
+  },
+  trailingButtonTextNeutral: {
+    color: '#FFFFFF', // White
+  },
+  trailingButtonTextDark: {
+    // Dark mode için özel text stilleri
+  },
+  
+  // Divider for grouped items
+  divider: {
+    height: 1,
+    backgroundColor: '#E9EAEC', // Gray/10 - Figma'ya göre çok subtle
+    marginLeft: scale(16),
+    marginRight: scale(60), // Sağ tarafa yakın olması için daha az margin
   },
 });
 

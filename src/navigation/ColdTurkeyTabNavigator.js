@@ -10,7 +10,7 @@ import ColdTurkeyStatistics from '../screens/Light/Statistics/ColdTurkey';
 import Notifications from '../screens/Light/Notifications';
 import CommunityMain from '../screens/Light/Community/Main';
 import CravingAssistance from '../screens/Light/CravingAssistance';
-import OnFree from '../screens/Light/Settings/OnFree';
+import OnPlus from '../screens/Light/Settings/OnPlus';
 
 const Tab = createBottomTabNavigator();
 
@@ -130,7 +130,7 @@ const ColdTurkeyTabNavigator = ({ navigation }) => {
       />
       <Tab.Screen 
         name="Settings" 
-        component={OnFree}
+        component={OnPlus}
         options={{ tabBarLabel: '' }}
       />
       <Tab.Screen 

@@ -115,7 +115,7 @@ const GradualTabNavigator = ({ navigation }) => {
     >
       <Tab.Screen 
         name="Settings" 
-        component={OnFree}
+        component={OnPlus}
         options={{ tabBarLabel: '' }}
       />
       <Tab.Screen 

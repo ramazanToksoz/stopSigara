@@ -22,6 +22,15 @@ import AchievementDetail from '../screens/Light/AchievementDetail';
 import QuitPlan from '../screens/Light/Settings/QuitPlan';
 import CongratsPLUS from '../screens/Light/Settings/Congrats-PLUS';
 import EditProfile from '../screens/Light/Settings/EditProfile';
+import PaymentMethodsList from '../screens/Light/Settings/PaymentMethods/List';
+import NewCard from '../screens/Light/Settings/PaymentMethods/NewCard';
+import Subscription from '../screens/Light/Settings/Subscription';
+import SecurityOptions from '../screens/Light/Settings/Security/SecurityOptions';
+import DeviceManagement from '../screens/Light/Settings/Security/DeviceManagement';
+import ChangePassword from '../screens/Light/Settings/Security/ChangePassword';
+import SettingsNotificationsScreen from '../screens/Light/Settings/SettingsNotificationsScreen';
+import Language from '../screens/Light/Settings/Language';
+import Help from '../screens/Light/Settings/Help';
 import MainLayout from '../components/MainLayout';
 import { useUser } from '../context/UserContext';
 
@@ -76,9 +85,9 @@ const AppNavigator = () => {
           }}
         />
         
-        {/* Notifications Screen */}
+        {/* Notifications Settings Screen */}
         <Stack.Screen 
-          name="Notifications" 
+          name="NotificationsSettings" 
           component={Notifications}
         />
         
@@ -158,6 +167,60 @@ const AppNavigator = () => {
         <Stack.Screen 
           name="EditProfile" 
           component={EditProfile}
+        />
+        
+        {/* PaymentMethodsList Screen */}
+        <Stack.Screen 
+          name="PaymentMethodsList" 
+          component={PaymentMethodsList}
+        />
+        
+        {/* NewCard Screen */}
+        <Stack.Screen 
+          name="NewCard" 
+          component={NewCard}
+        />
+        
+        {/* Subscription Screen */}
+        <Stack.Screen 
+          name="Subscription" 
+          component={Subscription}
+        />
+        
+        {/* SecurityOptions Screen */}
+        <Stack.Screen 
+          name="SecurityOptions" 
+          component={SecurityOptions}
+        />
+        
+        {/* DeviceManagement Screen */}
+        <Stack.Screen 
+          name="DeviceManagement" 
+          component={DeviceManagement}
+        />
+        
+        {/* ChangePassword Screen */}
+        <Stack.Screen 
+          name="ChangePassword" 
+          component={ChangePassword}
+        />
+        
+        {/* Settings Notifications Screen */}
+        <Stack.Screen 
+          name="SettingsNotificationsScreen" 
+          component={SettingsNotificationsScreen}
+        />
+        
+        {/* Language Screen */}
+        <Stack.Screen 
+          name="Language" 
+          component={Language}
+        />
+        
+        {/* Help Screen */}
+        <Stack.Screen 
+          name="Help" 
+          component={Help}
         />
               </Stack.Navigator>
     </NavigationContainer>

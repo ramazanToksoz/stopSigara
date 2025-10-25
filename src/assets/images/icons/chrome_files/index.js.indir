@@ -1,0 +1,59 @@
+// Handle the back button
+window.addEventListener("DOMContentLoaded", () => {
+  const backButton = document.getElementById("js-back-button");
+  if (
+    document.referrer &&
+    new URL(document.referrer).origin === window.location.origin
+  ) {
+    // do nothing
+  } else {
+    backButton.disabled = true;
+  }
+});
+
+// Cmd+Shift+L to open the lookup page
+document.addEventListener("keydown", (e) => {
+  const isMac = navigator.platform.toUpperCase().includes("MAC");
+
+  const cmd = isMac ? e.metaKey : e.ctrlKey;
+  const shift = e.shiftKey;
+  const l = e.key.toLowerCase() === "l";
+
+  if (cmd && shift && l) {
+    e.preventDefault();
+    console.log("Cmd+Shift+L triggered!");
+    runLookupFn();
+    // Your custom logic here
+  }
+});
+function runLookupFn() {
+  const lookupBase = "/lookup/";
+  const clickedIds = new Set();
+
+  document.querySelectorAll("icon-list a").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const href = el.getAttribute("href"); // e.g., "/icons/foo/"
+      const match = href.match(/^\/icons\/([^/]+)\/$/);
+      if (!match) return;
+
+      const id = match[1];
+      clickedIds.add(id);
+
+      const query = [...clickedIds]
+        .map((id) => `id=${encodeURIComponent(id)}`)
+        .join("&");
+      const fullUrl = window.location.origin + `${lookupBase}?${query}`;
+
+      navigator.clipboard
+        .writeText(fullUrl)
+        .then(() => {
+          console.log(`Copied to clipboard: ${fullUrl}`);
+        })
+        .catch((err) => {
+          console.error("Failed to copy:", err);
+        });
+    });
+  });
+}

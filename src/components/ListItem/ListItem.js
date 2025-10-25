@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { styles } from './ListItem.styles';
 import LeadingItems from '../LeadingItems';
-
 const ListItem = ({
   // Type
   type = 'default', // 'default', 'checkbox'
@@ -33,7 +32,7 @@ const ListItem = ({
   
   // Trailing Item (Sağ taraf)
   hasTrailingItem = true,
-  trailingType = 'more', // 'more', 'icon', 'checkbox', 'radio', 'none'
+  trailingType = 'more', // 'more', 'icon', 'checkbox', 'radio', 'switch', 'button', 'none'
   trailingIcon,
   trailingIconSize = 24, // Trailing icon boyutu
   trailingIconColor, // Trailing icon rengi
@@ -46,6 +45,16 @@ const ListItem = ({
   radioState = 'inactive', // 'active', 'inactive'
   onRadioChange,
   
+  // Switch (for trailingType='switch')
+  switchState = 'inactive', // 'active', 'inactive'
+  onSwitchChange,
+  
+  // Button (for trailingType='button')
+  trailingButtonText = 'Button',
+  trailingButtonType = 'neutral', // 'primary', 'neutral'
+  trailingButtonSize = 'sm', // 'xs', 'sm', 'md'
+  onTrailingButtonPress,
+  
   // Interaction
   onPress,
   onTrailingPress,
@@ -55,6 +64,10 @@ const ListItem = ({
   variant = 'default', // 'default', 'compact'
   containerStyle, // Özel container stili
   backgroundColor, // Özel arkaplan rengi
+  
+  // Grouped
+  grouped = false,
+  isLastItem = false, // Son item kontrolü için
 }) => {
   
   // Leading Item Render
@@ -178,6 +191,7 @@ const ListItem = ({
       >
         <View style={[
           styles.radio,
+          isActive && styles.radioActive,
           darkMode && styles.radioDark,
         ]}>
           {isActive && (
@@ -187,6 +201,92 @@ const ListItem = ({
             ]} />
           )}
         </View>
+      </TouchableOpacity>
+    );
+  };
+  
+  // Switch Render
+  const renderSwitch = () => {
+    const isActive = switchState === 'active';
+    
+    return (
+      <TouchableOpacity 
+        style={styles.switchContainer}
+        onPress={() => onSwitchChange && onSwitchChange(!isActive)}
+        activeOpacity={0.7}
+      >
+        <View style={[
+          styles.switch,
+          isActive && styles.switchActive,
+          darkMode && !isActive && styles.switchDark
+        ]}>
+          <View style={[
+            styles.switchThumb,
+            isActive && styles.switchThumbActive,
+            darkMode && styles.switchThumbDark
+          ]} />
+        </View>
+      </TouchableOpacity>
+    );
+  };
+  
+  // Trailing Button Render
+  const renderTrailingButton = () => {
+    const getButtonStyles = () => {
+      let styles_array = [styles.trailingButton];
+      
+      if (trailingButtonType === 'primary') {
+        styles_array.push(styles.trailingButtonPrimary);
+      } else {
+        styles_array.push(styles.trailingButtonNeutral);
+      }
+      
+      if (trailingButtonSize === 'xs') {
+        styles_array.push(styles.trailingButtonXs);
+      } else if (trailingButtonSize === 'sm') {
+        styles_array.push(styles.trailingButtonSm);
+      } else {
+        styles_array.push(styles.trailingButtonMd);
+      }
+      
+      if (darkMode) {
+        styles_array.push(styles.trailingButtonDark);
+      }
+      
+      return styles_array;
+    };
+
+    const getButtonTextStyles = () => {
+      let styles_array = [styles.trailingButtonText];
+      
+      if (trailingButtonSize === 'xs') {
+        styles_array.push(styles.trailingButtonTextXs);
+      } else if (trailingButtonSize === 'sm') {
+        styles_array.push(styles.trailingButtonTextSm);
+      } else {
+        styles_array.push(styles.trailingButtonTextMd);
+      }
+      
+      if (trailingButtonType === 'primary') {
+        styles_array.push(styles.trailingButtonTextPrimary);
+      } else {
+        styles_array.push(styles.trailingButtonTextNeutral);
+      }
+      
+      if (darkMode) {
+        styles_array.push(styles.trailingButtonTextDark);
+      }
+      
+      return styles_array;
+    };
+
+    return (
+      <TouchableOpacity 
+        style={getButtonStyles()}
+        onPress={onTrailingButtonPress}
+        activeOpacity={0.7}
+      >
+        <Text style={getButtonTextStyles()}>{trailingButtonText}</Text>
       </TouchableOpacity>
     );
   };
@@ -201,6 +301,14 @@ const ListItem = ({
     
     if (trailingType === 'radio') {
       return renderRadio();
+    }
+    
+    if (trailingType === 'switch') {
+      return renderSwitch();
+    }
+    
+    if (trailingType === 'button') {
+      return renderTrailingButton();
     }
     
     if (trailingType === 'more') {
@@ -332,6 +440,11 @@ const ListItem = ({
       
       {/* Trailing Item */}
       {renderTrailingItem()}
+      
+      {/* Divider for grouped items (except last item) */}
+      {grouped && !isLastItem && (
+        <View style={styles.divider} />
+      )}
     </TouchableOpacity>
   );
 };

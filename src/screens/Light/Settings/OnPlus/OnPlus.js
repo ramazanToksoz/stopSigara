@@ -14,32 +14,27 @@ const OnPlus = ({ navigation }) => {
   };
 
   const handleSubscriptionPress = () => {
-    // Navigate to subscription settings
-    console.log('Subscription pressed');
+    navigation.navigate('Subscription');
   };
 
   const handlePaymentMethodsPress = () => {
-    // Navigate to payment methods
-    console.log('Payment Methods pressed');
+    navigation.navigate('PaymentMethodsList');
   };
 
   const handleSecurityPress = () => {
-    // Navigate to security settings
-    console.log('Security pressed');
+    navigation.navigate('SecurityOptions');
   };
 
   const handleNotificationsPress = () => {
-    navigation.navigate('Notifications');
+    navigation.navigate('SettingsNotificationsScreen');
   };
 
   const handleLanguagePress = () => {
-    // Navigate to language settings
-    console.log('Language pressed');
+    navigation.navigate('Language');
   };
 
   const handleHelpSupportPress = () => {
-    // Navigate to help & support
-    console.log('Help & Support pressed');
+    navigation.navigate('Help');
   };
 
   const handleAboutPress = () => {

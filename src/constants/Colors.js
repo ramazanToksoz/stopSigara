@@ -77,5 +77,6 @@ export const Colors = {
         90: '#136C09',
         95: '#0F5407'
       }
-    }
+    },
+  white: '#FFFFFF',
 };

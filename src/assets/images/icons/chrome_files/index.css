@@ -1,0 +1,1215 @@
+@view-transition {
+  navigation: auto;
+}
+
+/**
+ * Global Styles
+ *
+ * Fonts
+ *   @font-size-base: 16px
+ *   @font-family: https://www.smashingmagazine.com/2015/11/using-system-ui-fonts-practical-guide/#details-of-approach-a
+ *   36, 24, 18, 16, 14
+ *
+ * Spacing
+*    4, 8, 12, 16, 24, 32, 48, 64, 80
+ *
+ * Image location
+ *   @url-img: "/images";
+ *
+ * Icon sizes
+ *   1024
+ *   512
+ *   256
+ *   128
+ *   64
+ *
+ * Breakpoints
+ * These are all done on 300px increments (from a mobile first approach)
+ * i.e. min-width: 300px, min-width: 600px, min-width: 900px, min-width: 1200px
+ */
+
+/* Theme-agnostic variables */
+:root {
+  --border-radius: 7px;
+}
+
+/* Theme-specific variables */
+:root {
+  color-scheme: light;
+  --color-border: rgba(0, 0, 0, 0.2);
+  --color-border-light: rgba(0, 0, 0, 0.075);
+  --color-link-rgb: 0, 122, 255;
+  --color-link: rgba(var(--color-link-rgb), 1);
+  --color-text: #333;
+  --color-text-light: #999;
+  --color-bg: rgba(255, 255, 255, 1);
+  --color-bg-rgb: 255, 255, 255;
+  --color-fg: #f7f7f7;
+  --color-fg-dark: #eee;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-border: rgba(255, 255, 255, 0.2);
+  --color-border-light: rgba(255, 255, 255, 0.075);
+  --color-link-rgb: 64, 156, 255;
+  --color-link: rgba(var(--color-link-rgb), 1);
+  --color-text: #fafafa;
+  --color-text-light: #888;
+  --color-bg-rgb: 25, 25, 25;
+  --color-bg: rgba(var(--color-bg-rgb), 1);
+  --color-fg: rgba(40, 40, 40, 1);
+  --color-fg-dark: rgba(55, 55, 55, 1);
+}
+
+/* ==========================================================================
+   General
+   ========================================================================== */
+
+[hidden] {
+  display: none !important;
+}
+
+[disabled] {
+  pointer-events: none;
+}
+
+:focus {
+  outline-color: var(--color-link);
+}
+
+html {
+  box-sizing: border-box;
+  background-color: var(--color-bg);
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/* Helps with the over scrolling on /icons, hacky but a slight improvement */
+html,
+body {
+  min-height: 100vh;
+}
+
+body {
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Myriad Pro", "Lucida Sans",
+    "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode",
+    "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+cite {
+  font-style: italic;
+}
+
+/* Avoid zoom in iOS
+   https://stackoverflow.com/questions/2989263/disable-auto-zoom-in-input-text-tag-safari-on-iphone */
+input,
+select,
+select:focus,
+textarea,
+button {
+  font-size: 16px;
+}
+
+button {
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+  text-transform: none;
+  -webkit-appearance: button;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+b,
+strong,
+.bold {
+  font-weight: 700;
+}
+
+em {
+  font-style: italic;
+}
+
+.external-link:after {
+  content: "\2192";
+  transform: rotate(-45deg);
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0.75em;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  background: var(--color-fg);
+  color: inherit;
+}
+
+.btn:hover {
+  background: var(--color-fg-dark);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+body {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 16px;
+}
+
+main {
+  padding-bottom: 48px;
+}
+
+.svg-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--border-radius);
+}
+.svg-button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.25 !important;
+}
+.svg-button[disabled]:hover {
+  background: transparent !important;
+}
+.svg-button[disabled] svg {
+  fill: var(--color-text-light);
+}
+.svg-button:hover {
+  background-color: var(--color-fg);
+}
+
+.svg-button svg {
+  width: 25px;
+  height: 25px;
+  fill: var(--color-text);
+}
+.svg-button--back {
+  display: none;
+}
+.svg-button--back-text {
+  width: auto;
+  padding-right: 8px;
+
+  span {
+    margin-left: -2px;
+    text-transform: capitalize;
+  }
+}
+.js .svg-button--back {
+  display: inherit;
+}
+.svg-button--back svg {
+  width: 30px;
+  height: 30px;
+}
+
+/* ==========================================================================
+   Ads
+   ========================================================================== */
+
+.ad-container {
+  font-size: 12px;
+  color: var(--color-text-light);
+  line-height: 1.3;
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ad-container a {
+  color: inherit;
+}
+
+#carbonads {
+  max-width: 300px;
+  text-align: center;
+}
+.carbon-text {
+  display: block;
+}
+
+#carbonads .carbon-poweredby {
+  font-size: 9px;
+  letter-spacing: 0.1ch;
+  font-weight: 500;
+  color: var(--color-text-lightest);
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Site-specific Styles
+   ========================================================================== */
+
+/* watchos icon gallery
+   ========================================================================== */
+.watchosicongallery .icon {
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* ios icon gallery
+   The general idea here is that every icon is wrapped in a <span.icon-wrapper>
+   This is used to position a pseudo element over the <img.icon> which acts
+   as the mask and/or border for the icon.
+   By default, we assume the new squircle shape for all icons. We get as close
+   as possible to that shape using old-fashioned, relatively-well supported CSS.
+   From that base stage, we override and enhance those styles based on browser
+   capabilities and whether the icon was pre or post ios7, derived by looking
+   at the `data-date` attribute on .icon-wrapper
+   ========================================================================== */
+
+/* By default, we give everything an approximate "squircle" shape using
+   some old-fashioned CSS */
+.iosicongallery .icon {
+  border-radius: 22.5%;
+}
+/* and we include a mask */
+.iosicongallery .icon-wrapper:after {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+  border-radius: 22.5%;
+
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* For browsers that can mask, you get a real squircle mask along with a
+   1px inset border */
+@supports (mask-size: cover) or (-webkit-mask-size: cover) {
+  .iosicongallery .icon {
+    /* Override the old-fashioned defaults */
+    border-radius: 0;
+
+    /* Apply a mask */
+    -webkit-mask-image: url(/assets/images/ios-mask.svg);
+    -webkit-mask-size: cover;
+    mask-image: url(/assets/images/ios-mask.svg);
+    mask-size: cover;
+  }
+
+  .iosicongallery .icon-wrapper:after {
+    /* override the old-fashioned defaults */
+    border-radius: 0;
+    box-shadow: none;
+
+    /* overlay the icon with a svg mask that adds a 1px inner border */
+    background-size: cover;
+    background-image: url(/assets/images/ios-mask-border.svg);
+  }
+}
+
+/* Override the old-fashioned and new-fashioned styles IF the icon
+   is pre iOS7 (release date: Sep 18, 2013) */
+.iosicongallery .icon-wrapper[data-date^="2011-"] .icon,
+.iosicongallery .icon-wrapper[data-date^="2012-"] .icon,
+.iosicongallery .icon-wrapper[data-date^="2013-0"] .icon {
+  /* override mask enhancements */
+  -webkit-mask: none;
+  mask: none;
+  /* override default squircle */
+  border-radius: 17.544%;
+}
+.iosicongallery .icon-wrapper[data-date^="2011-"]:after,
+.iosicongallery .icon-wrapper[data-date^="2012-"]:after,
+.iosicongallery .icon-wrapper[data-date^="2013-0"]:after {
+  /* override mask ehancements */
+  background-image: none;
+  /* override default squircle */
+  border-radius: 17.544%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15), 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   Site Title
+   ========================================================================== */
+
+.site-title__id {
+  font-weight: 400;
+}
+.site-title__description {
+  font-weight: 300;
+  opacity: 0.75;
+}
+
+@media screen and (max-width: 600px) {
+  .site-title__description span {
+    display: none;
+  }
+  .site-title__description:after {
+    content: "s";
+  }
+}
+
+/* ==========================================================================
+   Icons (Lists and Views)
+   ========================================================================== */
+
+/* Icon & Sizes
+   ========================================================================== */
+
+.icon {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Icon Wrapper - wraps the <img.icon> element
+   (useful for iOS where we need masks)
+   ========================================================================== */
+
+.icon-wrapper {
+  position: relative;
+  display: block;
+}
+
+/* List of icons on home screen
+   ========================================================================== */
+
+.icon-list-content {
+  display: grid;
+  justify-content: space-around;
+}
+@media (min-width: 884px) {
+  .icon-list-content {
+    justify-content: center;
+  }
+}
+
+icon-list[size="sm"] .icon-list-content {
+  grid-template-columns: repeat(auto-fill, 64px);
+  gap: 24px;
+}
+icon-list[size="md"] .icon-list-content {
+  grid-template-columns: repeat(auto-fill, 128px);
+  gap: 32px;
+}
+icon-list[size="lg"] .icon-list-content {
+  grid-template-columns: repeat(auto-fill, 256px);
+  gap: 48px;
+}
+icon-list[size="xl"] .icon-list-content {
+  grid-template-columns: repeat(auto-fill, 512px);
+  gap: 64px;
+}
+/* Images can only be so bag once you hit their width */
+@media screen and (max-width: 512px) {
+  icon-list[size="xl"] .icon-list-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Set icons sizes for iOS so it looks like the new macOS icons, which are on
+   a 128px canvas but inset to what appears to be a .1875 ratio
+   Calculate size: original * ratio, e.g. 64 * .1875*/
+
+/* Don't do it on mobile
+.iosicongallery icon-list[size="sm"] .icon,
+.watchosicongallery icon-list[size="sm"] .icon {
+  width: 64px;
+  height: 64px;
+}*/
+.iosicongallery icon-list[size="md"] .icon,
+.watchosicongallery icon-list[size="md"] .icon {
+  width: 104px;
+  height: 104px;
+}
+.iosicongallery icon-list[size="lg"] .icon,
+.watchosicongallery icon-list[size="lg"] .icon {
+  width: 208px;
+  height: 208px;
+}
+.iosicongallery icon-list[size="xl"] .icon,
+.watchosicongallery icon-list[size="xl"] .icon {
+  width: 416px;
+  height: 416px;
+}
+/* on small screens, make it full width */
+@media (max-width: 448px) {
+  .iosicongallery icon-list[size="xl"] .icon,
+  .watchosicongallery icon-list[size="xl"] .icon {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Not sure we need this ATM
+icon-list--64 {
+  grid-template-rows: repeat(auto-fill, 64px);
+  grid-template-columns: repeat(auto-fill, 64px);
+  grid-auto-rows: 64px;
+  gap: 16px;
+}
+*/
+
+.icon-list-content a {
+  transition: 0.2s ease all;
+  display: flex;
+}
+
+.icon-list-content a:nth-child(odd):hover {
+  transform: rotate(-2deg) scale(0.95);
+}
+
+.icon-list-content a:nth-child(even):hover {
+  transform: rotate(2deg) scale(0.95);
+}
+
+/* ==========================================================================
+   Wrapper
+   ========================================================================== */
+
+.wrapper {
+  margin: 0 auto;
+  width: calc(100% - 32px);
+}
+
+/* 496 = 224 (grid) * 2 + 24 gap + 16px (margin) * 2*/
+/* 128 icon grid, 24 gap - 280 icon grouping, 24 gap */
+
+@media screen and (min-width: 616px) {
+  .wrapper {
+    width: 584px;
+  }
+}
+@media screen and (min-width: 920px) {
+  .wrapper {
+    width: 888px;
+  }
+}
+@media screen and (min-width: 1224px) {
+  .wrapper {
+    width: 1192px;
+  }
+}
+
+/* ==========================================================================
+   Post Page
+   ========================================================================== */
+
+.post {
+  display: flex;
+  /* flex-direction: column; */
+  gap: 40px;
+  max-width: 1000px;
+  align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .post {
+    flex-direction: column;
+  }
+}
+
+/* Post Icons
+   ========================================================================== */
+
+.post-icon {
+  max-width: 512px;
+  max-height: 512px;
+  flex-shrink: 0;
+}
+
+/* Post Meta
+   ========================================================================== */
+
+.post-meta {
+  position: relative;
+  /* border: 1px solid var(--color-border-light); */
+  border-radius: var(--border-radius);
+  /* box-shadow: var(--shadow-subtle); */
+  font-size: 0.8125rem;
+  /* max-width: 400px; */
+  /* margin: 0 auto; */
+  /* padding: 0 48px; */
+  width: 100%;
+}
+
+.post-meta > * {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  gap: 1rem;
+}
+.post-meta > *:not(:last-child) {
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.post-meta > a {
+  color: inherit;
+  text-decoration: none;
+}
+.post-meta > a:hover,
+.post-meta > a:hover svg,
+.post-meta > a:hover dt {
+  color: var(--color-text);
+}
+.post-meta > a:hover dd {
+  text-decoration: underline;
+}
+
+.post-meta svg {
+  width: 15px;
+  height: 15px;
+}
+
+.post-meta dt {
+  color: var(--color-text-light);
+  flex-shrink: 0;
+}
+
+.post-meta dd {
+  text-align: right;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.post-meta dd svg {
+  color: var(--color-text-light);
+}
+
+@media screen and (min-width: 616px) {
+  .post-meta > * {
+    align-items: center;
+  }
+}
+
+/* Post Ad
+   ========================================================================== */
+
+.post-ad {
+  margin: 24px 0;
+  text-align: center;
+}
+
+@media screen and (min-width: 616px) {
+  .post-ad {
+    text-align: left;
+  }
+  .post-ad img {
+    float: left;
+    margin-right: 16px !important;
+  }
+}
+
+@media screen and (min-width: 1120px) {
+  .post-ad {
+    margin: 0;
+  }
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 512px;
+  margin: 0 auto;
+  padding: 16px 0;
+
+  display: grid;
+  grid-template-columns: 80px 1fr 36px 36px;
+  gap: 8px;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.header-title:hover {
+  text-decoration: none;
+}
+.header-title[aria-current="true"] {
+  pointer-events: none;
+}
+.header-title[aria-current="false"]:hover h1 {
+  text-decoration: underline;
+}
+
+.header-title h1 {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.header-title p {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+}
+
+.header a[href*="search"] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media (min-width: 520px) {
+  .header a[href*="search"] {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.load-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 96px;
+}
+
+/* ==========================================================================
+ Icon Grid
+ ========================================================================== */
+
+.icon-grid {
+  gap: 32px 24px;
+  display: grid;
+
+  /* % over 1fr prevents blow out of grid when labels are long */
+  grid-template-columns: calc(50% - 12px) calc(50% - 12px);
+}
+
+@media (max-width: 883px) {
+  .icon-grid {
+    justify-content: center;
+  }
+}
+
+@media screen and (min-width: 616px) {
+  .icon-grid {
+    grid-template-columns: repeat(auto-fit, 280px);
+  }
+}
+
+.icon-grid ul {
+  display: grid;
+  grid-template-columns: repeat(35, 1fr);
+  grid-template-rows: repeat(35, 1fr);
+  background: var(--color-fg);
+  border-radius: 15.625%;
+}
+
+.icon-grid a:hover ul {
+  background: var(--color-fg-dark);
+}
+
+.icon-grid img {
+  max-width: 100%;
+  height: auto;
+}
+
+.icon-grid a {
+  color: var(--color-text-light);
+}
+
+.icon-grid a:hover {
+  text-decoration: none;
+}
+
+.icon-grid a:hover p > :first-child {
+  /* text-decoration: underline; */
+}
+
+.icon-grid p {
+  margin-top: 4px;
+  display: flex;
+  justify-content: center;
+  padding: 0 8px;
+}
+
+@media screen and (min-width: 1224px) {
+  .icon-grid p {
+    padding: 0 32px;
+  }
+}
+
+.icon-grid p > :first-child {
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 4px;
+}
+
+.icon-grid p > :last-child:before {
+  content: "(";
+}
+.icon-grid p > :last-child:after {
+  content: ")";
+}
+
+/* iOS, watchOS grid */
+
+.icon-grid ul > li:nth-child(1),
+.icon-grid ul > li:nth-child(2) {
+  grid-row: 4 / 17;
+}
+
+.icon-grid ul > li:nth-child(2) {
+  grid-column-end: 33;
+}
+
+.icon-grid ul > li:nth-child(1),
+.icon-grid ul > li:nth-child(3) {
+  grid-column: 4 / 17;
+}
+
+.icon-grid ul > li:nth-child(3) {
+  grid-row-end: 33;
+}
+
+.icon-grid ul > li:nth-child(3),
+.icon-grid ul > li:nth-child(5),
+.icon-grid ul > li:nth-child(7) {
+  grid-row-start: 20;
+}
+
+.icon-grid ul > li:nth-child(2),
+.icon-grid ul > li:nth-child(4),
+.icon-grid ul > li:nth-child(6) {
+  grid-column-start: 20;
+}
+
+.icon-grid ul > li:nth-child(4) {
+  grid-column: 20 / 26;
+  grid-row: 20 / 26;
+}
+
+.icon-grid ul > li:nth-child(5) {
+  grid-column: 27 / 33;
+  grid-row: 20 / 26;
+}
+
+.icon-grid ul > li:nth-child(6) {
+  grid-column: 20 / 26;
+  grid-row: 27 / 33;
+}
+
+.icon-grid ul > li:nth-child(7) {
+  grid-column: 27 / 33;
+  grid-row: 27 / 33;
+}
+
+/* macOS Grid */
+
+.macosicongallery .icon-grid ul > li:nth-child(1),
+.macosicongallery .icon-grid ul > li:nth-child(2) {
+  grid-row: 3 / 18;
+}
+
+.macosicongallery .icon-grid ul > li:nth-child(2) {
+  grid-column-end: 34;
+}
+
+.macosicongallery .icon-grid ul > li:nth-child(1),
+.macosicongallery .icon-grid ul > li:nth-child(3) {
+  grid-column: 3 / 18;
+}
+
+.macosicongallery .icon-grid ul > li:nth-child(3) {
+  grid-row-end: 34;
+}
+
+.macosicongallery .icon-grid ul > li:nth-child(3),
+.macosicongallery .icon-grid ul > li:nth-child(5),
+.macosicongallery .icon-grid ul > li:nth-child(7) {
+  grid-row-start: 19;
+}
+
+.macosicongallery .icon-grid ul > li:nth-child(2),
+.macosicongallery .icon-grid ul > li:nth-child(4),
+.macosicongallery .icon-grid ul > li:nth-child(6) {
+  grid-column-start: 19;
+}
+
+.macosicongallery .icon-grid ul > li:nth-child(4) {
+  grid-column: 20 / 26;
+  grid-row: 20 / 26;
+}
+
+.macosicongallery .icon-grid ul > li:nth-child(5) {
+  grid-column: 27 / 33;
+  grid-row: 20 / 26;
+}
+
+.macosicongallery .icon-grid ul > li:nth-child(6) {
+  grid-column: 20 / 26;
+  grid-row: 27 / 33;
+}
+
+.macosicongallery .icon-grid ul > li:nth-child(7) {
+  grid-column: 27 / 33;
+  grid-row: 27 / 33;
+}
+
+/* ==========================================================================
+   Custom inputs
+   ========================================================================== */
+
+/*********** Baseline, reset styles ***********/
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: auto;
+}
+
+/* Removes default focus */
+input[type="range"]:focus {
+  outline: none;
+}
+
+/******** Chrome, Safari, Opera and Edge Chromium styles ********/
+/* slider track */
+input[type="range"]::-webkit-slider-runnable-track {
+  background-color: var(--color-fg-dark);
+  border-radius: 0.5rem;
+  height: 0.25rem;
+}
+
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  margin-top: -10px; /* Centers thumb on the track */
+  background-color: var(--color-text);
+  border-radius: 24px;
+  height: 24px;
+  width: 24px;
+  border: 4px solid var(--color-bg);
+}
+
+input[type="range"]:focus::-webkit-slider-thumb,
+input[type="range"]:active::-webkit-slider-thumb {
+  outline: 3px solid var(--color-link);
+  outline-offset: 0px;
+}
+
+/*********** Firefox styles ***********/
+/* slider track */
+input[type="range"]::-moz-range-track {
+  background-color: var(--color-fg-dark);
+  border-radius: 0.5rem;
+  height: 0.25rem;
+}
+
+/* slider thumb */
+input[type="range"]::-moz-range-thumb {
+  background-color: var(--color-text);
+  border: 4px solid var(--color-bg);
+  border-radius: 24px;
+  height: 18px;
+  width: 18px;
+}
+
+input[type="range"]:focus::-moz-range-thumb {
+  outline: 3px solid var(--color-link);
+  outline-offset: 0;
+}
+
+/* ==========================================================================
+   Site switcher
+   ========================================================================== */
+
+.site-switcher {
+  user-select: none;
+}
+.site-switcher[open] summary {
+  background-color: var(--color-fg-dark);
+}
+.site-switcher > div {
+  background-color: var(--color-fg);
+  border: 4px solid var(--color-border-light);
+  border-radius: calc(var(--border-radius) + 2px);
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  left: -6px;
+  padding: 2px;
+  z-index: 10;
+}
+.site-switcher > div > a:last-child {
+  margin-bottom: 0px;
+}
+.site-switcher summary {
+  cursor: default;
+  user-select: none;
+}
+.site-switcher summary svg {
+  margin-left: auto;
+  fill: var(--color-text-light);
+}
+.site-switcher summary::marker,
+.site-switcher summary::-webkit-details-marker {
+  display: none;
+}
+.site-switcher .external-link::after {
+  margin-left: auto;
+  margin-right: 4px;
+  color: var(--color-text-light);
+  display: none;
+}
+.site-switcher-active {
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.5;
+}
+.site-switcher-active:after {
+  content: "✓";
+  margin-left: auto;
+  margin-right: 3px;
+  font-size: 0.875em;
+}
+
+/* TODO: overrides to apply if we do it */
+
+.icon-grid {
+  justify-content: center;
+}
+.post {
+  justify-content: center;
+  margin: 0 auto;
+  flex-direction: column;
+  max-width: 512px;
+}
+/* TODO: figure out how to do this...
+.icon-list-content {
+  display: flex;
+  flex-wrap: wrap;
+} */
+
+details {
+  position: relative;
+  position: absolute;
+  right: -32px;
+  top: 2px;
+}
+details summary svg {
+  width: 15px;
+  height: 15px;
+  fill: var(--color-text-light);
+}
+details summary:hover svg,
+details[open] svg {
+  fill: var(--color-text);
+}
+
+details summary {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+}
+details summary:hover,
+details[open] summary {
+  background-color: var(--color-fg-dark);
+}
+
+details ul {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 200px;
+  background-color: var(--color-fg);
+  border: 2px solid var(--color-border-light);
+  border-radius: calc(var(--border-radius) + 2px);
+  padding: 8px 16px;
+  z-index: 10;
+  transform: translate(-50%, 4px);
+}
+details ul a {
+  padding: 8px 0;
+  display: block;
+  text-align: left;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  padding: 4px;
+  background: var(--color-fg);
+  border-radius: var(--border-radius);
+}
+.radio-group-item {
+  flex-grow: 1;
+  flex-basis: 0;
+  text-align: center;
+  padding: 0 4px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--border-radius) - 2px);
+}
+.radio-group-item--active,
+.radio-group input:checked + .radio-group-item {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+.radio-group input {
+  display: none;
+}
+
+.radio-group--icon-sizes {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 24px;
+}
+@media (min-width: 520px) {
+  .radio-group--icon-sizes {
+    max-width: 248px;
+  }
+}
+
+.icon-silhouette {
+  display: block;
+  width: 1px;
+  height: 1px;
+  border-radius: 23%;
+  border: 1px solid var(--color-text);
+}
+.icon-silhouette--sm {
+  width: 8px;
+  height: 8px;
+}
+.icon-silhouette--md {
+  width: 12px;
+  height: 12px;
+}
+.icon-silhouette--lg {
+  width: 16px;
+  height: 16px;
+}
+.icon-silhouette--xl {
+  width: 20px;
+  height: 20px;
+}
+.radio-group input:checked + label .icon-silhouette {
+  border-color: var(--color-bg);
+}
+
+/* ==========================================================================
+   Nav
+   ========================================================================== */
+
+.nav {
+  display: flex;
+  gap: 8px;
+  padding: 16px 16px 24px;
+  overflow-x: auto;
+  justify-content: start;
+  margin: 0 -16px;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar {
+  display: none;
+}
+.nav-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text);
+  padding: 8px 16px;
+  background: var(--color-fg);
+  flex-shrink: 0;
+  border-radius: var(--border-radius);
+  /* text-decoration: none !important; */
+}
+.nav-link svg {
+  width: 15px;
+  height: 15px;
+  fill: var(--color-text);
+  flex-shrink: 0;
+}
+.nav-link:not(.nav-link--active):hover {
+  background: var(--color-fg-dark);
+}
+@media (min-width: 768px) {
+  .nav {
+    justify-content: center;
+  }
+}
+@media (max-width: 768px) {
+  .nav-link:not(.nav-link--active) {
+    order: 3;
+  }
+  .nav-link--active {
+    order: 1;
+  }
+  .nav-link[aria-current="true"] {
+    order: 2;
+  }
+}
+
+.nav-link--active {
+  background: var(--color-text);
+  color: var(--color-bg);
+
+  svg {
+    fill: var(--color-bg);
+  }
+}
+.nav-link--level-1.nav-link--active:not([aria-current="true"]) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.nav-link--level-2.nav-link--active {
+  margin-left: -7px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.nav-link--level-2 {
+  max-width: 11rem;
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
