@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useUser } from '../context/UserContext';
+import { useProfileData } from '../hooks/useProfileData';
 
 // Import navigators
 import WelcomeNavigator from './WelcomeNavigator';
@@ -72,12 +74,19 @@ const AppNavigator = () => {
           name="Home" 
           component={({ navigation }) => {
             const { quitMethod } = useUser();
-            console.log("AppNavigator - Home - quitMethod:", quitMethod);
+            const { profileData } = useProfileData();
             
-            if (quitMethod === 'gradual') {
+            // Önce Firestore'dan gelen quit method'u kontrol et
+            const finalQuitMethod = profileData?.quitMethod || quitMethod;
+            
+            console.log("AppNavigator - Home - quitMethod:", quitMethod);
+            console.log("AppNavigator - Home - profileData.quitMethod:", profileData?.quitMethod);
+            console.log("AppNavigator - Home - finalQuitMethod:", finalQuitMethod);
+            
+            if (finalQuitMethod === 'gradual') {
               console.log("AppNavigator - Home - Using GradualTabNavigator");
               return <GradualTabNavigator navigation={navigation} />;
-            } else if (quitMethod === 'coldturkey') {
+            } else if (finalQuitMethod === 'coldturkey') {
               console.log("AppNavigator - Home - Using ColdTurkeyTabNavigator");
               return <ColdTurkeyTabNavigator navigation={navigation} />;
             }

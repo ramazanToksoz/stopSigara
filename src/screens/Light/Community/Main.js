@@ -90,7 +90,7 @@ const CommunityMain = ({ navigation }) => {
             hasLeadingIcon={true}
             leadingIcon={require('../../../assets/images/icons/search-normal.png')}
             containerStyle={styles.searchInputContainer}
-          />r
+          />
         </View>
 
         {/* Filter Buttons */}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as Font from 'expo-font';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import AppNavigator from './src/navigation/AppNavigator';
 import { UserProvider } from './src/context/UserContext';
 
@@ -8,7 +9,16 @@ export default function App() {
 
   useEffect(() => {
     loadFonts();
+    configureGoogleSignIn();
   }, []);
+
+  const configureGoogleSignIn = () => {
+    GoogleSignin.configure({
+      // Web application Client ID (Firebase'den gelen)
+      webClientId: '690845394417-co0j25ssuf2jsqj9gb93tfb7342krori.apps.googleusercontent.com',
+      offlineAccess: true,
+    });
+  };
 
   const loadFonts = async () => {
     await Font.loadAsync({

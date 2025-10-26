@@ -7,9 +7,50 @@ import { Svg, Circle } from 'react-native-svg';
 import CardPost from '../../../../components/CardPost';
 import ListItem from '../../../../components/ListItem';
 import TopNavigation from '../../../../components/TopNavigation';
+import { useProfileData } from '../../../../hooks/useProfileData';
+import { useTrackingData } from '../../../../hooks/useTrackingData';
+import DailyCheckIn from '../../../../components/DailyCheckIn';
 
 const ColdTurkeyHome = ({ navigation }) => {
-  console.log('ColdTurkeyHome');
+  const { profileData, isProfileLoading: loading } = useProfileData();
+  const { progressStats } = useTrackingData();
+  
+  // Cold Turkey için gerçek veriler (progressStats varsa onu kullan)
+  const quitDate = progressStats?.quitDate 
+    ? new Date(progressStats.quitDate) 
+    : (profileData?.onboardingData?.quitDate ? new Date(profileData.onboardingData.quitDate) : new Date());
+  
+  const today = new Date();
+  const daysQuit = progressStats?.daysQuit || Math.floor((today - quitDate) / (1000 * 60 * 60 * 24));
+  
+  // Günde kaç sigara içiyordu (onboarding'den alınıyor)
+  const dailyCigarettes = progressStats?.dailyCigarettes || profileData?.onboardingData?.dailyCigarettes || 20;
+  
+  // Toplam kaç sigara önlendi (tracking'den geliyorsa onu kullan)
+  const avoidedCigarettes = progressStats?.totalAvoided || (daysQuit * dailyCigarettes);
+  
+  // Tasarruf hesapla (sigara başına 5 TL)
+  const savings = avoidedCigarettes * 5;
+  
+  // Next milestone (7 gün)
+  const nextMilestone = 7;
+  const daysUntilMilestone = Math.max(0, nextMilestone - daysQuit);
+  
+  console.log('ColdTurkeyHome', { profileData, progressStats, daysQuit, avoidedCigarettes, savings });
+  
+  const handleCheckInComplete = () => {
+    // Check-in tamamlandığında tracking verilerini yenile
+    console.log('Check-in completed, refreshing tracking data');
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Yükleniyor...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.brand[60]} />
@@ -19,9 +60,13 @@ const ColdTurkeyHome = ({ navigation }) => {
           <View style={styles.topNavWrapper}>
             <TopNavigation
               leadingType="avatar"
-              avatarSource={require('../../../../assets/images/icons/Avatar.png')}
+              avatarSource={
+                typeof profileData?.photoURL === 'string'
+                  ? { uri: profileData.photoURL }
+                  : require('../../../../assets/images/icons/Avatar.png')
+              }
               greetingText="Good morning,"
-              userName="Brian"
+              userName={profileData?.displayName || profileData?.emailPrefix || "User"}
               onLeadingPress={() => navigation.navigate('Profile')}
               trailingType="notification"
               notificationIcon={require('../../../../assets/images/icons/TrailingItem.png')}
@@ -34,26 +79,29 @@ const ColdTurkeyHome = ({ navigation }) => {
           
           <View style={styles.mainContent}>
             <View style={styles.topContent}>
-              <Text style={styles.mainTitle}>3 Days</Text>
+              <Text style={styles.mainTitle}>{daysQuit} Days</Text>
               <Text style={styles.subtitle}>
-                Just 4 days away from better energy and deeper sleep.
+                {daysUntilMilestone > 0 
+                  ? `Just ${daysUntilMilestone} days away from better energy and deeper sleep.`
+                  : 'You\'re making great progress!'
+                }
               </Text>
             </View>
             
             <View style={styles.metricsContainer}>
               <View style={styles.metricCard}>
-                <Text style={styles.metricValue}>45</Text>
+                <Text style={styles.metricValue}>{avoidedCigarettes}</Text>
                 <Text style={styles.metricLabel}>Avoided</Text>
               </View>
               
               <View style={styles.metricCard}>
-                <Text style={styles.metricValue}>$75</Text>
+                <Text style={styles.metricValue}>${savings}</Text>
                 <Text style={styles.metricLabel}>Saved</Text>
               </View>
               
               <View style={styles.metricCard}>
-                <Text style={styles.metricValue}>8.3</Text>
-                <Text style={styles.metricLabel}>Craving</Text>
+                <Text style={styles.metricValue}>{daysQuit}</Text>
+                <Text style={styles.metricLabel}>Days</Text>
               </View>
             </View>
           </View>
@@ -63,15 +111,9 @@ const ColdTurkeyHome = ({ navigation }) => {
             <View style={styles.cardMission}>
               <View style={styles.textContainer}>
                 <Text style={styles.cardTitle}>Daily Check-In</Text>
-                <Text style={styles.cardSubtitle}>Tell us how you’re feeling today</Text>
+                <Text style={styles.cardSubtitle}>Tell us how you're feeling today</Text>
               </View>
-              <TouchableOpacity style={styles.checkInButton}>
-                <Text style={styles.buttonText}>Check-in</Text>
-                <Image 
-                  source={require('../../../../assets/images/icons/arrow-right1.png')} 
-                  style={styles.arrowIcon}
-                />
-              </TouchableOpacity>
+              <DailyCheckIn onCheckInComplete={handleCheckInComplete} />
             </View>
 
             <View style={styles.cravingSection}>

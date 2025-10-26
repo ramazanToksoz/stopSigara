@@ -8,10 +8,45 @@ import { Svg, Circle } from 'react-native-svg';
 import CardPost from '../../../../components/CardPost';
 import ListItem from '../../../../components/ListItem';
 import TopNavigation from '../../../../components/TopNavigation';
+import { useProfileData } from '../../../../hooks/useProfileData';
 
 const GradualHome = ({ navigation }) => {
-  const { userData } = useUser()
-console.log("GradualHome")
+  const { userData } = useUser();
+  const { profileData, isProfileLoading: loading } = useProfileData();
+  
+  // Profil verilerine göre dinamik sayıları hesapla
+  const dailyCigarettes = profileData?.onboardingData?.dailyCigarettes || 20;
+  const targetReduction = profileData?.onboardingData?.targetReduction || 40;
+  const quitDate = profileData?.onboardingData?.quitDate ? new Date(profileData.onboardingData.quitDate) : new Date();
+  
+  // Gerçek quit date'den bugüne kadar olan günleri hesapla
+  const today = new Date();
+  const daysQuit = Math.floor((today - quitDate) / (1000 * 60 * 60 * 24));
+  
+  // Hedef azalma oranına göre güncel sigara sayısını hesapla
+  // Örnek: Başlangıçta 20 sigara, %40 azalma = 12 sigara
+  const currentCigarettes = Math.max(1, Math.floor(dailyCigarettes * (1 - targetReduction / 100)));
+  
+  // Günlük azalma miktarı (örn: 7 günde 20'den 12'ye = günde ~1 azalma)
+  const dailyReduction = (dailyCigarettes - currentCigarettes) / 7;
+  const preventedCigarettes = Math.floor(daysQuit * dailyReduction);
+  
+  // Tasarruf hesapla (sigara başına 5 TL)
+  const savings = preventedCigarettes * 5;
+  
+  // Azalma yüzdesi hesapla
+  const actualReduction = Math.floor(((dailyCigarettes - currentCigarettes) / dailyCigarettes) * 100);
+  
+  console.log("GradualHome", { profileData });
+  
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Yükleniyor...</Text>
+      </View>
+    );
+  }
+  
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.brand[60]} />
@@ -23,9 +58,9 @@ console.log("GradualHome")
           <View style={styles.topNavWrapper}>
             <TopNavigation
               leadingType="avatar"
-              avatarSource={require('../../../../assets/images/icons/Avatar.png')}
+              avatarSource={profileData?.photoURL || require('../../../../assets/images/icons/Avatar.png')}
               greetingText="Good morning,"
-              userName="Brian"
+              userName={profileData?.displayName || profileData?.emailPrefix || "User"}
               onLeadingPress={() => navigation.navigate('Profile')}
               trailingType="notification"
               notificationIcon={require('../../../../assets/images/icons/notification.png')}
@@ -40,26 +75,26 @@ console.log("GradualHome")
           <View style={styles.mainContent}>
             <View style={styles.topContent}>
               <Text style={styles.weekTitle}>Bu Hafta</Text>
-              <Text style={styles.mainTitle}>3/Gün</Text>
+              <Text style={styles.mainTitle}>{currentCigarettes}/Gün</Text>
               <Text style={styles.weekSubtitle}>
-              Eskiden: 20/Gün
+              Eskiden: {dailyCigarettes}/Gün
               </Text>
             </View>
             
             {/* Metrics */}
             <View style={styles.metricsContainer}>
               <View style={styles.metricCard}>
-                <Text style={styles.metricValue}>40%</Text>
+                <Text style={styles.metricValue}>{actualReduction}%</Text>
                 <Text style={styles.metricLabel}>Azalma</Text>
               </View>
               
               <View style={styles.metricCard}>
-                <Text style={styles.metricValue}>14</Text>
+                <Text style={styles.metricValue}>{preventedCigarettes}</Text>
                 <Text style={styles.metricLabel}>Önlendi</Text>
               </View>
               
               <View style={styles.metricCard}>
-                <Text style={styles.metricValue}>$32</Text>
+                <Text style={styles.metricValue}>₺{savings}</Text>
                 <Text style={styles.metricLabel}>Tasarruf</Text>
               </View>
             </View>

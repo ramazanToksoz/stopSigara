@@ -1,65 +1,121 @@
-# StopSigara - Quit Smoking App
+# Unsmoke - Quit Smoking App
 
-A React Native Expo application to help users quit smoking with personalized tracking and support.
+A React Native mobile application designed to help users quit smoking through gradual reduction or cold turkey methods.
 
-## Features
+## 🚀 Features
 
-- Welcome screens with app introduction
-- Onboarding flow to collect user preferences
-- Firebase Authentication (Email/Password)
-- Form validation with Formik + Yup
-- Settings pages with comprehensive options
-- Data collection and management
+- **Authentication**: Email/password and Google Sign-In
+- **Quit Methods**: 
+  - Cold Turkey: Immediate cessation
+  - Gradual: Progressive reduction
+- **Progress Tracking**: Daily check-ins and progress monitoring
+- **Community**: Social feed with posts and support
+- **Statistics**: Health improvements and savings tracking
+- **Settings**: Personalization and account management
 
-## Firebase Setup
+## 📋 Prerequisites
 
-1. Copy `firebaseConfig.example.js` to `firebaseConfig.js`
-2. Replace placeholder values with your actual Firebase configuration:
-   - Go to Firebase Console → Project Settings → General
-   - Copy your config values and replace the placeholders
-3. Make sure `firebaseConfig.js` is in `.gitignore` (already added)
+Before you begin, ensure you have met the following requirements:
 
-## Installation
+- Node.js (v16 or higher)
+- Expo CLI (`npm install -g expo-cli`)
+- Android Studio (for Android development)
+- Xcode (for iOS development, macOS only)
 
+## 🛠️ Installation
+
+1. Clone the repository:
 ```bash
-# Install dependencies
-npm install
-
-# Install Firebase
-npm install firebase
-
-# Install Formik and Yup for form validation
-npm install formik yup
-
-# Start the development server
-npx expo start
+git clone https://github.com/yourusername/stopSigara.git
+cd stopSigara
 ```
 
-## Project Structure
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Firebase Setup:
+   - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
+   - Download `google-services.json` and place it in `android/app/`
+   - Create `firebaseConfig.js` in the root directory (see below)
+   - Enable Authentication (Email/Password and Google)
+   - Enable Firestore Database
+
+4. Create `firebaseConfig.js`:
+```javascript
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID",
+  measurementId: "YOUR_MEASUREMENT_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+export { auth, db };
+export default app;
+```
+
+5. Google Sign-In Setup:
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create OAuth 2.0 Client IDs
+   - Get Web Application Client ID
+   - Update `webClientId` in `App.js`
+
+## 🏃 Running the App
+
+```bash
+# Start the development server
+npx expo start
+
+# For Android
+npx expo run:android
+
+# For iOS (macOS only)
+npx expo run:ios
+```
+
+## 📱 App Structure
 
 ```
 src/
 ├── components/          # Reusable UI components
+├── context/            # React Context providers
+├── hooks/              # Custom React hooks
+├── navigation/         # Navigation structure
 ├── screens/            # App screens
-│   ├── Light/          # Light theme screens
-│   │   ├── Auth/       # Authentication screens
-│   │   ├── Welcome/    # Welcome flow
-│   │   ├── Onboarding/ # User onboarding
-│   │   └── Settings/   # Settings pages
-├── navigation/         # Navigation configuration
-├── context/           # React Context providers
-├── constants/         # App constants (colors, etc.)
-└── assets/           # Images, fonts, icons
+├── services/           # API and business logic
+├── constants/          # Constants (colors, etc.)
+└── assets/             # Images, fonts, etc.
 ```
 
-## Technologies Used
+## 🔒 Security
 
-- React Native (Expo)
-- Firebase Authentication
-- React Navigation
-- Formik + Yup (Form validation)
-- React Context (State management)
+⚠️ **Important**: Never commit sensitive files to version control:
+- `firebaseConfig.js` - Contains Firebase keys
+- `google-services.json` - Contains app credentials
+- `.env` files - Contains environment variables
 
-## Security Note
+These files are already in `.gitignore`.
 
-⚠️ **IMPORTANT**: Never commit `firebaseConfig.js` to version control. It contains sensitive API keys. Use `firebaseConfig.example.js` as a template.
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📞 Support
+
+For support, please open an issue in the repository.

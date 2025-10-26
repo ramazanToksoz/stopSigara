@@ -59,7 +59,11 @@ const TopNavigation = ({
         >
           <View style={styles.avatarContainer}>
             <Image 
-              source={avatarSource || require('../../assets/images/icons/logo.png')}
+              source={
+                typeof avatarSource === 'string' 
+                  ? { uri: avatarSource } 
+                  : (avatarSource || require('../../assets/images/icons/logo.png'))
+              }
               style={styles.avatar}
               resizeMode="cover"
             />

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import React from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
@@ -7,7 +7,9 @@ import { StatusBar } from 'expo-status-bar'
 import TopNavigation from '../../../../components/TopNavigation'
 import Input from '../../../../components/Input'
 import Button from '../../../../components/Button'
-import Checkbox from '../../../../components/Checkbox'
+import { signUpWithEmail, signInWithGoogle } from '../../../../services/authService'
+import { saveUserProfile } from '../../../../services/firestoreService'
+import { useUser } from '../../../../context/UserContext'
 
 // Validation schema
 const SignUpSchema = Yup.object().shape({
@@ -16,45 +18,108 @@ const SignUpSchema = Yup.object().shape({
     .required('E-posta adresi gerekli'),
   password: Yup.string()
     .min(6, 'Şifre en az 6 karakter olmalı')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 'Şifre en az bir büyük harf, bir küçük harf ve bir rakam içermeli')
     .required('Şifre gerekli'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password')], 'Şifreler eşleşmiyor')
-    .required('Şifre tekrarı gerekli'),
-  termsAccepted: Yup.boolean()
-    .oneOf([true], 'Kullanım şartlarını kabul etmelisiniz')
 });
 
 const SignUp = ({ navigation }) => {
   console.log('SignUp');
+  const { quitMethod, userData } = useUser();
 
-  const handleSignUp = (values, { setSubmitting, setFieldError }) => {
+  const handleSignUp = async (values, { setSubmitting, setFieldError }) => {
     console.log('Sign Up:', values);
     
-    // Simulate API call
-    setTimeout(() => {
-      if (values.email && values.password) {
-        console.log('Sign up successful');
+    try {
+      const result = await signUpWithEmail(values.email, values.password);
+
+      if (result.success) {
+        console.log('Kayıt başarılı:', result.user.uid);
+        
+        // Kullanıcı profilini Firestore'a kaydet
+        const profileData = {
+          email: values.email,
+          emailPrefix: values.email.split('@')[0], // @'den önceki kısım (örn: ramazan.toksoz)
+          quitMethod: quitMethod,
+          onboardingData: userData,
+          createdAt: new Date().toISOString(),
+        };
+        
+        const saveResult = await saveUserProfile(result.user.uid, profileData);
+        
+        if (saveResult.success) {
+          console.log('Profil Firestore\'a kaydedildi');
+        } else {
+          console.error('Firestore kayıt hatası:', saveResult.error);
+        }
+        
         navigation.navigate('Home');
       } else {
-        setFieldError('email', 'Kayıt olurken bir hata oluştu');
+        // Firebase'den gelen hatayı işle
+        console.error('Kayıt hatası:', result.error.code);
+        if (result.error.code === 'auth/email-already-in-use') {
+          setFieldError('email', 'Bu e-posta adresi zaten kullanılıyor.');
+        } else if (result.error.code === 'auth/weak-password') {
+          setFieldError('password', 'Şifre çok zayıf. En az 6 karakter olmalı.');
+        } else if (result.error.code === 'auth/invalid-email') {
+          setFieldError('email', 'Geçersiz e-posta adresi.');
+        } else {
+          setFieldError('email', 'Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+        }
       }
+    } catch (e) {
+      // Beklenmedik bir hata olursa
+      console.error('Beklenmedik hata:', e);
+      setFieldError('email', 'Beklenmedik bir hata oluştu.');
+    } finally {
       setSubmitting(false);
-    }, 1000);
-  };
-
-  const handleGoogleAuth = () => {
-    console.log('Google sign up');
-    // TODO: Google authentication
-  };
-
-  const handleAppleAuth = () => {
-    console.log('Apple sign up');
-    // TODO: Apple authentication
+    }
   };
 
   const handleSignIn = () => {
     navigation.navigate('EmailLogin');
+  };
+
+
+
+  const handleGoogleAuth = async () => {
+    console.log('Google sign up');
+    try {
+      const result = await signInWithGoogle();
+      
+      if (result.success) {
+        console.log('Google ile giriş başarılı:', result.user.uid);
+        
+        // Google kullanıcı bilgilerini al
+        const googleUser = result.user;
+        
+        // Kullanıcı profilini Firestore'a kaydet
+        const profileData = {
+          email: googleUser.email,
+          emailPrefix: googleUser.email ? googleUser.email.split('@')[0] : googleUser.uid,
+          displayName: googleUser.displayName,
+          photoURL: googleUser.photoURL,
+          quitMethod: quitMethod,
+          onboardingData: userData,
+          createdAt: new Date().toISOString(),
+        };
+        
+        const saveResult = await saveUserProfile(result.user.uid, profileData);
+        
+        if (saveResult.success) {
+          console.log('Google profil Firestore\'a kaydedildi');
+        } else {
+          console.error('Firestore kayıt hatası:', saveResult.error);
+        }
+        
+        navigation.navigate('Home');
+      } else {
+        console.error('Google ile giriş hatası:', result.error.code);
+        // Hata mesajı göster
+        Alert.alert('Hata', 'Google ile giriş yapılırken bir hata oluştu.');
+      }
+    } catch (e) {
+      console.error('Beklenmedik Google giriş hatası:', e);
+      Alert.alert('Hata', 'Beklenmedik bir hata oluştu.');
+    }
   };
 
   return (
@@ -76,8 +141,6 @@ const SignUp = ({ navigation }) => {
         initialValues={{
           email: '',
           password: '',
-          confirmPassword: '',
-          termsAccepted: false
         }}
         validationSchema={SignUpSchema}
         onSubmit={handleSignUp}
@@ -90,7 +153,6 @@ const SignUp = ({ navigation }) => {
           handleBlur, 
           handleSubmit, 
           isSubmitting,
-          setFieldValue 
         }) => (
           <View style={styles.content}>
             <View style={styles.header}>
@@ -135,44 +197,7 @@ const SignUp = ({ navigation }) => {
                 {touched.password && errors.password && (
                   <Text style={styles.errorText}>{errors.password}</Text>
                 )}
-              </View>
-              
-              <View style={styles.fieldGroup}>
-                <Text style={styles.fieldLabel}>Şifre Tekrarı</Text>
-                <Input
-                  type="password"
-                  placeholder="Şifrenizi tekrar girin"
-                  value={values.confirmPassword}
-                  onChangeText={handleChange('confirmPassword')}
-                  onBlur={handleBlur('confirmPassword')}
-                  hasLeadingIcon={true}
-                  leadingIcon={require('../../../../assets/images/icons/lock.png')}
-                  hasTrailingIcon={true}
-                  trailingIcon={require('../../../../assets/images/icons/eye.png')}
-                  hideSeparator={true}
-                />
-                {touched.confirmPassword && errors.confirmPassword && (
-                  <Text style={styles.errorText}>{errors.confirmPassword}</Text>
-                )}
-              </View>
-              
-              <View style={styles.termsContainer}>
-                <TouchableOpacity 
-                  style={styles.checkboxContainer}
-                  onPress={() => setFieldValue('termsAccepted', !values.termsAccepted)}
-                >
-                  <Checkbox 
-                    checked={values.termsAccepted}
-                    onPress={() => setFieldValue('termsAccepted', !values.termsAccepted)}
-                    darkMode={false}
-                  />
-                  <Text style={styles.termsText}>
-                    <Text style={styles.termsText}>Kullanım Şartları</Text> ve <Text style={styles.termsText}>Gizlilik Politikası</Text>'nı kabul ediyorum.
-                  </Text>
-                </TouchableOpacity>
-                {touched.termsAccepted && errors.termsAccepted && (
-                  <Text style={styles.errorText}>{errors.termsAccepted}</Text>
-                )}
+                
               </View>
             </View>
             
@@ -189,13 +214,16 @@ const SignUp = ({ navigation }) => {
             </View>
             
             <View style={styles.socialButtons}>
-              <TouchableOpacity style={styles.socialButton} onPress={handleGoogleAuth}>
-                <Text style={styles.socialButtonText}>Google ile Kaydol</Text>
-              </TouchableOpacity>
+              <Button
+                text="Continue with Google"
+                onPress={handleGoogleAuth}
+                buttonStyle="outline"
+                type="neutral"
+                hasIconLeft={true}
+                leftIcon={require('../../../../assets/images/icons/Google_icon.png')}
+              />
               
-              <TouchableOpacity style={styles.socialButton} onPress={handleAppleAuth}>
-                <Text style={styles.socialButtonText}>Apple ile Kaydol</Text>
-              </TouchableOpacity>
+             
             </View>
             
             <View style={styles.footer}>

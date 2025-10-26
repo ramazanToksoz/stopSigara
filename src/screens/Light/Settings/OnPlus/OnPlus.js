@@ -4,9 +4,11 @@ import { styles } from './OnPlus.styles';
 import TopNavigation from '../../../../components/TopNavigation';
 import ListItem from '../../../../components/ListItem';
 import Logout from '../Logout';
+import { useProfileData } from '../../../../hooks/useProfileData';
 
 const OnPlus = ({ navigation }) => {
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
+  const { profileData } = useProfileData();
   const handleProfilePress = () => {
     navigation.navigate('Profile');
   };
@@ -78,11 +80,15 @@ const OnPlus = ({ navigation }) => {
           <ListItem
             type="default"
             leadingType="avatar"
-            leadingAvatarSource={require('../../../../assets/images/avatars/Avatarprofile.png')}
+            leadingAvatarSource={
+              typeof profileData?.photoURL === 'string' 
+                ? { uri: profileData.photoURL } 
+                : require('../../../../assets/images/avatars/Avatarprofile.png')
+            }
             leadingSize={40}
-            titleText="Peter Brian"
+            titleText={profileData?.displayName || profileData?.emailPrefix || "User"}
             hasSupportingText={true}
-            supportingText="peter.brian@domain.com"
+            supportingText={profileData?.email || "user@example.com"}
             hasTrailingItem={true}
             trailingType="icon"
             trailingIcon={require('../../../../assets/images/icons/arrow-right2.png')}

@@ -2,8 +2,7 @@ import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import React from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../../../../../../firebaseConfig'
+import { signInWithEmail } from '../../../../../services/authService'
 import { styles } from './EmailLogin.styles'
 import { StatusBar } from 'expo-status-bar'
 import TopNavigation from '../../../../../components/TopNavigation'
@@ -30,46 +29,46 @@ const EmailLogin = ({ navigation }) => {
     console.log('Login:', values);
     
     try {
-      // Firebase ile giriş yap
-      const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
-      const user = userCredential.user;
-      
-      console.log('Login successful:', user.uid);
-      Alert.alert('Başarılı', 'Giriş yapıldı!');
-      navigation.navigate('Home');
-      
-    } catch (error) {
-      console.error('Login error:', error);
-      setSubmitting(false);
-      
-      // Firebase hata kodlarına göre Türkçe mesajlar
-      let errorMessage = 'Giriş yapılırken bir hata oluştu.';
-      
-      switch (error.code) {
-        case 'auth/user-not-found':
-          errorMessage = 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı.';
-          setFieldError('email', errorMessage);
-          break;
-        case 'auth/wrong-password':
-          errorMessage = 'Şifre yanlış.';
-          setFieldError('password', errorMessage);
-          break;
-        case 'auth/invalid-email':
-          errorMessage = 'Geçersiz e-posta adresi.';
-          setFieldError('email', errorMessage);
-          break;
-        case 'auth/too-many-requests':
-          errorMessage = 'Çok fazla başarısız deneme. Lütfen daha sonra tekrar deneyin.';
-          Alert.alert('Hata', errorMessage);
-          break;
-        case 'auth/network-request-failed':
-          errorMessage = 'İnternet bağlantınızı kontrol edin.';
-          Alert.alert('Bağlantı Hatası', errorMessage);
-          break;
-        default:
-          errorMessage = error.message || 'Bilinmeyen bir hata oluştu.';
-          Alert.alert('Giriş Hatası', errorMessage);
+      const result = await signInWithEmail(values.email, values.password);
+
+      if (result.success) {
+        console.log('Login successful:', result.user.uid);
+        Alert.alert('Başarılı', 'Giriş yapıldı!');
+        navigation.navigate('Home');
+      } else {
+        // Firebase hata kodlarına göre Türkçe mesajlar
+        console.error('Login error:', result.error.code);
+        
+        switch (result.error.code) {
+          case 'auth/user-not-found':
+            setFieldError('email', 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı.');
+            break;
+          case 'auth/wrong-password':
+            setFieldError('password', 'Şifre yanlış.');
+            break;
+          case 'auth/invalid-email':
+            setFieldError('email', 'Geçersiz e-posta adresi.');
+            break;
+          case 'auth/invalid-credential':
+            setFieldError('email', 'Geçersiz e-posta adresi veya şifre.');
+            setFieldError('password', 'Geçersiz e-posta adresi veya şifre.');
+            break;
+          case 'auth/too-many-requests':
+            Alert.alert('Hata', 'Çok fazla başarısız deneme. Lütfen daha sonra tekrar deneyin.');
+            break;
+          case 'auth/network-request-failed':
+            Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.');
+            break;
+          default:
+            Alert.alert('Giriş Hatası', result.error.message || 'Bilinmeyen bir hata oluştu.');
+        }
       }
+    } catch (e) {
+      // Beklenmedik bir hata olursa
+      console.error('Beklenmedik hata:', e);
+      Alert.alert('Hata', 'Beklenmedik bir hata oluştu.');
+    } finally {
+      setSubmitting(false);
     }
   };
 

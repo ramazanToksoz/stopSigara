@@ -19,6 +19,10 @@ export const UserProvider = ({ children }) => {
     // Onboarding4 - Personal quit reason (text)
     personalQuitReason: '',
   });
+  
+  // Profile cache - Firestore'dan gelen kullanıcı profil bilgileri
+  const [profileData, setProfileData] = useState(null);
+  const [isProfileLoading, setIsProfileLoading] = useState(false);
 
   const updateQuitMethod = (method) => {
     console.log("UserContext - updateQuitMethod called with:", method);
@@ -41,6 +45,14 @@ export const UserProvider = ({ children }) => {
     });
   };
 
+  const updateProfileData = (data) => {
+    setProfileData(data);
+  };
+
+  const clearProfileData = () => {
+    setProfileData(null);
+  };
+
   return (
     <UserContext.Provider 
       value={{ 
@@ -48,7 +60,13 @@ export const UserProvider = ({ children }) => {
         userData, 
         updateQuitMethod, 
         updateUserData,
-        resetUserData 
+        resetUserData,
+        // Profile cache
+        profileData,
+        isProfileLoading,
+        setIsProfileLoading,
+        updateProfileData,
+        clearProfileData
       }}
     >
       {children}

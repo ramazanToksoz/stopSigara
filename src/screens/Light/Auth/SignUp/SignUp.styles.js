@@ -110,5 +110,40 @@ export const styles = StyleSheet.create({
     marginTop: verticalScale(4),
     marginLeft: scale(4),
   },
+  forgotPasswordContainer: {
+    alignSelf: 'flex-end',
+    marginTop: verticalScale(8),
+  },
+  forgotPasswordText: {
+    fontSize: moderateScale(14),
+    fontFamily: 'DMSans-Medium',
+    color: '#58B658',
+    lineHeight: moderateScale(20),
+    letterSpacing: -0.006,
+  },
+  divider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    marginVertical: verticalScale(16),
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: Colors.gray[10],
+  },
+  dividerText: {
+    fontSize: moderateScale(14),
+    fontFamily: 'DMSans-Regular',
+    color: Colors.gray[40],
+    lineHeight: moderateScale(20),
+    letterSpacing: -0.006,
+    marginHorizontal: scale(16),
+  },
+  socialButtons: {
+    flexDirection: 'column',
+    width: '100%',
+    gap: verticalScale(12),
+  },
 });
 

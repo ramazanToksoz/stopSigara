@@ -3,6 +3,11 @@
 # dependencies
 node_modules/
 firebaseConfig.js
+google-services.json
+# Firebase
+/google-services.json
+/android/app/google-services.json
+
 # Expo
 .expo/
 dist/
