@@ -8,6 +8,8 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FCFCFD',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   topSection: {
     backgroundColor: Colors.brand[60],

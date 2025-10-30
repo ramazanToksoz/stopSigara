@@ -55,7 +55,7 @@ const Alert = ({
       
       {onClose && (
         <TouchableOpacity onPress={onClose} activeOpacity={0.7}>
-          <View style={[styles.closeButton, closeStyle]} />
+          <Image source={require('../../assets/images/icons/close.png')} style={styles.closeButton} resizeMode="contain" />
         </TouchableOpacity>
       )}
     </View>

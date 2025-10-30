@@ -1,0 +1,45 @@
+# Firebase Storage Security Rules
+# Bu kuralları Firebase Console'da Storage > Rules sekmesine yapıştırın
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper function
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isValidImage() {
+      return request.resource.size < 5 * 1024 * 1024 && // 5MB limit
+             request.resource.contentType.matches('image/.*');
+    }
+    
+    // User profile photos
+    match /users/{userId}/{fileName} {
+      // Sadece kendi profil fotoğrafını okuyabilir/yazabilir
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() 
+        && request.auth.uid == userId
+        && isValidImage()
+        && fileName.matches('profile\\.(jpg|jpeg|png)');
+      allow delete: if isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Post images (public read, owner write)
+    match /posts/{postId}/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated()
+        && isValidImage()
+        && fileName.matches('.*\\.(jpg|jpeg|png)');
+      // Post sahibi kontrolü için metadata'da userId saklanmalı (CF ile)
+      allow delete: if isAuthenticated();
+    }
+    
+    // Diğer tüm dosyalar için erişimi reddet
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
+

@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { styles } from './Home.styles';
 import { StatusBar } from 'expo-status-bar';
 import { Colors } from '../../../../constants/Colors';
@@ -9,11 +9,17 @@ import ListItem from '../../../../components/ListItem';
 import TopNavigation from '../../../../components/TopNavigation';
 import { useProfileData } from '../../../../hooks/useProfileData';
 import { useTrackingData } from '../../../../hooks/useTrackingData';
+import { usePosts } from '../../../../hooks/useCommunity';
 import DailyCheckIn from '../../../../components/DailyCheckIn';
+import Loading from '../../../../components/Loading';
+import { useTranslation } from '../../../../hooks/useTranslation';
 
 const ColdTurkeyHome = ({ navigation }) => {
   const { profileData, isProfileLoading: loading } = useProfileData();
   const { progressStats } = useTrackingData();
+  const { t } = useTranslation();
+  const publicFeedFilter = useMemo(() => ({ visibility: 'public' }), []);
+  const { posts, isLoading: isPostsLoading } = usePosts(publicFeedFilter, 10);
   
   // Cold Turkey için gerçek veriler (progressStats varsa onu kullan)
   const quitDate = progressStats?.quitDate 
@@ -36,7 +42,7 @@ const ColdTurkeyHome = ({ navigation }) => {
   const nextMilestone = 7;
   const daysUntilMilestone = Math.max(0, nextMilestone - daysQuit);
   
-  console.log('ColdTurkeyHome', { profileData, progressStats, daysQuit, avoidedCigarettes, savings });
+  
   
   const handleCheckInComplete = () => {
     // Check-in tamamlandığında tracking verilerini yenile
@@ -44,11 +50,7 @@ const ColdTurkeyHome = ({ navigation }) => {
   };
 
   if (loading) {
-    return (
-      <View style={styles.container}>
-        <Text>Yükleniyor...</Text>
-      </View>
-    );
+    return <Loading type="fullscreen" />;
   }
 
   return (
@@ -65,7 +67,7 @@ const ColdTurkeyHome = ({ navigation }) => {
                   ? { uri: profileData.photoURL }
                   : require('../../../../assets/images/icons/Avatar.png')
               }
-              greetingText="Good morning,"
+              greetingText={t('home.greeting') + ','}
               userName={profileData?.displayName || profileData?.emailPrefix || "User"}
               onLeadingPress={() => navigation.navigate('Profile')}
               trailingType="notification"
@@ -79,11 +81,11 @@ const ColdTurkeyHome = ({ navigation }) => {
           
           <View style={styles.mainContent}>
             <View style={styles.topContent}>
-              <Text style={styles.mainTitle}>{daysQuit} Days</Text>
+              <Text style={styles.mainTitle}>{daysQuit} {t('home.daysQuit')}</Text>
               <Text style={styles.subtitle}>
                 {daysUntilMilestone > 0 
-                  ? `Just ${daysUntilMilestone} days away from better energy and deeper sleep.`
-                  : 'You\'re making great progress!'
+                  ? t('home.daysUntilMilestone', { days: daysUntilMilestone })
+                  : t('home.greatProgress')
                 }
               </Text>
             </View>
@@ -91,17 +93,17 @@ const ColdTurkeyHome = ({ navigation }) => {
             <View style={styles.metricsContainer}>
               <View style={styles.metricCard}>
                 <Text style={styles.metricValue}>{avoidedCigarettes}</Text>
-                <Text style={styles.metricLabel}>Avoided</Text>
+                <Text style={styles.metricLabel}>{t('home.avoided')}</Text>
               </View>
               
               <View style={styles.metricCard}>
-                <Text style={styles.metricValue}>${savings}</Text>
-                <Text style={styles.metricLabel}>Saved</Text>
+                <Text style={styles.metricValue}>₺{savings}</Text>
+                <Text style={styles.metricLabel}>{t('home.saved')}</Text>
               </View>
               
               <View style={styles.metricCard}>
                 <Text style={styles.metricValue}>{daysQuit}</Text>
-                <Text style={styles.metricLabel}>Days</Text>
+                <Text style={styles.metricLabel}>{t('home.days')}</Text>
               </View>
             </View>
           </View>
@@ -110,8 +112,8 @@ const ColdTurkeyHome = ({ navigation }) => {
         <View style={styles.content}>
             <View style={styles.cardMission}>
               <View style={styles.textContainer}>
-                <Text style={styles.cardTitle}>Daily Check-In</Text>
-                <Text style={styles.cardSubtitle}>Tell us how you're feeling today</Text>
+                <Text style={styles.cardTitle}>{t('home.dailyCheckIn')}</Text>
+                <Text style={styles.cardSubtitle}>{t('home.dailyCheckInSubtitle')}</Text>
               </View>
               <DailyCheckIn onCheckInComplete={handleCheckInComplete} />
             </View>
@@ -119,7 +121,7 @@ const ColdTurkeyHome = ({ navigation }) => {
             <View style={styles.cravingSection}>
               <View style={styles.sectionHeading}>
                 <View style={styles.sectionMain}>
-                  <Text style={styles.sectionTitle}>Craving Assistance</Text>
+                  <Text style={styles.sectionTitle}>{t('home.cravingAssistance')}</Text>
                 </View>
               </View>
               
@@ -135,7 +137,7 @@ const ColdTurkeyHome = ({ navigation }) => {
                       style={styles.iconImage}
                     />
                   </View>
-                  <Text style={styles.assistanceLabel}>AI Chat</Text>
+                  <Text style={styles.assistanceLabel}>{t('home.aiChat')}</Text>
                 </TouchableOpacity>
                 
                 <TouchableOpacity 
@@ -149,7 +151,7 @@ const ColdTurkeyHome = ({ navigation }) => {
                       style={styles.iconImage}
                     />
                   </View>
-                  <Text style={styles.assistanceLabel}>Mini Game</Text>
+                  <Text style={styles.assistanceLabel}>{t('home.miniGame')}</Text>
                 </TouchableOpacity>
                 
                 <TouchableOpacity 
@@ -163,7 +165,7 @@ const ColdTurkeyHome = ({ navigation }) => {
                       style={styles.iconImage}
                     />
                   </View>
-                  <Text style={styles.assistanceLabel}>Breathing</Text>
+                  <Text style={styles.assistanceLabel}>{t('home.breathing')}</Text>
                 </TouchableOpacity>
                 
                 <TouchableOpacity 
@@ -177,7 +179,7 @@ const ColdTurkeyHome = ({ navigation }) => {
                       style={styles.iconImage}
                     />
                   </View>
-                  <Text style={styles.assistanceLabel}>Other</Text>
+                  <Text style={styles.assistanceLabel}>{t('home.other')}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -185,7 +187,7 @@ const ColdTurkeyHome = ({ navigation }) => {
             <View style={styles.milestoneSection}>
               <View style={styles.sectionHeading}>
                 <View style={styles.sectionMain}>
-                  <Text style={styles.sectionTitle}>Next Milestone</Text>
+                  <Text style={styles.sectionTitle}>{t('home.nextMilestone')}</Text>
                 </View>
               </View>
               
@@ -196,11 +198,11 @@ const ColdTurkeyHome = ({ navigation }) => {
                 leadingIcon={require('../../../../assets/images/icons/kas.png')}
                 leadingSize={60}
                 leadingPercent="10%"
-                leadingTime="7 Days"
+                leadingTime={t('home.milestoneTitle')}
                 leadingCompleted={false}
-                titleText="7 Days"
+                titleText={t('home.milestoneTitle')}
                 hasSupportingText={true}
-                supportingText="Eeenergy levels rise, your sense of taste improves, and sleep becomes more restful."
+                supportingText={t('home.milestoneDescription')}
                 hasTrailingItem={true}
                 trailingType="more"
                 onPress={() => console.log('Milestone pressed')}
@@ -208,57 +210,40 @@ const ColdTurkeyHome = ({ navigation }) => {
             </View>
 
                 <View style={styles.communitySection}>
-                  <View style={styles.sectionHeading}>
+              <View style={styles.sectionHeading}>
                     <View style={styles.sectionMain}>
-                      <Text style={styles.sectionTitle}>Community Feed</Text>
+                      <Text style={styles.sectionTitle}>{t('home.communityFeed')}</Text>
                     </View>
                     <TouchableOpacity style={styles.viewAllButton}>
-                      <Text style={styles.viewAllText}>View all</Text>
+                      <Text style={styles.viewAllText}>{t('home.viewAll')}</Text>
                       <Image 
                         source={require('../../../../assets/images/icons/arrow-right.png')} 
                         style={[styles.arrowIcon, { tintColor: Colors.brand[60]}]}
                       />
                     </TouchableOpacity>
                   </View>
-                  
-                  <CardPost
-                    type="Image"
-                    name="Sarah"
-                    time="14m ago"
-                    text="One week done 🎉! Food already tastes better and I'm breathing easier. Still tough after meals, but I'm proud."
-                    likes="1.4K"
-                    comments="128"
-                    onLike={() => console.log('Post liked')}
-                    onComment={() => console.log('Post commented')}
-                    onSave={() => console.log('Post saved')}
-                    onMore={() => console.log('More options')}
-                  />
-                  
-                  <CardPost
-                    type="Text"
-                    name="Mike"
-                    time="1h ago"
-                    text="Day 3 and feeling stronger! The cravings are real but I'm pushing through. Thanks for all the support! 💪"
-                    likes="892"
-                    comments="45"
-                    onLike={() => console.log('Post liked')}
-                    onComment={() => console.log('Post commented')}
-                    onSave={() => console.log('Post saved')}
-                    onMore={() => console.log('More options')}
-                  />
-                  
-                  <CardPost
-                    type="Link"
-                    name="Emma"
-                    time="2h ago"
-                    text="Found this amazing article about the benefits of quitting smoking. Really motivating!"
-                    likes="2.1K"
-                    comments="156"
-                    onLike={() => console.log('Post liked')}
-                    onComment={() => console.log('Post commented')}
-                    onSave={() => console.log('Post saved')}
-                    onMore={() => console.log('More options')}
-                  />
+              {
+                isPostsLoading ? (
+                  <Loading />
+                ) : (
+                  (posts || []).map((post) => (
+                    <CardPost
+                      key={post.id}
+                      type={post.type || 'Text'}
+                      name={post.authorName || 'User'}
+                      time={''}
+                      avatar={post.authorAvatar ? { uri: post.authorAvatar } : undefined}
+                      text={post.content || ''}
+                      likes={String(post.likesCount || 0)}
+                      comments={String(post.commentsCount || 0)}
+                      onLike={() => {}}
+                      onComment={() => {}}
+                      onSave={() => {}}
+                      onMore={() => {}}
+                    />
+                  ))
+                )
+              }
                 </View>
            </View>
          </ScrollView>

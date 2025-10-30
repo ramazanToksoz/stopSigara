@@ -1,20 +1,38 @@
 import { View, Text, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { styles } from './Login.styles'
 import { StatusBar } from 'expo-status-bar'
 import { Colors } from '../../../../constants/Colors'
 import Button from '../../../../components/Button'
+import Alert from '../../../../components/Alert'
+import { signInWithGoogle } from '../../../../services/authService'
 
 const Login = ({ navigation }) => {
-  console.log('Login');
-  const handleGoogleAuth = () => {
-    console.log('Google Auth');
-    // TODO: Google authentication
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertType, setAlertType] = useState('error');
+  const [alertMessage, setAlertMessage] = useState('');
+
+  const showAlert = (type, message) => {
+    setAlertType(type);
+    setAlertMessage(message);
+    setAlertVisible(true);
   };
 
-  const handleAppleAuth = () => {
-    console.log('Apple Auth');
-    // TODO: Apple authentication
+  const handleGoogleAuth = async () => {
+    try {
+      const result = await signInWithGoogle();
+      if (result.success) {
+        showAlert('success', 'Google ile giriş başarılı!');
+        setTimeout(() => {
+          setAlertVisible(false);
+          navigation.navigate('Home');
+        }, 2000);
+      } else {
+        showAlert('error', 'Google ile giriş başarısız.');
+      }
+    } catch (e) {
+      showAlert('error', 'Beklenmedik bir hata oluştu.');
+    }
   };
 
   const handleEmailAuth = () => {
@@ -27,6 +45,17 @@ const Login = ({ navigation }) => {
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       
       <View style={styles.content}>
+        {alertVisible && (
+          <View style={styles.alertContainer}>
+            <Alert
+              type={alertType}
+              message={alertMessage}
+              visible={true}
+              onClose={() => setAlertVisible(false)}
+              darkMode={false}
+            />
+          </View>
+        )}
         <View style={styles.blank} />
         
         <View style={styles.logoContainer}>
@@ -49,17 +78,6 @@ const Login = ({ navigation }) => {
             mode="light"
             onPress={handleGoogleAuth}
             leftIcon={require('../../../../assets/images/icons/Google_icon.png')}
-            hideArrow={true}
-          />
-          
-          <Button
-            text="Continue with Apple"
-            type="neutral"
-            buttonStyle="soft"
-            size="default"
-            mode="light"
-            onPress={handleAppleAuth}
-            leftIcon={require('../../../../assets/images/icons/Apple_icon.png')}
             hideArrow={true}
           />
           

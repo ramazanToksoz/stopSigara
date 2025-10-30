@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { styles } from './Main.styles';
 import TopNavigation from '../../../components/TopNavigation';
 import Input from '../../../components/Input/Input';
@@ -7,48 +7,22 @@ import CardPost from '../../../components/CardPost/CardPost';
 import Comments from './Comments/Comments';
 import { StatusBar } from 'react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { usePosts, useLikeStatus } from '../../../hooks/useCommunity';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const CommunityMain = ({ navigation }) => {
+  const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState('Senin İçin');
   const [searchText, setSearchText] = useState('');
   const [showComments, setShowComments] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState(null);
 
   const filterOptions = ['Senin İçin', 'Takip Edilenler', 'Beğenilenler', 'Kaydedilenler'];
+  const filters = useMemo(() => ({ visibility: 'public' }), []);
+  const { posts, isLoading, loadMore, refresh } = usePosts(filters, 10);
 
-  const posts = [
-    {
-      id: 1,
-      name: 'Edward Chen',
-      time: '2m ago',
-      avatar: require('../../../assets/images/avatars/brian.png'),
-      text: "3 months smoke-free! Cravings aren't gone, but they're weaker now. I finally believe I can do this.",
-      type: 'Text',
-      likes: '1.4K',
-      comments: '128'
-    },
-    {
-      id: 2,
-      name: 'Sarah',
-      time: '14m ago',
-      avatar: require('../../../assets/images/icons/kas2.png'),
-      text: "One week done 🎉! Food already tastes better and I'm breathing easier. Still tough after meals, but I'm proud.",
-      type: 'Image',
-      likes: '1.4K',
-      comments: '128'
-    },
-    {
-      id: 3,
-      name: 'Billy Murray',
-      time: '3h ago',
-      avatar: require('../../../assets/images/icons/kas2.png'),
-      text: "One week done 🎉! Food already tastes better and I'm breathing easier. Still tough after meals, but I'm proud.",
-      type: 'Link',
-      likes: '1.4K',
-      comments: '128'
-    }
-  ];
-
-  const handleCommentPress = () => {
+  const handleCommentPress = (postId) => {
+    setSelectedPostId(postId);
     setShowComments(true);
   };
 
@@ -74,7 +48,7 @@ const CommunityMain = ({ navigation }) => {
                 showLeadingItem={false}
                 showCenterItem={true}
                 centerType="title"
-                title="Topluluk"
+                title={"Topluluk"}
                 showTrailingItem={true}
                 trailingType="icon"
                 trailingIcon="add"
@@ -124,20 +98,20 @@ const CommunityMain = ({ navigation }) => {
 
         {/* Posts */}
         <View style={styles.postsContainer}>
-          {posts.map((post) => (
+          {(posts || []).map((post) => (
             <CardPost
               key={post.id}
-              name={post.name}
-              time={post.time}
-              avatar={post.avatar}
-              text={post.text}
-              type={post.type}
-              likes={post.likes}
-              comments={post.comments}
-              onLike={() => console.log('Like pressed')}
-              onComment={handleCommentPress}
-              onSave={() => console.log('Save pressed')}
-              onMore={() => console.log('More pressed')}
+              name={post.authorName || 'User'}
+              time={''}
+              avatar={post.authorAvatar ? { uri: post.authorAvatar } : undefined}
+              text={post.content || ''}
+              type={post.type || 'Text'}
+              likes={String(post.likesCount || 0)}
+              comments={String(post.commentsCount || 0)}
+              onLike={() => { /* like handled per detail or future update */ }}
+              onComment={() => handleCommentPress(post.id)}
+              onSave={() => {}}
+              onMore={() => {}}
             />
           ))}
         </View>
@@ -147,6 +121,7 @@ const CommunityMain = ({ navigation }) => {
               <Comments
                 visible={showComments}
                 onClose={handleCloseComments}
+                postId={selectedPostId}
                 navigation={navigation}
               />
             </View>

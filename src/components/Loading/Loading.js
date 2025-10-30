@@ -1,10 +1,11 @@
 import React, { useRef, useEffect } from 'react';
-import { View, Animated } from 'react-native';
+import { View, Animated, Text, Image } from 'react-native';
 import { styles } from './Loading.styles';
 
 const Loading = ({ 
   variant = 'primary', // primary, secondary, tertiary
   size = 'medium', // small, medium, large
+  type = 'default', // default, fullscreen
 }) => {
   const spinValue = useRef(new Animated.Value(0)).current;
 
@@ -70,6 +71,37 @@ const Loading = ({
     outputRange: ['0deg', '360deg'],
   });
 
+  // Fullscreen type for loading screens with logo
+  if (type === 'fullscreen') {
+    return (
+      <View style={styles.fullscreenContainer}>
+        <View style={styles.logoContainer}>
+          <Image 
+            source={require('../../assets/images/icons/logo.png')} 
+            style={styles.logo}
+            resizeMode="contain"
+          />
+          
+          {/* Spinning circle around logo */}
+          <Animated.View 
+            style={[
+              styles.spinningCircleContainer,
+              { transform: [{ rotate: rotation }] }
+            ]}
+          >
+            <View style={[
+              styles.spinningCircle,
+              { borderColor: getArcColor() }
+            ]} />
+          </Animated.View>
+        </View>
+        
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
+  }
+
+  // Default type (existing spinner)
   return (
     <View style={[styles.container, getSizeStyle()]}>
       {/* Background circle */}

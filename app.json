@@ -30,7 +30,14 @@
     },
     "plugins": [
       "expo-font",
-      "@react-native-google-signin/google-signin"
+      "@react-native-google-signin/google-signin",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Uygulamanın fotoğraflarınıza erişmesi için izin gerekiyor.",
+          "cameraPermission": "Uygulamanın kameraya erişmesi için izin gerekiyor."
+        }
+      ]
     ]
   }
 }

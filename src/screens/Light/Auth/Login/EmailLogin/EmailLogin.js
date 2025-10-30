@@ -1,8 +1,8 @@
-import { View, Text, TouchableOpacity, Alert } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity, Alert as RNAlert } from 'react-native'
+import React, { useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { signInWithEmail } from '../../../../../services/authService'
+import { signInWithEmail, signInWithGoogle } from '../../../../../services/authService'
 import { styles } from './EmailLogin.styles'
 import { StatusBar } from 'expo-status-bar'
 import TopNavigation from '../../../../../components/TopNavigation'
@@ -10,6 +10,7 @@ import { Colors } from '../../../../../constants/Colors'
 import Input from '../../../../../components/Input'
 import Button from '../../../../../components/Button'
 import Checkbox from '../../../../../components/Checkbox'
+import Alert from '../../../../../components/Alert'
 
 // Validation schema
 const LoginSchema = Yup.object().shape({
@@ -24,6 +25,16 @@ const LoginSchema = Yup.object().shape({
 
 const EmailLogin = ({ navigation }) => {
   console.log('EmailLogin');
+  
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertType, setAlertType] = useState('error');
+  const [alertMessage, setAlertMessage] = useState('');
+
+  const showAlert = (type, message) => {
+    setAlertType(type);
+    setAlertMessage(message);
+    setAlertVisible(true);
+  };
 
   const handleLogin = async (values, { setSubmitting, setFieldError }) => {
     console.log('Login:', values);
@@ -33,40 +44,42 @@ const EmailLogin = ({ navigation }) => {
 
       if (result.success) {
         console.log('Login successful:', result.user.uid);
-        Alert.alert('Başarılı', 'Giriş yapıldı!');
-        navigation.navigate('Home');
+        // Başarılı giriş - alert göster sonra yönlendir
+        showAlert('success', 'Giriş başarılı!');
+        setTimeout(() => {
+          navigation.navigate('Home');
+        }, 1500); // 1.5 saniye sonra yönlendir
       } else {
         // Firebase hata kodlarına göre Türkçe mesajlar
         console.error('Login error:', result.error.code);
         
         switch (result.error.code) {
           case 'auth/user-not-found':
-            setFieldError('email', 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı.');
+            showAlert('error', 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı.');
             break;
           case 'auth/wrong-password':
-            setFieldError('password', 'Şifre yanlış.');
+            showAlert('error', 'Şifre yanlış.');
             break;
           case 'auth/invalid-email':
-            setFieldError('email', 'Geçersiz e-posta adresi.');
+            showAlert('error', 'Geçersiz e-posta adresi.');
             break;
           case 'auth/invalid-credential':
-            setFieldError('email', 'Geçersiz e-posta adresi veya şifre.');
-            setFieldError('password', 'Geçersiz e-posta adresi veya şifre.');
+            showAlert('error', 'Geçersiz e-posta adresi veya şifre.');
             break;
           case 'auth/too-many-requests':
-            Alert.alert('Hata', 'Çok fazla başarısız deneme. Lütfen daha sonra tekrar deneyin.');
+            showAlert('warning', 'Çok fazla başarısız deneme. Lütfen daha sonra tekrar deneyin.');
             break;
           case 'auth/network-request-failed':
-            Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.');
+            showAlert('error', 'İnternet bağlantınızı kontrol edin.');
             break;
           default:
-            Alert.alert('Giriş Hatası', result.error.message || 'Bilinmeyen bir hata oluştu.');
+            showAlert('error', result.error.message || 'Bilinmeyen bir hata oluştu.');
         }
       }
     } catch (e) {
       // Beklenmedik bir hata olursa
       console.error('Beklenmedik hata:', e);
-      Alert.alert('Hata', 'Beklenmedik bir hata oluştu.');
+      showAlert('error', 'Beklenmedik bir hata oluştu.');
     } finally {
       setSubmitting(false);
     }
@@ -78,6 +91,22 @@ const EmailLogin = ({ navigation }) => {
 
   const handleSignUp = () => {
     navigation.navigate('SignUp');
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithGoogle();
+      if (result.success) {
+        showAlert('success', 'Google ile giriş başarılı!');
+        setTimeout(() => {
+          navigation.navigate('Home');
+        }, 1000);
+      } else {
+        showAlert('error', 'Google ile giriş başarısız.');
+      }
+    } catch (e) {
+      showAlert('error', 'Beklenmedik bir hata oluştu.');
+    }
   };
 
   return (
@@ -94,6 +123,19 @@ const EmailLogin = ({ navigation }) => {
         showCenterItem={false}
         showTrailingItem={false}
       />
+      
+      {/* Alert positioned at top */}
+      {alertVisible && (
+        <View style={styles.alertContainer}>
+          <Alert
+            type={alertType}
+            message={alertMessage}
+            visible={true}
+            onClose={() => setAlertVisible(false)}
+            darkMode={false}
+          />
+        </View>
+      )}
       
       <Formik
         initialValues={{
@@ -183,6 +225,23 @@ const EmailLogin = ({ navigation }) => {
               onPress={handleSubmit}
               disabled={isSubmitting}
             />
+
+          <View style={styles.divider}>
+            <View style={styles.dividerLine} />
+            <Text style={styles.dividerText}>veya</Text>
+            <View style={styles.dividerLine} />
+          </View>
+
+          <View style={styles.socialButtons}>
+            <Button
+              text="Google ile Devam Et"
+              onPress={handleGoogleLogin}
+              buttonStyle="outline"
+              type="neutral"
+              hasIconLeft={true}
+              leftIcon={require('../../../../../assets/images/icons/Google_icon.png')}
+            />
+          </View>
             
             <View style={styles.footer}>
               <Text style={styles.footerText}>Hesabın yok mu?</Text>

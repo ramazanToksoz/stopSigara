@@ -145,5 +145,12 @@ export const styles = StyleSheet.create({
     width: '100%',
     gap: verticalScale(12),
   },
+  alertContainer: {
+    position: 'absolute',
+    top: verticalScale(100),
+    left: scale(20),
+    right: scale(20),
+    zIndex: 1000,
+  },
 });
 

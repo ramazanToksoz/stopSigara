@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { styles } from './Home.styles';
 import { StatusBar } from 'expo-status-bar';
 import { Colors } from '../../../../constants/Colors';
@@ -9,10 +9,15 @@ import CardPost from '../../../../components/CardPost';
 import ListItem from '../../../../components/ListItem';
 import TopNavigation from '../../../../components/TopNavigation';
 import { useProfileData } from '../../../../hooks/useProfileData';
-
+import Loading from '../../../../components/Loading';
+import { usePosts } from '../../../../hooks/useCommunity';
+import { useTranslation } from '../../../../hooks/useTranslation';
 const GradualHome = ({ navigation }) => {
+  const { t } = useTranslation();
   const { userData } = useUser();
   const { profileData, isProfileLoading: loading } = useProfileData();
+  const publicFeedFilter = useMemo(() => ({ visibility: 'public' }), []);
+  const { posts, isLoading: isPostsLoading } = usePosts(publicFeedFilter, 10);
   
   // Profil verilerine göre dinamik sayıları hesapla
   const dailyCigarettes = profileData?.onboardingData?.dailyCigarettes || 20;
@@ -37,14 +42,10 @@ const GradualHome = ({ navigation }) => {
   // Azalma yüzdesi hesapla
   const actualReduction = Math.floor(((dailyCigarettes - currentCigarettes) / dailyCigarettes) * 100);
   
-  console.log("GradualHome", { profileData });
+  
   
   if (loading) {
-    return (
-      <View style={styles.container}>
-        <Text>Yükleniyor...</Text>
-      </View>
-    );
+    return <Loading type="fullscreen" />;
   }
   
   return (
@@ -58,8 +59,12 @@ const GradualHome = ({ navigation }) => {
           <View style={styles.topNavWrapper}>
             <TopNavigation
               leadingType="avatar"
-              avatarSource={profileData?.photoURL || require('../../../../assets/images/icons/Avatar.png')}
-              greetingText="Good morning,"
+              avatarSource={
+                typeof profileData?.photoURL === 'string'
+                  ? { uri: profileData.photoURL }
+                  : require('../../../../assets/images/icons/Avatar.png')
+              }
+              greetingText={`${t('home.greeting')},`}
               userName={profileData?.displayName || profileData?.emailPrefix || "User"}
               onLeadingPress={() => navigation.navigate('Profile')}
               trailingType="notification"
@@ -107,7 +112,11 @@ const GradualHome = ({ navigation }) => {
                 <Text style={styles.cardTitle}>Günlük Kontrol</Text>
                 <Text style={styles.cardSubtitle}>Bugün nasıl hissettiğini bize söyle</Text>
               </View>
-              <TouchableOpacity style={styles.checkInButton}>
+              <TouchableOpacity 
+                style={styles.checkInButton}
+                onPress={() => navigation.navigate('Mood')}
+                activeOpacity={0.7}
+              >
                 <Text style={styles.buttonText}>Kontrol Et</Text>
                 <Image 
                   source={require('../../../../assets/images/icons/arrow-right1.png')} 
@@ -221,44 +230,28 @@ const GradualHome = ({ navigation }) => {
                     </TouchableOpacity>
                   </View>
                   
-                  <CardPost
-                    type="Image"
-                    name="Sarah"
-                    time="14m ago"
-                    text="Bir hafta tamamlandı 🎉! Yemekler artık daha lezzetli ve nefes almak daha kolay. Yemeklerden sonra hala zor, ama gururluyum."
-                    likes="1.4K"
-                    comments="128"
-                    onLike={() => console.log('Post liked')}
-                    onComment={() => console.log('Post commented')}
-                    onSave={() => console.log('Post saved')}
-                    onMore={() => console.log('More options')}
-                  />
-                  
-                  <CardPost
-                    type="Text"
-                    name="Mike"
-                    time="1h ago"
-                    text="3. gün ve daha güçlü hissediyorum! İstekler gerçek ama mücadele ediyorum. Tüm destek için teşekkürler! 💪"
-                    likes="892"
-                    comments="45"
-                    onLike={() => console.log('Post liked')}
-                    onComment={() => console.log('Post commented')}
-                    onSave={() => console.log('Post saved')}
-                    onMore={() => console.log('More options')}
-                  />
-                  
-                  <CardPost
-                    type="Link"
-                    name="Emma"
-                    time="2h ago"
-                    text="Sigara bırakmanın faydaları hakkında bu harika makaleyi buldum. Gerçekten motive edici!"
-                    likes="2.1K"
-                    comments="156"
-                    onLike={() => console.log('Post liked')}
-                    onComment={() => console.log('Post commented')}
-                    onSave={() => console.log('Post saved')}
-                    onMore={() => console.log('More options')}
-                  />
+                  {
+                    isPostsLoading ? (
+                      <Loading />
+                    ) : (
+                      (posts || []).map((post) => (
+                        <CardPost
+                          key={post.id}
+                          type={post.type || 'Text'}
+                          name={post.authorName || 'User'}
+                          time={''}
+                          avatar={post.authorAvatar ? { uri: post.authorAvatar } : undefined}
+                          text={post.content || ''}
+                          likes={String(post.likesCount || 0)}
+                          comments={String(post.commentsCount || 0)}
+                          onLike={() => {}}
+                          onComment={() => {}}
+                          onSave={() => {}}
+                          onMore={() => {}}
+                        />
+                      ))
+                    )
+                  }
                 </View>
            </View>
       </ScrollView>

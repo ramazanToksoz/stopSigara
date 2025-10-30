@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, Alert } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity, Alert as RNAlert } from 'react-native'
+import React, { useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { styles } from './SignUp.styles'
@@ -10,6 +10,7 @@ import Button from '../../../../components/Button'
 import { signUpWithEmail, signInWithGoogle } from '../../../../services/authService'
 import { saveUserProfile } from '../../../../services/firestoreService'
 import { useUser } from '../../../../context/UserContext'
+import Alert from '../../../../components/Alert'
 
 // Validation schema
 const SignUpSchema = Yup.object().shape({
@@ -24,6 +25,16 @@ const SignUpSchema = Yup.object().shape({
 const SignUp = ({ navigation }) => {
   console.log('SignUp');
   const { quitMethod, userData } = useUser();
+  
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertType, setAlertType] = useState('error');
+  const [alertMessage, setAlertMessage] = useState('');
+
+  const showAlert = (type, message) => {
+    setAlertType(type);
+    setAlertMessage(message);
+    setAlertVisible(true);
+  };
 
   const handleSignUp = async (values, { setSubmitting, setFieldError }) => {
     console.log('Sign Up:', values);
@@ -114,11 +125,11 @@ const SignUp = ({ navigation }) => {
       } else {
         console.error('Google ile giriş hatası:', result.error.code);
         // Hata mesajı göster
-        Alert.alert('Hata', 'Google ile giriş yapılırken bir hata oluştu.');
+        showAlert('error', 'Google ile giriş yapılırken bir hata oluştu.');
       }
     } catch (e) {
       console.error('Beklenmedik Google giriş hatası:', e);
-      Alert.alert('Hata', 'Beklenmedik bir hata oluştu.');
+      showAlert('error', 'Beklenmedik bir hata oluştu.');
     }
   };
 
@@ -136,6 +147,19 @@ const SignUp = ({ navigation }) => {
         showCenterItem={false}
         showTrailingItem={false}
       />
+      
+      {/* Alert positioned at top */}
+      {alertVisible && (
+        <View style={styles.alertContainer}>
+          <Alert
+            type={alertType}
+            message={alertMessage}
+            visible={true}
+            onClose={() => setAlertVisible(false)}
+            darkMode={false}
+          />
+        </View>
+      )}
       
       <Formik
         initialValues={{

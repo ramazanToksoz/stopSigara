@@ -6,7 +6,8 @@ import {
   GoogleAuthProvider,
 } from 'firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { auth } from '../../firebaseConfig';
+import { auth, db } from '../../firebaseConfig';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 /**
  * Signs up a new user with email and password.
@@ -59,6 +60,19 @@ export const signOutUser = async () => {
 
 export const signInWithGoogle = async () => {
   try {
+    // 0. Ensure fresh account selection (no silent reuse)
+    try {
+      if (auth.currentUser) {
+        await signOut(auth);
+      }
+      const hadPrevious = await GoogleSignin.hasPreviousSignIn();
+      if (hadPrevious) {
+        await GoogleSignin.signOut();
+      }
+    } catch (_) {
+      // best-effort; ignore
+    }
+
     // 1. Google Play Services kontrolü
     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
 
@@ -78,6 +92,25 @@ export const signInWithGoogle = async () => {
 
     // 5. Firebase'e giriş yap
     const userCredential = await signInWithCredential(auth, googleCredential);
+
+    // Ensure user profile exists in Firestore
+    const uid = userCredential.user.uid;
+    const userRef = doc(db, 'users', uid);
+    const existing = await getDoc(userRef);
+    if (!existing.exists()) {
+      const email = userCredential.user.email || '';
+      const displayName = userCredential.user.displayName || '';
+      const photoURL = userCredential.user.photoURL || null;
+      const emailPrefix = email ? email.split('@')[0] : uid;
+      await setDoc(userRef, {
+        email,
+        emailPrefix,
+        displayName,
+        photoURL,
+        createdAt: new Date().toISOString(),
+        authProvider: 'google'
+      }, { merge: true });
+    }
 
     return { success: true, user: userCredential.user };
   } catch (error) {

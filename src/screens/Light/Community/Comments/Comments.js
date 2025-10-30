@@ -5,61 +5,18 @@ import BottomChatBar from '../../../../components/BottomChatBar';
 import CardPost from '../../../../components/CardPost/CardPost';
 import { StatusBar } from 'react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { usePostComments } from '../../../../hooks/useCommunity';
 
-const Comments = ({ navigation, visible = true, onClose }) => {
+const Comments = ({ navigation, visible = true, onClose, postId }) => {
   const [commentText, setCommentText] = useState('');
+  const { comments, isLoading, addComment, refetch } = usePostComments(postId, 50);
 
-  const comments = [
-    {
-      id: 1,
-      name: 'Sarah',
-      time: '2m ago',
-      avatar: require('../../../../assets/images/avatars/sarah.png'),
-      text: "Congrats! I'm only at 2 weeks but your post gives me so much hope 🙌.",
-      type: 'Comment',
-      likes: '1.4K',
-      comments: '128',
-      isReply: false
-    },
-    {
-      id: 2,
-      name: 'Edward Chen',
-      time: '2m ago',
-      avatar: require('../../../../assets/images/avatars/edward.png'),
-      text: "You got this, Sarah. The first month is the hardest, but it gets better.",
-      type: 'Comment',
-      likes: '1.4K',
-      comments: '128',
-      isReply: true
-    },
-    {
-      id: 3,
-      name: 'Emily',
-      time: '2m ago',
-      avatar: require('../../../../assets/images/avatars/emily.png'),
-      text: "One week done 🎉! Food already tastes better and I'm breathing easier. Still tough after meals, but I'm proud.",
-      type: 'Comment',
-      likes: '1.4K',
-      comments: '128',
-      isReply: true
-    },
-    {
-      id: 4,
-      name: 'Brian',
-      time: '2m ago',
-      avatar: require('../../../../assets/images/avatars/brian.png'),
-      text: "Respect! 3 months feels so far away, but your journey makes me believe I can get there too.",
-      type: 'Comment',
-      likes: '1.4K',
-      comments: '128',
-      isReply: false
+  const handleSendComment = async (text) => {
+    if (!text?.trim()) return;
+    const res = await addComment(text.trim());
+    if (res?.success) {
+      setCommentText('');
     }
-  ];
-
-  const handleSendComment = (text) => {
-    console.log('Sending comment:', text);
-    // Here you would typically send the comment to your backend
-    setCommentText('');
   };
 
   const handleAddAttachment = () => {
@@ -114,26 +71,26 @@ const Comments = ({ navigation, visible = true, onClose }) => {
           {/* Comments List */}
           <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
             <View style={styles.commentsList}>
-              {comments.map((comment) => (
+              {(comments || []).map((comment) => (
                 <View 
                   key={comment.id} 
                   style={[
                     styles.commentWrapper,
-                    comment.isReply && styles.replyWrapper
+                    false && styles.replyWrapper
                   ]}
                 >
                   <CardPost
-                    name={comment.name}
-                    time={comment.time}
-                    avatar={comment.avatar}
-                    text={comment.text}
-                    type={comment.type}
-                    likes={comment.likes}
-                    comments={comment.comments}
-                    onLike={() => console.log('Like pressed')}
-                    onComment={() => console.log('Comment pressed')}
-                    onSave={() => console.log('Save pressed')}
-                    onMore={() => console.log('More pressed')}
+                    name={comment.authorName || 'User'}
+                    time={''}
+                    avatar={comment.authorAvatar ? { uri: comment.authorAvatar } : undefined}
+                    text={comment.content || ''}
+                    type={'Comment'}
+                    likes={String(comment.likesCount || 0)}
+                    comments={'0'}
+                    onLike={() => {}}
+                    onComment={() => {}}
+                    onSave={() => {}}
+                    onMore={() => {}}
                   />
                 </View>
               ))}

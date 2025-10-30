@@ -1,16 +1,26 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, Alert } from 'react-native';
 import { Colors } from '../../../../constants/Colors';
 import { styles } from './Logout.styles';
+import { auth } from '../../../../../firebaseConfig';
 
 const Logout = ({ navigation, visible, onClose, onConfirm }) => {
   const handleCancel = () => {
     onClose();
   };
 
-  const handleConfirm = () => {
-    onConfirm();
-    onClose();
+  const handleConfirm = async () => {
+    try {
+      await auth.signOut();
+      console.log('[Logout] Successfully logged out from Firebase Auth.');
+      if (onConfirm) {
+        onConfirm();
+      }
+      onClose();
+    } catch (e) {
+      console.log('[Logout] Error during logout:', e);
+      Alert.alert('Logout Error', e.message || 'An error occurred while logging out.');
+    }
   };
 
   return (
@@ -24,12 +34,10 @@ const Logout = ({ navigation, visible, onClose, onConfirm }) => {
         <View style={styles.bottomSheet}>
           {/* Bottom Sheet Handle */}
           <View style={styles.handle} />
-          
           {/* Content */}
           <View style={styles.content}>
             <View style={styles.frame}>
               <Text style={styles.title}>Are you sure you want to log out?</Text>
-              
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
                   style={styles.cancelButton}
@@ -38,7 +46,6 @@ const Logout = ({ navigation, visible, onClose, onConfirm }) => {
                 >
                   <Text style={styles.cancelButtonText}>Cancel</Text>
                 </TouchableOpacity>
-                
                 <TouchableOpacity
                   style={styles.confirmButton}
                   onPress={handleConfirm}

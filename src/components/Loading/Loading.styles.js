@@ -47,4 +47,47 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
+
+  // Fullscreen type styles
+  fullscreenContainer: {
+    flex: 1,
+    backgroundColor: Colors.backgroundColor,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoContainer: {
+    position: 'relative',
+    width: 120,
+    height: 120,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    zIndex: 1,
+  },
+  spinningCircleContainer: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  spinningCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 3,
+    borderColor: Colors.brand[60],
+    borderTopColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: 'transparent',
+  },
+  loadingText: {
+    marginTop: 24,
+    fontSize: 16,
+    color: Colors.gray[60],
+    fontFamily: 'PlusJakartaSans-Medium',
+  },
 });

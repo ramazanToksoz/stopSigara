@@ -1,0 +1,191 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isValidEmail(email) {
+      return email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
+    }
+    
+    function isValidString(value, minLen, maxLen) {
+      return value is string && value.size() >= minLen && value.size() <= maxLen;
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      // Herkes authenticated kullanıcıları okuyabilir (profil görüntüleme için)
+      allow read: if isAuthenticated();
+      
+      // Sadece kendi profilini oluşturabilir/güncelleyebilir
+      allow create: if isAuthenticated() 
+        && request.auth.uid == userId
+        && isValidString(request.resource.data.displayName, 1, 100)
+        && (request.resource.data.email == null || isValidEmail(request.resource.data.email))
+        && request.resource.data.createdAt != null;
+        
+      allow update: if isOwner(userId)
+        // Email güncellenemez (varsa aynı kalmalı)
+        && (!('email' in request.resource.data) || request.resource.data.email == resource.data.email)
+        // UID güncellenemez
+        && (!('uid' in request.resource.data))
+        // displayName gönderildiyse doğrula; gönderilmediyse zorunlu değil
+        && (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 1, 100))
+        // eğer email alanı gönderildiyse formatını doğrula
+        && (!('email' in request.resource.data) || isValidEmail(request.resource.data.email));
+        
+      allow delete: if isOwner(userId);
+    }
+    
+    // Posts collection
+    match /posts/{postId} {
+      // Public postları herkes okuyabilir, private postları sadece sahibi
+      allow read: if isAuthenticated() 
+        && (resource.data.visibility == 'public' || resource.data.userId == request.auth.uid);
+      
+      // Post oluşturma - sadece authenticated kullanıcılar
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid
+          // İçerik ya da görsel zorunlu: en az biri olmalı
+          && (
+            (request.resource.data.content != null && isValidString(request.resource.data.content, 1, 5000))
+            || (request.resource.data.images != null && request.resource.data.images.size() > 0)
+          )
+        && request.resource.data.type in ['Text', 'Image', 'Link', 'milestone', 'story', 'question', 'support']
+        && request.resource.data.visibility in ['public', 'private']
+        && (request.resource.data.images == null || request.resource.data.images.size() <= 10)
+        && request.resource.data.likesCount == 0
+        && request.resource.data.commentsCount == 0
+        && request.resource.data.createdAt != null;
+      
+      // Post güncelleme/silme - sadece sahibi
+        allow update: if isOwner(resource.data.userId)
+          && (
+            // content gönderildiyse valid olmalı
+            !('content' in request.resource.data) || isValidString(request.resource.data.content, 1, 5000)
+          )
+          && (request.resource.data.images == null || request.resource.data.images.size() <= 10);
+        
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // Comments collection
+    match /comments/{commentId} {
+      // Sadece post sahibi ve yorum sahibi okuyabilir
+      allow read: if isAuthenticated();
+      
+      // Yorum oluşturma
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.postId != null
+        && isValidString(request.resource.data.content, 1, 2000)
+        && request.resource.data.likesCount == 0
+        && request.resource.data.createdAt != null;
+      
+      // Yorum güncelleme/silme - sadece sahibi
+      allow update: if isOwner(resource.data.userId)
+        && isValidString(request.resource.data.content, 1, 2000);
+        
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // Likes collection
+    match /likes/{likeId} {
+      // Like okuma - herkes
+      allow read: if isAuthenticated();
+      
+      // Like oluşturma - sadece authenticated kullanıcılar
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.targetType in ['post', 'comment']
+        && request.resource.data.targetId != null
+        && request.resource.data.createdAt != null;
+      
+      // Like silme - sadece sahibi
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // Daily Tracking collection
+    match /dailyTracking/{trackingId} {
+      // Sadece sahibi okuyabilir
+      allow read: if isOwner(resource.data.userId);
+      
+      // Tracking oluşturma
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.date is string
+        && request.resource.data.timestamp != null;
+      
+      // Tracking güncelleme/silme - sadece sahibi
+      allow update, delete: if isOwner(resource.data.userId);
+    }
+    
+    // Check-ins collection
+    match /checkIns/{checkInId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.date is string;
+      allow update, delete: if isOwner(resource.data.userId);
+    }
+    
+    // Moods collection
+    match /moods/{moodId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isOwner(resource.data.userId);
+    }
+    
+    // Cravings collection
+    match /cravings/{cravingId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isOwner(resource.data.userId);
+    }
+    
+    // Smoking Records collection
+    match /smokingRecords/{recordId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isOwner(resource.data.userId);
+    }
+    
+    // Achievements collection
+    match /achievements/{achievementId} {
+      allow read: if isAuthenticated();
+      allow create: if false; // Sadece server-side
+      allow update, delete: if false;
+    }
+    
+    // User Achievements subcollection
+    match /users/{userId}/achievements/{achievementId} {
+      allow read: if isOwner(userId);
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == userId
+        && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isOwner(userId);
+    }
+    
+    // Notifications collection
+    match /notifications/{notificationId} {
+      allow read: if isAuthenticated()
+        && resource.data.userId == request.auth.uid;
+      allow create: if false; // Sadece server-side
+      allow update: if isAuthenticated()
+        && resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated()
+        && resource.data.userId == request.auth.uid;
+    }
+  }
+}
+

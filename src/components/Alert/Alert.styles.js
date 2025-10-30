@@ -60,6 +60,7 @@ export const styles = StyleSheet.create({
   closeButton: {
     width: scale(7),
     height: scale(7),
+    tintColor: 'white',
   },
   
   closeLight: {
